@@ -37,6 +37,27 @@ class RepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getTopRatedMovies(apiKey: String?): Flow<Resource<PopularMovies>> =flow{
+
+        try {
+            val response = api.getTopRatedMovies(apiKey=API_KEY)
+            emit(Resource.loading(null))
+
+            if (response.isSuccessful) {
+                emit(Resource.success(response.body()?.toPopularMovies()))
+            } else {
+                println("not successfuul")
+                emit(Resource.error("error", null))
+
+            }
+        }
+
+        catch (e:Exception){
+            emit(Resource.error("$e", null))
+
+        }
+    }
+
     override suspend fun getUpcomingMovies(apiKey:String?): Flow<Resource<UpcomingMovies>> = flow {
 
         try {
@@ -57,6 +78,7 @@ class RepositoryImpl @Inject constructor(
 
         }
     }
+
 
 
 

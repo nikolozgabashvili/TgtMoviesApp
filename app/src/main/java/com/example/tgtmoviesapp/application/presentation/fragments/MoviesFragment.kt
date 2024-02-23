@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tgtmoviesapp.application.domain.models.MovieModelIndicator
@@ -25,7 +26,10 @@ class MoviesFragment : Fragment() {
 
     private lateinit var popularAdapter: MovieAdapter
     private lateinit var upcomingAdapter: MovieAdapter
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var TopRatedAdapter: MovieAdapter
+    private lateinit var popularRecyclerView: RecyclerView
+    private lateinit var upcomingRecyclerView: RecyclerView
+    private lateinit var TopRatedRecyclerView: RecyclerView
 
     private val mainViewModel: MoviesViewModel by activityViewModels()
 
@@ -62,6 +66,15 @@ class MoviesFragment : Fragment() {
                 println(it)
             }
         }
+
+        lifecycleScope.launch {
+            mainViewModel.topRatedMoviesSuccess.collect {
+                it?.let {
+                    updateTopRatedAdapter(it)
+                }
+                println(it)
+            }
+        }
     }
 
     private fun updatePopularAdapter(data: PopularMovies) {
@@ -74,26 +87,39 @@ class MoviesFragment : Fragment() {
 
 
     }
+    private fun updateTopRatedAdapter(data: PopularMovies) {
+        upcomingAdapter.setMovieList(data,MovieModelIndicator.TOP_RATED)
+
+
+    }
 
     private fun initAdapters() {
         initPopularAdapter()
         initUpcomingAdapter()
+        initTopRatedAdapter()
 
 
+    }
+
+    private fun initTopRatedAdapter() {
+        TopRatedAdapter = MovieAdapter()
+        TopRatedRecyclerView = binding.topRatedMoviesRecyclerGrid
+        TopRatedRecyclerView.adapter = upcomingAdapter
+        TopRatedRecyclerView.layoutManager = GridLayoutManager(requireContext(),3,GridLayoutManager.HORIZONTAL,false)
     }
 
     private fun initUpcomingAdapter() {
         upcomingAdapter = MovieAdapter()
-        recyclerView = binding.upcomingMoviesRecycler
-        recyclerView.adapter = upcomingAdapter
-        recyclerView.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
+        upcomingRecyclerView = binding.upcomingMoviesRecycler
+        upcomingRecyclerView.adapter = upcomingAdapter
+        upcomingRecyclerView.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
     }
 
     private fun initPopularAdapter() {
         popularAdapter = MovieAdapter()
-        recyclerView = binding.popularMovieRecycler
-        recyclerView.adapter = popularAdapter
-        recyclerView.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
+        popularRecyclerView = binding.popularMovieRecycler
+        popularRecyclerView.adapter = popularAdapter
+        popularRecyclerView.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
     }
 
     override fun onDestroyView() {

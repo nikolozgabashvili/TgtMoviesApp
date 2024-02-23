@@ -22,5 +22,11 @@ interface Api {
         @Query("api_key") apiKey: String
     ): Response<UpcomingMoviesDto>
 
+    @GET("tv/top_rated")
+    suspend fun getTopRatedMovies(
+        @Query("language") lang: String = "en-US",
+        @Query("api_key") apiKey: String
+    ): Response<PopularMoviesDto>
+
 
 }

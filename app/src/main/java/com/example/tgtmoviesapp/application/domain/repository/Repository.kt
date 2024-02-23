@@ -12,6 +12,7 @@ import retrofit2.Response
 interface Repository {
 
     suspend fun getPopularMovies(apiKey:String?):Flow<Resource<PopularMovies>>
+    suspend fun getTopRatedMovies(apiKey:String?):Flow<Resource<PopularMovies>>
     suspend fun getUpcomingMovies(apiKey:String?):Flow<Resource<UpcomingMovies>>
 
 }

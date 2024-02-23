@@ -24,13 +24,15 @@ class MovieAdapter():RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
     private var movieList: List<PopularMovies.Result?>? = emptyList()
     private var upcomingMovieList: List<UpcomingMovies.Result?>? = emptyList()
     private  var movieType:MovieModelIndicator = MovieModelIndicator.NONE
+    private var movieModel:MovieModel? = null
 
 
-    fun setMovieList(lst:MovieModel,movieType:MovieModelIndicator){
-        if (lst is UpcomingMovies)
-            upcomingMovieList = lst.results
-        else if (lst is PopularMovies)
-            movieList = lst.results
+    fun setMovieList(lstModel:MovieModel,movieType:MovieModelIndicator){
+        if (lstModel is UpcomingMovies)
+            upcomingMovieList = lstModel.results
+        else if (lstModel is PopularMovies)
+            movieList = lstModel.results
+        movieModel = lstModel
 
         this.movieType = movieType
 
@@ -44,10 +46,13 @@ class MovieAdapter():RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
     }
 
     override fun getItemCount() :Int{
-        if (movieType ==MovieModelIndicator.UPCOMING_MOVIE)
-            return upcomingMovieList!!.size
-        else{
-            return movieList!!.size
+        return if (movieType ==MovieModelIndicator.UPCOMING_MOVIE)
+            (movieModel as UpcomingMovies).results!!.size
+        else if (movieType ==MovieModelIndicator.TOP_RATED || movieType==MovieModelIndicator.POPULAR_MOVIE){
+            (movieModel as PopularMovies).results!!.size
+
+        }else{
+            0
         }
     }
 
@@ -57,7 +62,7 @@ class MovieAdapter():RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
         when(movieType){
 
             MovieModelIndicator.UPCOMING_MOVIE -> {
-                val currentItem = upcomingMovieList!![position]
+                val currentItem = (movieModel as UpcomingMovies).results!![position]
                 Glide.with(holder.binding.root.context)
 
                     .load(IMAGE_BASE_URL+currentItem?.posterPath)
@@ -68,7 +73,7 @@ class MovieAdapter():RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
             }
             MovieModelIndicator.POPULAR_MOVIE -> {
 
-                val currentItem = movieList!![position]
+                val currentItem = (movieModel as PopularMovies).results!![position]
                 Glide.with(holder.binding.root.context)
 
                     .load(IMAGE_BASE_URL+currentItem?.posterPath)
@@ -78,7 +83,17 @@ class MovieAdapter():RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
                 holder.binding.movieTitle.text = currentItem?.title
             }
 
-            else -> {}
+            MovieModelIndicator.NONE -> {}
+            MovieModelIndicator.TOP_RATED -> {
+                val currentItem = (movieModel as PopularMovies).results!![position]
+                Glide.with(holder.binding.root.context)
+
+                    .load(IMAGE_BASE_URL+currentItem?.posterPath)
+                    .apply( RequestOptions().override(340, 440))
+                    .into(holder.binding.imageView)
+
+                holder.binding.movieTitle.text = currentItem?.title
+            }
         }
 
     }

@@ -23,3 +23,11 @@ class GetUpcomingMoviesUseCase @Inject constructor(private val repository: Repos
     }
 
 }
+
+class GetTopRatedMoviesUseCase @Inject constructor(private val repository: Repository) {
+
+    suspend fun execute(): Flow<Resource<PopularMovies>> {
+        return repository.getTopRatedMovies(apiKey = API_KEY)
+    }
+
+}
