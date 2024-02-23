@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tgtmoviesapp.application.domain.models.MovieModelIndicator
 import com.example.tgtmoviesapp.application.domain.models.PopularMovies
+import com.example.tgtmoviesapp.application.domain.models.UpcomingMovies
 import com.example.tgtmoviesapp.application.presentation.recyclerAdapters.MovieAdapter
 import com.example.tgtmoviesapp.application.presentation.viewModels.MoviesViewModel
 import com.example.tgtmoviesapp.databinding.FragmentMoviesBinding
@@ -68,7 +69,7 @@ class MoviesFragment : Fragment() {
 
 
     }
-    private fun updateUpcomingAdapter(data: PopularMovies) {
+    private fun updateUpcomingAdapter(data: UpcomingMovies) {
         upcomingAdapter.setMovieList(data,MovieModelIndicator.UPCOMING_MOVIE)
 
 

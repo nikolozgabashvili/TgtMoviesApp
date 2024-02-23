@@ -46,8 +46,8 @@ fun UpcomingMoviesDto.toUpcomingMovies(): UpcomingMovies {
     )
 }
 
-fun UpcomingMoviesDto.ResultDto2.toResult2():UpcomingMovies.Result2{
-    return UpcomingMovies.Result2(
+fun UpcomingMoviesDto.ResultDto2.toResult2():UpcomingMovies.Result{
+    return UpcomingMovies.Result(
         adult, backdropPath, firstAirDate,
         genreIds, id, name, originCountry,
         originalLanguage, originalName, overview,
@@ -60,8 +60,8 @@ fun UpcomingMoviesDto.ResultDto2.toResult2():UpcomingMovies.Result2{
 
 }
 
-fun List<UpcomingMoviesDto.ResultDto2?>.toResult2():List<UpcomingMovies.Result2>{
-    val resultList = mutableListOf<UpcomingMovies.Result2>()
+fun List<UpcomingMoviesDto.ResultDto2?>.toResult2():List<UpcomingMovies.Result>{
+    val resultList = mutableListOf<UpcomingMovies.Result>()
     for (i in this){
         if (i ==null){
             throw Exception("null found in resultDto list")

@@ -4,7 +4,9 @@ import com.example.tgtmoviesapp.application.commons.constants.Constants.API_KEY
 import com.example.tgtmoviesapp.application.commons.resource.Resource
 import com.example.tgtmoviesapp.application.data.remote.Api
 import com.example.tgtmoviesapp.application.data.remote.mappers.toPopularMovies
+import com.example.tgtmoviesapp.application.data.remote.mappers.toUpcomingMovies
 import com.example.tgtmoviesapp.application.domain.models.PopularMovies
+import com.example.tgtmoviesapp.application.domain.models.UpcomingMovies
 import com.example.tgtmoviesapp.application.domain.repository.Repository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -35,14 +37,14 @@ class RepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getUpcomingMovies(apiKey:String?): Flow<Resource<PopularMovies>> = flow {
+    override suspend fun getUpcomingMovies(apiKey:String?): Flow<Resource<UpcomingMovies>> = flow {
 
         try {
             val response = api.getUpcomingMovies(apiKey= API_KEY)
             emit(Resource.loading(null))
 
             if (response.isSuccessful) {
-                emit(Resource.success(response.body()?.toPopularMovies()))
+                emit(Resource.success(response.body()?.toUpcomingMovies()))
             } else {
                 println("not successfuul")
                 emit(Resource.error("error", null))

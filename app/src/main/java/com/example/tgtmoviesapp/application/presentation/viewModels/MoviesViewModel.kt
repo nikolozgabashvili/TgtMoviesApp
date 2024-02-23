@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tgtmoviesapp.application.commons.resource.Status
 import com.example.tgtmoviesapp.application.domain.models.PopularMovies
+import com.example.tgtmoviesapp.application.domain.models.UpcomingMovies
 import com.example.tgtmoviesapp.application.domain.usecases.GetPopularMoviesUseCase
 import com.example.tgtmoviesapp.application.domain.usecases.GetUpcomingMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,8 +27,8 @@ class MoviesViewModel @Inject constructor(
     private val _popularMoviesError = MutableStateFlow("")
     val popularMoviesError: MutableStateFlow<String> = _popularMoviesError
 
-    private val _upcomingMoviesSuccess = MutableStateFlow<PopularMovies?>(null)
-    val upcomingMoviesSuccess: MutableStateFlow<PopularMovies?> = _upcomingMoviesSuccess
+    private val _upcomingMoviesSuccess = MutableStateFlow<UpcomingMovies?>(null)
+    val upcomingMoviesSuccess: MutableStateFlow<UpcomingMovies?> = _upcomingMoviesSuccess
 
     private val _upcomingMoviesLoading = MutableStateFlow(false)
     val upcomingMoviesLoading: MutableStateFlow<Boolean> = _upcomingMoviesLoading
