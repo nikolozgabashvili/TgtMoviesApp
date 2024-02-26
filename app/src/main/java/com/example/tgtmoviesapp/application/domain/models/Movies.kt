@@ -11,7 +11,7 @@ data class Movies(
 
     @SerializedName("total_results")
     val totalResults: Int?
-):MovieModel {
+) {
     data class Result(
         val adult: Boolean?,
         @SerializedName("backdrop_path")
@@ -35,5 +35,5 @@ data class Movies(
         val voteAverage: Double?,
         @SerializedName("vote_count")
         val voteCount: Int?
-    ):ResultModel
+    )
 }

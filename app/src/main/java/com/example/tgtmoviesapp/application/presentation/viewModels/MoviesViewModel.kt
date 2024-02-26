@@ -3,11 +3,11 @@ package com.example.tgtmoviesapp.application.presentation.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tgtmoviesapp.application.commons.resource.Resource
-import com.example.tgtmoviesapp.application.commons.resource.Status
 import com.example.tgtmoviesapp.application.domain.models.Movies
 import com.example.tgtmoviesapp.application.domain.usecases.GetPITMoviesUseCase
 import com.example.tgtmoviesapp.application.domain.usecases.GetPopularMoviesUseCase
 import com.example.tgtmoviesapp.application.domain.usecases.GetTopRatedMoviesUseCase
+import com.example.tgtmoviesapp.application.domain.usecases.GetTrendingMoviesUseCase
 import com.example.tgtmoviesapp.application.domain.usecases.GetUpcomingMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +20,9 @@ class MoviesViewModel @Inject constructor(
     private val upcomingMoviesUseCase: GetUpcomingMoviesUseCase,
     private val topRatedMoviesUseCase: GetTopRatedMoviesUseCase,
     private val pITMoviesUseCase: GetPITMoviesUseCase,
-) : ViewModel() {
+    private val trendingMoviesUseCase: GetTrendingMoviesUseCase,
+
+    ) : ViewModel() {
 
     private val _movies = MutableStateFlow<Resource<Movies>?>(null)
     val movies: MutableStateFlow<Resource<Movies>?> = _movies
@@ -46,6 +48,19 @@ class MoviesViewModel @Inject constructor(
         getUpcomingMovies()
         getTopRatedMovies()
         getPITMovies()
+        getTrendingMovies()
+    }
+
+    private fun getTrendingMovies() {
+        viewModelScope.launch {
+            trendingMoviesUseCase.execute().collect { resource ->
+
+                _trendingMovies.value = resource
+
+
+            }
+
+        }
     }
 
     private fun getPITMovies() {
@@ -68,7 +83,7 @@ class MoviesViewModel @Inject constructor(
             upcomingMoviesUseCase.execute().collect { resource ->
 
                 _upcomingMovies.value = resource
-
+                println(resource)
 
             }
 
@@ -96,7 +111,6 @@ class MoviesViewModel @Inject constructor(
             topRatedMoviesUseCase.execute().collect { resource ->
 
                 _topRatedMovies.value = resource
-                println(resource)
 
 
             }

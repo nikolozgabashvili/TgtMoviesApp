@@ -5,6 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
 import com.example.tgtmoviesapp.R
 import com.example.tgtmoviesapp.databinding.FragmentMainBinding
 
@@ -21,6 +26,17 @@ class MainFragment : Fragment() {
         _binding = FragmentMainBinding.inflate(inflater,container,false)
         return binding.root
 
+
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val navhost = childFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navhost.findNavController()
+        val bottomNavView =binding.bottomNavigationView
+        bottomNavView.setupWithNavController(navController)
     }
 
     override fun onDestroyView() {

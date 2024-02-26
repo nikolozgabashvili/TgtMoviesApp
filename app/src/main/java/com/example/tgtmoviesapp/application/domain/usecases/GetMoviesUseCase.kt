@@ -38,3 +38,10 @@ class GetPITMoviesUseCase @Inject constructor(private val repository: Repository
         return repository.getPITMovies(apiKey = API_KEY)
     }
 }
+
+class GetTrendingMoviesUseCase @Inject constructor(private val repository: Repository) {
+
+    suspend fun execute(): Flow<Resource<Movies>> {
+        return repository.getTrendingMovies(apiKey = API_KEY)
+    }
+}

@@ -2,14 +2,14 @@ package com.example.tgtmoviesapp.application.domain.models
 
 import com.google.gson.annotations.SerializedName
 
-data class UpcomingMovies(
+data class TvShows(
     val page: Int?,
     val results: List<Result?>?,
     @SerializedName("total_pages")
     val totalPages: Int?,
     @SerializedName("total_results")
     val totalResults: Int?
-):MovieModel {
+) {
     data class Result(
         val adult: Boolean?,
         @SerializedName("backdrop_path")
@@ -34,5 +34,5 @@ data class UpcomingMovies(
         val voteAverage: Double?,
         @SerializedName("vote_count")
         val voteCount: Int?
-    ):ResultModel
+    )
 }

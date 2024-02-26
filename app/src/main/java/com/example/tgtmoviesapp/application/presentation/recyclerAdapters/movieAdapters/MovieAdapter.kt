@@ -1,4 +1,4 @@
-package com.example.tgtmoviesapp.application.presentation.recyclerAdapters
+package com.example.tgtmoviesapp.application.presentation.recyclerAdapters.movieAdapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -26,6 +26,7 @@ class MovieAdapter() : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
         lstModel.results?.let {
             movieList = it
+            println("aeeee")
         }
 
         this.movieType = movieType
@@ -50,7 +51,7 @@ class MovieAdapter() : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
 
         val currentItem = movieList[position]
-        if (movieType !=MovieModelIndicator.PIT_MOVIE) {
+        if (movieType !=MovieModelIndicator.WIDE_IMAGE) {
             Glide.with(holder.binding.root.context)
 
                 .load(IMAGE_BASE_URL + currentItem?.posterPath)

@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tgtmoviesapp.application.domain.models.MovieModelIndicator
 import com.example.tgtmoviesapp.application.domain.models.Movies
-import com.example.tgtmoviesapp.application.presentation.recyclerAdapters.MovieAdapter
-import com.example.tgtmoviesapp.application.presentation.recyclerAdapters.TopRatedMoviesAdapter
+import com.example.tgtmoviesapp.application.presentation.recyclerAdapters.movieAdapters.MovieAdapter
+import com.example.tgtmoviesapp.application.presentation.recyclerAdapters.movieAdapters.TopRatedMoviesAdapter
 import com.example.tgtmoviesapp.application.presentation.viewModels.MoviesViewModel
 import com.example.tgtmoviesapp.databinding.FragmentMoviesBinding
 import kotlinx.coroutines.launch
@@ -32,6 +32,8 @@ class MoviesFragment : Fragment() {
     private lateinit var topRatedRecyclerView: RecyclerView
     private lateinit var pITRecyclerView: RecyclerView
     private lateinit var pITAdapter: MovieAdapter
+    private lateinit var trendingRecyclerView: RecyclerView
+    private lateinit var trendingAdapter: MovieAdapter
 
     private val mainViewModel: MoviesViewModel by activityViewModels()
 
@@ -39,22 +41,35 @@ class MoviesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMoviesBinding.inflate(inflater, container, false)
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initAdapters()
         setupObservers()
+
     }
 
     private fun setupObservers() {
         lifecycleScope.launch {
             mainViewModel.movies.collect {
                 it?.let {
-                    it.data?.let { data->
+                    it.data?.let { data ->
                         updatePopularAdapter(data)
+                        println(data)
+                    }
+
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            mainViewModel.trendingMovies.collect {
+                it?.let {
+                    it.data?.let { data ->
+                        updateTrendingAdapter(data)
                     }
 
                 }
@@ -95,6 +110,10 @@ class MoviesFragment : Fragment() {
         }
     }
 
+    private fun updateTrendingAdapter(data: Movies) {
+        trendingAdapter.setMovieList(data)
+    }
+
     private fun updatePopularAdapter(data: Movies) {
         popularAdapter.setMovieList(data)
 
@@ -109,8 +128,9 @@ class MoviesFragment : Fragment() {
         topRatedAdapter.setMovieList(data)
 
     }
+
     private fun updatePITAdapter(data: Movies) {
-        pITAdapter.setMovieList(data,MovieModelIndicator.PIT_MOVIE)
+        pITAdapter.setMovieList(data, MovieModelIndicator.WIDE_IMAGE)
 
     }
 
@@ -120,8 +140,17 @@ class MoviesFragment : Fragment() {
         initUpcomingAdapter()
         initTopRatedAdapter()
         initPITAdapter()
+        initTrendingAdapter()
 
 
+    }
+
+    private fun initTrendingAdapter() {
+        trendingAdapter = MovieAdapter()
+        trendingRecyclerView = binding.trendingMoviesRecycler
+        trendingRecyclerView.adapter = trendingAdapter
+        trendingRecyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
     }
 
     private fun initPITAdapter() {
@@ -137,7 +166,7 @@ class MoviesFragment : Fragment() {
         topRatedRecyclerView = binding.topRatedMoviesRecyclerGrid
         topRatedRecyclerView.adapter = topRatedAdapter
         topRatedRecyclerView.layoutManager =
-            GridLayoutManager(requireContext(), 3, GridLayoutManager.HORIZONTAL, false)
+            GridLayoutManager(requireContext(), 4, GridLayoutManager.HORIZONTAL, false)
     }
 
     private fun initUpcomingAdapter() {

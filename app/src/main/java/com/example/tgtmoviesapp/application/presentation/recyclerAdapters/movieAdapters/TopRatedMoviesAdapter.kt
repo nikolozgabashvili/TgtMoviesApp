@@ -1,10 +1,9 @@
-package com.example.tgtmoviesapp.application.presentation.recyclerAdapters
+package com.example.tgtmoviesapp.application.presentation.recyclerAdapters.movieAdapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.example.tgtmoviesapp.application.commons.constants.Constants.IMAGE_BASE_URL
 import com.example.tgtmoviesapp.application.domain.models.Movies
 import com.example.tgtmoviesapp.databinding.MovieItemLongBinding
@@ -42,8 +41,8 @@ class TopRatedMoviesAdapter:RecyclerView.Adapter<TopRatedMoviesAdapter.TopViewHo
             holder.binding.movieTitle.text = it.title
             Glide.with(holder.binding.root.context)
                 .load(IMAGE_BASE_URL+it.posterPath)
-                .apply( RequestOptions().override(60, 60))
-                .apply(RequestOptions().centerCrop())
+                .override(100, 100)
+
                 .into(holder.binding.imageView)
         }
 

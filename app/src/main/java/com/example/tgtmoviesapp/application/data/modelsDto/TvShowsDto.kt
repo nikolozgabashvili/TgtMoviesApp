@@ -2,7 +2,7 @@ package com.example.tgtmoviesapp.application.data.modelsDto
 
 import com.google.gson.annotations.SerializedName
 
-data class UpcomingMoviesDto(
+data class TvShowsDto(
     val page: Int?,
     val results: List<ResultDto2?>?,
     @SerializedName("total_pages")

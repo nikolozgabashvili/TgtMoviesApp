@@ -8,5 +8,22 @@
         android:id="@+id/moviesFragment"
         android:name="com.example.tgtmoviesapp.application.presentation.fragments.MoviesFragment"
         android:label="fragment_movies"
-        tools:layout="@layout/fragment_movies" />
+        tools:layout="@layout/fragment_movies" >
+        <action
+            android:id="@+id/action_moviesFragment_to_tvShowFragment"
+            app:destination="@id/tvShowFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tvShowFragment"
+        android:name="com.example.tgtmoviesapp.application.presentation.fragments.TvShowFragment"
+        android:label="fragment_tv_show"
+        tools:layout="@layout/fragment_tv_show" >
+        <action
+            android:id="@+id/action_tvShowFragment_to_celebritiesFragment"
+            app:destination="@id/celebritiesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/celebritiesFragment"
+        android:name="com.example.tgtmoviesapp.application.presentation.fragments.CelebritiesFragment"
+        android:label="CelebritiesFragment" />
 </navigation>

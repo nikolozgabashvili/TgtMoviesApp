@@ -8,9 +8,11 @@
     android:layout_margin="3dp"
     android:layout_width="wrap_content"
     android:orientation="vertical"
-    android:background="#1F4E21">
+    android:background="@color/mainColor">
 
     <ImageView
+        android:padding="0.5dp"
+        android:background="@drawable/image_stroke"
         android:id="@+id/imageView"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"

@@ -3,7 +3,9 @@ package com.example.tgtmoviesapp.application.di
 import com.example.tgtmoviesapp.application.commons.constants.Constants.BASE_URL
 import com.example.tgtmoviesapp.application.data.remote.Api
 import com.example.tgtmoviesapp.application.data.remote.repository.RepositoryImpl
+import com.example.tgtmoviesapp.application.data.remote.repository.TvShowsRepositoryImpl
 import com.example.tgtmoviesapp.application.domain.repository.Repository
+import com.example.tgtmoviesapp.application.domain.repository.TvShowsRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -40,6 +42,12 @@ object MainModule {
     @Singleton
     fun provideRepository(api: Api): Repository {
         return RepositoryImpl(api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTvRepository(api: Api): TvShowsRepository {
+        return TvShowsRepositoryImpl(api)
     }
 
 
