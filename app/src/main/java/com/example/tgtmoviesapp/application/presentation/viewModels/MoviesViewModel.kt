@@ -2,9 +2,10 @@ package com.example.tgtmoviesapp.application.presentation.viewModels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.tgtmoviesapp.application.commons.resource.Resource
 import com.example.tgtmoviesapp.application.commons.resource.Status
-import com.example.tgtmoviesapp.application.domain.models.PopularMovies
-import com.example.tgtmoviesapp.application.domain.models.UpcomingMovies
+import com.example.tgtmoviesapp.application.domain.models.Movies
+import com.example.tgtmoviesapp.application.domain.usecases.GetPITMoviesUseCase
 import com.example.tgtmoviesapp.application.domain.usecases.GetPopularMoviesUseCase
 import com.example.tgtmoviesapp.application.domain.usecases.GetTopRatedMoviesUseCase
 import com.example.tgtmoviesapp.application.domain.usecases.GetUpcomingMoviesUseCase
@@ -17,67 +18,56 @@ import javax.inject.Inject
 class MoviesViewModel @Inject constructor(
     private val moviesUseCase: GetPopularMoviesUseCase,
     private val upcomingMoviesUseCase: GetUpcomingMoviesUseCase,
-    private val topRatedMoviesUseCase: GetTopRatedMoviesUseCase
+    private val topRatedMoviesUseCase: GetTopRatedMoviesUseCase,
+    private val pITMoviesUseCase: GetPITMoviesUseCase,
 ) : ViewModel() {
 
-    private val _popularMoviesSuccess = MutableStateFlow<PopularMovies?>(null)
-    val popularMoviesSuccess: MutableStateFlow<PopularMovies?> = _popularMoviesSuccess
+    private val _movies = MutableStateFlow<Resource<Movies>?>(null)
+    val movies: MutableStateFlow<Resource<Movies>?> = _movies
 
-    private val _popularMoviesLoading = MutableStateFlow(false)
-    val popularMoviesLoading: MutableStateFlow<Boolean> = _popularMoviesLoading
 
-    private val _popularMoviesError = MutableStateFlow("")
-    val popularMoviesError: MutableStateFlow<String> = _popularMoviesError
+    private val _upcomingMovies = MutableStateFlow<Resource<Movies>?>(null)
+    val upcomingMovies: MutableStateFlow<Resource<Movies>?> = _upcomingMovies
 
-    private val _upcomingMoviesSuccess = MutableStateFlow<UpcomingMovies?>(null)
-    val upcomingMoviesSuccess: MutableStateFlow<UpcomingMovies?> = _upcomingMoviesSuccess
 
-    private val _upcomingMoviesLoading = MutableStateFlow(false)
-    val upcomingMoviesLoading: MutableStateFlow<Boolean> = _upcomingMoviesLoading
+    private val _topRatedMovies = MutableStateFlow<Resource<Movies>?>(null)
+    val topRatedMovies: MutableStateFlow<Resource<Movies>?> = _topRatedMovies
 
-    private val _upcomingMoviesError = MutableStateFlow("")
-    val upcomingMoviesError: MutableStateFlow<String> = _upcomingMoviesError
 
-    private val _topRatedMoviesSuccess = MutableStateFlow<PopularMovies?>(null)
-    val topRatedMoviesSuccess: MutableStateFlow<PopularMovies?> = _topRatedMoviesSuccess
+    private val _pITMovies = MutableStateFlow<Resource<Movies>?>(null)
+    val pITMovies: MutableStateFlow<Resource<Movies>?> = _pITMovies
 
-    private val _topRatedMoviesLoading = MutableStateFlow(false)
-    val topRatedMoviesLoading: MutableStateFlow<Boolean> = _topRatedMoviesLoading
-
-    private val _topRatedMoviesError = MutableStateFlow("")
-    val topRatedMoviesError: MutableStateFlow<String> = _topRatedMoviesError
+    private val _trendingMovies = MutableStateFlow<Resource<Movies>?>(null)
+    val trendingMovies: MutableStateFlow<Resource<Movies>?> = _trendingMovies
 
 
     init {
         getPopularMovies()
         getUpcomingMovies()
         getTopRatedMovies()
+        getPITMovies()
+    }
+
+    private fun getPITMovies() {
+
+
+        viewModelScope.launch {
+            pITMoviesUseCase.execute().collect { resource ->
+
+                _pITMovies.value = resource
+
+
+            }
+
+        }
+
     }
 
     private fun getUpcomingMovies() {
-        _upcomingMoviesLoading.value = true
-
         viewModelScope.launch {
             upcomingMoviesUseCase.execute().collect { resource ->
-                when (resource.status) {
-                    Status.SUCCESS -> {
-                        resource.data?.let {
 
-                            _upcomingMoviesSuccess.value = it
-                            _upcomingMoviesLoading.value = false
-
-                        }
-                    }
-
-                    Status.ERROR -> {
-                        println("status error returned")
-                        _upcomingMoviesError.value = resource.message.toString()
-                        _upcomingMoviesLoading.value = false
-                    }
-
-                    Status.LOADING -> _upcomingMoviesLoading.value = true
-
-                }
+                _upcomingMovies.value = resource
 
 
             }
@@ -87,64 +77,26 @@ class MoviesViewModel @Inject constructor(
 
     private fun getPopularMovies() {
 
-        _popularMoviesLoading.value = true
-
         viewModelScope.launch {
             moviesUseCase.execute().collect { resource ->
-                when (resource.status) {
-                    Status.SUCCESS -> {
-                        resource.data?.let {
 
-                            _popularMoviesSuccess.value = it
-                            _popularMoviesLoading.value = false
-
-                        }
-                    }
-
-                    Status.ERROR -> {
-                        println("status error returned")
-                        _popularMoviesError.value = resource.message.toString()
-                        _popularMoviesLoading.value = false
-                    }
-
-                    Status.LOADING -> _popularMoviesLoading.value = true
-
-                }
+                _movies.value = resource
 
 
             }
 
         }
 
-
     }
 
-    private fun getTopRatedMovies(){
+    private fun getTopRatedMovies() {
 
-
-        _topRatedMoviesLoading.value = true
 
         viewModelScope.launch {
             topRatedMoviesUseCase.execute().collect { resource ->
-                when (resource.status) {
-                    Status.SUCCESS -> {
-                        resource.data?.let {
 
-                            _topRatedMoviesSuccess.value = it
-                            _topRatedMoviesLoading.value = false
-
-                        }
-                    }
-
-                    Status.ERROR -> {
-                        println("status error returned")
-                        _topRatedMoviesError.value = resource.message.toString()
-                        _topRatedMoviesLoading.value = false
-                    }
-
-                    Status.LOADING -> _topRatedMoviesLoading.value = true
-
-                }
+                _topRatedMovies.value = resource
+                println(resource)
 
 
             }

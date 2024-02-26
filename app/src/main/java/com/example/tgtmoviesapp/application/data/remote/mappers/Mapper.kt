@@ -1,13 +1,13 @@
 package com.example.tgtmoviesapp.application.data.remote.mappers
 
-import com.example.tgtmoviesapp.application.data.modelsDto.PopularMoviesDto
+import com.example.tgtmoviesapp.application.data.modelsDto.MoviesDto
 import com.example.tgtmoviesapp.application.data.modelsDto.UpcomingMoviesDto
-import com.example.tgtmoviesapp.application.domain.models.PopularMovies
+import com.example.tgtmoviesapp.application.domain.models.Movies
 import com.example.tgtmoviesapp.application.domain.models.UpcomingMovies
 import java.lang.Exception
 
-fun PopularMoviesDto.toPopularMovies():PopularMovies{
-    return PopularMovies(
+fun MoviesDto.toMovies():Movies{
+    return Movies(
         page = page,
         totalPages = totalPages,
         results = results?.toResult(),
@@ -16,8 +16,8 @@ fun PopularMoviesDto.toPopularMovies():PopularMovies{
     )
 }
 
-fun PopularMoviesDto.ResultDto.toResult():PopularMovies.Result{
-    return PopularMovies.Result(
+fun MoviesDto.ResultDto.toResult():Movies.Result{
+    return Movies.Result(
         adult, backdropPath, genreIds,
         id, originalLanguage, originalTitle,
         overview, popularity, posterPath, releaseDate,
@@ -25,8 +25,8 @@ fun PopularMoviesDto.ResultDto.toResult():PopularMovies.Result{
     )
 }
 
-fun List<PopularMoviesDto.ResultDto?>.toResult():List<PopularMovies.Result>{
-    val resultList = mutableListOf<PopularMovies.Result>()
+fun List<MoviesDto.ResultDto?>.toResult():List<Movies.Result>{
+    val resultList = mutableListOf<Movies.Result>()
     for (i in this){
         if (i ==null){
             throw Exception("null found in resultDto list")

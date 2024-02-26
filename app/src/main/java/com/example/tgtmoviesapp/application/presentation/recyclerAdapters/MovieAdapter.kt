@@ -2,37 +2,31 @@ package com.example.tgtmoviesapp.application.presentation.recyclerAdapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.tgtmoviesapp.application.commons.constants.Constants.IMAGE_BASE_URL
-import com.example.tgtmoviesapp.application.domain.models.MovieModel
 import com.example.tgtmoviesapp.application.domain.models.MovieModelIndicator
-import com.example.tgtmoviesapp.application.domain.models.PopularMovies
-import com.example.tgtmoviesapp.application.domain.models.ResultModel
-import com.example.tgtmoviesapp.application.domain.models.UpcomingMovies
+import com.example.tgtmoviesapp.application.domain.models.Movies
 import com.example.tgtmoviesapp.databinding.MovieItemDefaultBinding
 
-class MovieAdapter():RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
+class MovieAdapter() : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
 
-        class MovieViewHolder(val binding:MovieItemDefaultBinding)
-        :RecyclerView.ViewHolder(binding.root)  {
+    class MovieViewHolder(val binding: MovieItemDefaultBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
     }
-    private var movieList: List<PopularMovies.Result?>? = emptyList()
-    private var upcomingMovieList: List<UpcomingMovies.Result?>? = emptyList()
-    private  var movieType:MovieModelIndicator = MovieModelIndicator.NONE
-    private var movieModel:MovieModel? = null
+
+    private var movieList: List<Movies.Result?> = emptyList()
+    private var movieType: MovieModelIndicator = MovieModelIndicator.NONE
 
 
-    fun setMovieList(lstModel:MovieModel,movieType:MovieModelIndicator){
-        if (lstModel is UpcomingMovies)
-            upcomingMovieList = lstModel.results
-        else if (lstModel is PopularMovies)
-            movieList = lstModel.results
-        movieModel = lstModel
+    fun setMovieList(lstModel: Movies, movieType: MovieModelIndicator = MovieModelIndicator.NONE) {
+
+        lstModel.results?.let {
+            movieList = it
+        }
 
         this.movieType = movieType
 
@@ -41,60 +35,43 @@ class MovieAdapter():RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
 
-        val binding = MovieItemDefaultBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val binding =
+            MovieItemDefaultBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MovieViewHolder(binding)
     }
 
-    override fun getItemCount() :Int{
-        return if (movieType ==MovieModelIndicator.UPCOMING_MOVIE)
-            (movieModel as UpcomingMovies).results!!.size
-        else if (movieType ==MovieModelIndicator.TOP_RATED || movieType==MovieModelIndicator.POPULAR_MOVIE){
-            (movieModel as PopularMovies).results!!.size
+    override fun getItemCount(): Int {
+        return movieList.size
 
-        }else{
-            0
-        }
+
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
 
 
-        when(movieType){
+        val currentItem = movieList[position]
+        if (movieType !=MovieModelIndicator.PIT_MOVIE) {
+            Glide.with(holder.binding.root.context)
 
-            MovieModelIndicator.UPCOMING_MOVIE -> {
-                val currentItem = (movieModel as UpcomingMovies).results!![position]
-                Glide.with(holder.binding.root.context)
+                .load(IMAGE_BASE_URL + currentItem?.posterPath)
+                .apply(RequestOptions().override(340, 440))
+                .into(holder.binding.imageView)
+        }else{
+            Glide.with(holder.binding.root.context)
 
-                    .load(IMAGE_BASE_URL+currentItem?.posterPath)
-                    .apply( RequestOptions().override(340, 440))
-                    .into(holder.binding.imageView)
-
-                holder.binding.movieTitle.text = currentItem?.name
-            }
-            MovieModelIndicator.POPULAR_MOVIE -> {
-
-                val currentItem = (movieModel as PopularMovies).results!![position]
-                Glide.with(holder.binding.root.context)
-
-                    .load(IMAGE_BASE_URL+currentItem?.posterPath)
-                    .apply( RequestOptions().override(340, 440))
-                    .into(holder.binding.imageView)
-
-                holder.binding.movieTitle.text = currentItem?.title
-            }
-
-            MovieModelIndicator.NONE -> {}
-            MovieModelIndicator.TOP_RATED -> {
-                val currentItem = (movieModel as PopularMovies).results!![position]
-                Glide.with(holder.binding.root.context)
-
-                    .load(IMAGE_BASE_URL+currentItem?.posterPath)
-                    .apply( RequestOptions().override(340, 440))
-                    .into(holder.binding.imageView)
-
-                holder.binding.movieTitle.text = currentItem?.title
-            }
+                .load(IMAGE_BASE_URL + currentItem?.backdropPath)
+                .apply(RequestOptions().override(600, 440))
+                .into(holder.binding.imageView)
         }
 
+        holder.binding.movieTitle.maxWidth = holder.binding.imageView.width
+        holder.binding.movieGenre.maxWidth = holder.binding.imageView.width
+        holder.binding.movieTitle.text = currentItem?.title
+
+
     }
+
+
 }
+
+

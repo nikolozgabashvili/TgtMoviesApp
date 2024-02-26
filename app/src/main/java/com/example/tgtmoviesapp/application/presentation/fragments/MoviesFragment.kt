@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tgtmoviesapp.application.domain.models.MovieModelIndicator
-import com.example.tgtmoviesapp.application.domain.models.PopularMovies
-import com.example.tgtmoviesapp.application.domain.models.UpcomingMovies
+import com.example.tgtmoviesapp.application.domain.models.Movies
 import com.example.tgtmoviesapp.application.presentation.recyclerAdapters.MovieAdapter
+import com.example.tgtmoviesapp.application.presentation.recyclerAdapters.TopRatedMoviesAdapter
 import com.example.tgtmoviesapp.application.presentation.viewModels.MoviesViewModel
 import com.example.tgtmoviesapp.databinding.FragmentMoviesBinding
 import kotlinx.coroutines.launch
@@ -26,16 +26,17 @@ class MoviesFragment : Fragment() {
 
     private lateinit var popularAdapter: MovieAdapter
     private lateinit var upcomingAdapter: MovieAdapter
-    private lateinit var TopRatedAdapter: MovieAdapter
+    private lateinit var topRatedAdapter: TopRatedMoviesAdapter
     private lateinit var popularRecyclerView: RecyclerView
     private lateinit var upcomingRecyclerView: RecyclerView
-    private lateinit var TopRatedRecyclerView: RecyclerView
+    private lateinit var topRatedRecyclerView: RecyclerView
+    private lateinit var pITRecyclerView: RecyclerView
+    private lateinit var pITAdapter: MovieAdapter
 
     private val mainViewModel: MoviesViewModel by activityViewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMoviesBinding.inflate(inflater, container, false)
         return binding.root
@@ -50,76 +51,109 @@ class MoviesFragment : Fragment() {
 
     private fun setupObservers() {
         lifecycleScope.launch {
-            mainViewModel.popularMoviesSuccess.collect {
+            mainViewModel.movies.collect {
                 it?.let {
-                    updatePopularAdapter(it)
-                    println(it)
+                    it.data?.let { data->
+                        updatePopularAdapter(data)
+                    }
+
                 }
             }
         }
 
         lifecycleScope.launch {
-            mainViewModel.upcomingMoviesSuccess.collect {
+            mainViewModel.upcomingMovies.collect {
                 it?.let {
-                    updateUpcomingAdapter(it)
+                    it.data?.let {
+                        updateUpcomingAdapter(it)
+                    }
                 }
-                println(it)
+
             }
         }
 
         lifecycleScope.launch {
-            mainViewModel.topRatedMoviesSuccess.collect {
+            mainViewModel.topRatedMovies.collect {
                 it?.let {
-                    updateTopRatedAdapter(it)
+                    it.data?.let {
+                        updateTopRatedAdapter(it)
+                    }
                 }
-                println(it)
+
+            }
+        }
+
+        lifecycleScope.launch {
+            mainViewModel.pITMovies.collect {
+                it?.let {
+                    it.data?.let {
+                        updatePITAdapter(it)
+                    }
+                }
+
             }
         }
     }
 
-    private fun updatePopularAdapter(data: PopularMovies) {
-        popularAdapter.setMovieList(data,MovieModelIndicator.POPULAR_MOVIE)
-
-
-    }
-    private fun updateUpcomingAdapter(data: UpcomingMovies) {
-        upcomingAdapter.setMovieList(data,MovieModelIndicator.UPCOMING_MOVIE)
-
+    private fun updatePopularAdapter(data: Movies) {
+        popularAdapter.setMovieList(data)
 
     }
-    private fun updateTopRatedAdapter(data: PopularMovies) {
-        upcomingAdapter.setMovieList(data,MovieModelIndicator.TOP_RATED)
 
+    private fun updateUpcomingAdapter(data: Movies) {
+        upcomingAdapter.setMovieList(data)
 
     }
+
+    private fun updateTopRatedAdapter(data: Movies) {
+        topRatedAdapter.setMovieList(data)
+
+    }
+    private fun updatePITAdapter(data: Movies) {
+        pITAdapter.setMovieList(data,MovieModelIndicator.PIT_MOVIE)
+
+    }
+
 
     private fun initAdapters() {
         initPopularAdapter()
         initUpcomingAdapter()
         initTopRatedAdapter()
+        initPITAdapter()
 
 
     }
 
+    private fun initPITAdapter() {
+        pITAdapter = MovieAdapter()
+        pITRecyclerView = binding.playingInTheatresRecycler
+        pITRecyclerView.adapter = pITAdapter
+        pITRecyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+    }
+
     private fun initTopRatedAdapter() {
-        TopRatedAdapter = MovieAdapter()
-        TopRatedRecyclerView = binding.topRatedMoviesRecyclerGrid
-        TopRatedRecyclerView.adapter = upcomingAdapter
-        TopRatedRecyclerView.layoutManager = GridLayoutManager(requireContext(),3,GridLayoutManager.HORIZONTAL,false)
+        topRatedAdapter = TopRatedMoviesAdapter()
+        topRatedRecyclerView = binding.topRatedMoviesRecyclerGrid
+        topRatedRecyclerView.adapter = topRatedAdapter
+        topRatedRecyclerView.layoutManager =
+            GridLayoutManager(requireContext(), 3, GridLayoutManager.HORIZONTAL, false)
     }
 
     private fun initUpcomingAdapter() {
         upcomingAdapter = MovieAdapter()
         upcomingRecyclerView = binding.upcomingMoviesRecycler
         upcomingRecyclerView.adapter = upcomingAdapter
-        upcomingRecyclerView.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
+        upcomingRecyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
     }
 
     private fun initPopularAdapter() {
         popularAdapter = MovieAdapter()
         popularRecyclerView = binding.popularMovieRecycler
         popularRecyclerView.adapter = popularAdapter
-        popularRecyclerView.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
+        popularRecyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
     }
 
     override fun onDestroyView() {
