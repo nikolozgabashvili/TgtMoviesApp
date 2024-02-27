@@ -10,7 +10,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.tgtmoviesapp.application.domain.models.MovieModelIndicator
+import com.example.tgtmoviesapp.application.domain.models.DisplayIndicator
+import com.example.tgtmoviesapp.application.domain.models.Genre
+import com.example.tgtmoviesapp.application.domain.models.TvGenre
 import com.example.tgtmoviesapp.application.domain.models.TvShows
 import com.example.tgtmoviesapp.application.presentation.recyclerAdapters.tvshowAdapters.TopRatedShowsAdapter
 import com.example.tgtmoviesapp.application.presentation.recyclerAdapters.tvshowAdapters.TvShowsAdapter
@@ -36,6 +38,8 @@ class TvShowFragment : Fragment() {
     private lateinit var upcomingRecyclerView: RecyclerView
     private lateinit var topRatedRecyclerView: RecyclerView
 
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -52,6 +56,22 @@ class TvShowFragment : Fragment() {
     }
 
     private fun setupObservers() {
+
+        lifecycleScope.launch {
+            tvShowsViewModel.tvGenres.collect {
+                it?.let {resource->
+                    resource.data?.let {genre->
+                        genre.genres?.let {lst->
+
+                            updateAdapters(lst)
+
+                        }
+                    }
+                }
+
+            }
+        }
+
         lifecycleScope.launch {
             tvShowsViewModel.popularTvShows.collect {
                 it?.let {
@@ -73,6 +93,11 @@ class TvShowFragment : Fragment() {
                 }
             }
         }
+
+
+
+
+
 
 
 
@@ -99,6 +124,14 @@ class TvShowFragment : Fragment() {
         }
     }
 
+    private fun updateAdapters(data: List<TvGenre.Genre?>) {
+        trendingAdapter.setMovieGenres(data)
+        topRatedAdapter.setMovieGenres(data)
+        popularAdapter.setMovieGenres(data)
+        upcomingAdapter.setMovieGenres(data)
+
+    }
+
     private fun updateTrendingAdapter(data: TvShows) {
         trendingAdapter.setShowList(data)
     }
@@ -109,7 +142,7 @@ class TvShowFragment : Fragment() {
     }
 
     private fun updateUpcomingAdapter(data: TvShows) {
-        upcomingAdapter.setShowList(data,MovieModelIndicator.WIDE_IMAGE)
+        upcomingAdapter.setShowList(data,DisplayIndicator.WIDE_IMAGE)
 
     }
 

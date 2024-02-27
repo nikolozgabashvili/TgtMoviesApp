@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.tgtmoviesapp.application.commons.constants.Constants
-import com.example.tgtmoviesapp.application.domain.models.MovieModelIndicator
+import com.example.tgtmoviesapp.application.domain.models.DisplayIndicator
+import com.example.tgtmoviesapp.application.domain.models.Genre
+import com.example.tgtmoviesapp.application.domain.models.TvGenre
 import com.example.tgtmoviesapp.application.domain.models.TvShows
 import com.example.tgtmoviesapp.databinding.MovieItemDefaultBinding
 
@@ -19,10 +21,11 @@ class TvShowsAdapter() : RecyclerView.Adapter<TvShowsAdapter.TvShowViewHolder>()
     }
 
     private var showList: List<TvShows.Result?> = emptyList()
-    private var showType: MovieModelIndicator = MovieModelIndicator.NONE
+    private var showType: DisplayIndicator = DisplayIndicator.NONE
+    private var movieGenreList: List<TvGenre.Genre?> = mutableListOf()
 
 
-    fun setShowList(lstModel: TvShows, movieType: MovieModelIndicator = MovieModelIndicator.NONE) {
+    fun setShowList(lstModel: TvShows, movieType: DisplayIndicator = DisplayIndicator.NONE) {
 
         lstModel.results?.let {
             showList = it
@@ -31,6 +34,14 @@ class TvShowsAdapter() : RecyclerView.Adapter<TvShowsAdapter.TvShowViewHolder>()
         this.showType = movieType
 
         notifyDataSetChanged()
+    }
+
+
+
+    fun setMovieGenres(movieGenreList: List<TvGenre.Genre?> = mutableListOf()){
+        this.movieGenreList = movieGenreList
+        notifyDataSetChanged()
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TvShowViewHolder {
@@ -50,7 +61,7 @@ class TvShowsAdapter() : RecyclerView.Adapter<TvShowsAdapter.TvShowViewHolder>()
 
 
         val currentItem = showList[position]
-        if (showType != MovieModelIndicator.WIDE_IMAGE) {
+        if (showType != DisplayIndicator.WIDE_IMAGE) {
             Glide.with(holder.binding.root.context)
 
                 .load(Constants.IMAGE_BASE_URL + currentItem?.posterPath)
@@ -63,6 +74,19 @@ class TvShowsAdapter() : RecyclerView.Adapter<TvShowsAdapter.TvShowViewHolder>()
                 .apply(RequestOptions().override(600, 440))
                 .into(holder.binding.imageView)
         }
+        val genreIds = currentItem?.genreIds
+        val genreList = mutableListOf<String>()
+        genreIds?.map { int->
+            movieGenreList.map {genre->
+                if (int ==genre?.id)
+                    genre?.name?.let {
+                        genreList.add(it)
+
+                    }
+            }
+        }
+        holder.binding.movieGenre.text = genreList.joinToString(separator = ",")
+
 
         holder.binding.movieTitle.maxWidth = holder.binding.imageView.width
         holder.binding.movieGenre.maxWidth = holder.binding.imageView.width

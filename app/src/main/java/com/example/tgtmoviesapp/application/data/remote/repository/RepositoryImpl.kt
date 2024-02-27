@@ -3,7 +3,9 @@ package com.example.tgtmoviesapp.application.data.remote.repository
 import com.example.tgtmoviesapp.application.commons.constants.Constants.API_KEY
 import com.example.tgtmoviesapp.application.commons.resource.Resource
 import com.example.tgtmoviesapp.application.data.remote.Api
+import com.example.tgtmoviesapp.application.data.remote.mappers.toGenre
 import com.example.tgtmoviesapp.application.data.remote.mappers.toMovies
+import com.example.tgtmoviesapp.application.domain.models.Genre
 import com.example.tgtmoviesapp.application.domain.models.Movies
 import com.example.tgtmoviesapp.application.domain.repository.Repository
 import kotlinx.coroutines.flow.Flow
@@ -22,7 +24,6 @@ class RepositoryImpl @Inject constructor(
             if (response.isSuccessful) {
                 emit(Resource.Success(response.body()?.toMovies()))
             } else {
-                println("not successfuul")
                 emit(Resource.Error("error", null))
 
             }
@@ -43,7 +44,6 @@ class RepositoryImpl @Inject constructor(
             if (response.isSuccessful) {
                 emit(Resource.Success(response.body()?.toMovies()))
             } else {
-                println("not successfuul")
                 emit(Resource.Error("error", null))
 
             }
@@ -64,7 +64,6 @@ class RepositoryImpl @Inject constructor(
             if (response.isSuccessful) {
                 emit(Resource.Success(response.body()?.toMovies()))
             } else {
-                println("not successfuul")
                 emit(Resource.Error("error", null))
 
             }
@@ -84,7 +83,26 @@ class RepositoryImpl @Inject constructor(
             if (response.isSuccessful) {
                 emit(Resource.Success(response.body()?.toMovies()))
             } else {
-                println("not successfuul")
+                emit(Resource.Error("error", null))
+
+            }
+        }
+
+        catch (e:Exception){
+            emit(Resource.Error("$e", null))
+
+        }
+    }
+
+    override suspend fun getMovieGenres(apiKey: String?): Flow<Resource<Genre>> = flow {
+
+        try {
+            val response = api.getMovieGenres(apiKey= API_KEY)
+            emit(Resource.Loading(null))
+
+            if (response.isSuccessful) {
+                emit(Resource.Success(response.body()?.toGenre()))
+            } else {
                 emit(Resource.Error("error", null))
 
             }
@@ -104,7 +122,6 @@ class RepositoryImpl @Inject constructor(
             if (response.isSuccessful) {
                 emit(Resource.Success(response.body()?.toMovies()))
             } else {
-                println("not successfuul")
                 emit(Resource.Error("error", null))
 
             }

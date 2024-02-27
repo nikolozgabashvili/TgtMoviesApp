@@ -11,8 +11,7 @@
     android:background="@color/mainColor">
 
     <ImageView
-        android:padding="0.5dp"
-        android:background="@drawable/image_stroke"
+
         android:id="@+id/imageView"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
@@ -23,8 +22,10 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
+
         android:ellipsize="end"
-        android:gravity="center"
+        android:layout_marginStart="2dp"
+        android:gravity="start"
         android:id="@+id/movieTitle"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
@@ -39,14 +40,15 @@
 
     <TextView
         android:ellipsize="end"
-        android:gravity="center"
+        android:gravity="start"
+        android:layout_marginStart="2dp"
         android:id="@+id/movieGenre"
         android:layout_height="wrap_content"
         android:layout_marginBottom="6dp"
         android:layout_width="match_parent"
         android:maxLines="1"
         android:text="dnkajsndakj"
-        android:textColor="@color/white"
+        android:textColor="#8C8B8B"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -3,7 +3,9 @@ package com.example.tgtmoviesapp.application.presentation.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tgtmoviesapp.application.commons.resource.Resource
+import com.example.tgtmoviesapp.application.domain.models.Genre
 import com.example.tgtmoviesapp.application.domain.models.Movies
+import com.example.tgtmoviesapp.application.domain.usecases.GetMoveGenresUseCase
 import com.example.tgtmoviesapp.application.domain.usecases.GetPITMoviesUseCase
 import com.example.tgtmoviesapp.application.domain.usecases.GetPopularMoviesUseCase
 import com.example.tgtmoviesapp.application.domain.usecases.GetTopRatedMoviesUseCase
@@ -21,6 +23,7 @@ class MoviesViewModel @Inject constructor(
     private val topRatedMoviesUseCase: GetTopRatedMoviesUseCase,
     private val pITMoviesUseCase: GetPITMoviesUseCase,
     private val trendingMoviesUseCase: GetTrendingMoviesUseCase,
+    private val moveGenresUseCase: GetMoveGenresUseCase
 
     ) : ViewModel() {
 
@@ -42,13 +45,29 @@ class MoviesViewModel @Inject constructor(
     private val _trendingMovies = MutableStateFlow<Resource<Movies>?>(null)
     val trendingMovies: MutableStateFlow<Resource<Movies>?> = _trendingMovies
 
+    private val _movieGenres = MutableStateFlow<Resource<Genre>?>(null)
+    val moviesGenres: MutableStateFlow<Resource<Genre>?> = _movieGenres
 
     init {
+        getMovieGenres()
         getPopularMovies()
         getUpcomingMovies()
         getTopRatedMovies()
         getPITMovies()
         getTrendingMovies()
+
+    }
+
+    private fun getMovieGenres() {
+        viewModelScope.launch {
+            moveGenresUseCase.execute().collect { resource ->
+
+                _movieGenres.value = resource
+
+
+            }
+
+        }
     }
 
     private fun getTrendingMovies() {

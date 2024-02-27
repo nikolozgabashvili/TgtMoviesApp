@@ -1,7 +1,9 @@
 package com.example.tgtmoviesapp.application.data.remote
 
+import com.example.tgtmoviesapp.application.data.modelsDto.MovieGenreDto
 import com.example.tgtmoviesapp.application.data.modelsDto.MoviesDto
 import com.example.tgtmoviesapp.application.data.modelsDto.PersonDto
+import com.example.tgtmoviesapp.application.data.modelsDto.TvGenreDto
 import com.example.tgtmoviesapp.application.data.modelsDto.TvShowsDto
 
 import retrofit2.Response
@@ -79,6 +81,19 @@ interface Api {
         @Query("language") lang: String = "en-US",
         @Query("api_key") apiKey: String
     ): Response<PersonDto>
+
+    @GET("genre/movie/list")
+    suspend fun getMovieGenres (
+        @Query("language") lang: String = "en",
+        @Query("api_key") apiKey: String
+    ): Response<MovieGenreDto>
+
+
+    @GET("genre/tv/list")
+    suspend fun getTvGenre (
+        @Query("language") lang: String = "en",
+        @Query("api_key") apiKey: String
+    ): Response<TvGenreDto>
 
 
 

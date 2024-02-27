@@ -2,6 +2,7 @@ package com.example.tgtmoviesapp.application.domain.usecases
 
 import com.example.tgtmoviesapp.application.commons.constants.Constants.API_KEY
 import com.example.tgtmoviesapp.application.commons.resource.Resource
+import com.example.tgtmoviesapp.application.domain.models.Genre
 import com.example.tgtmoviesapp.application.domain.models.Movies
 import com.example.tgtmoviesapp.application.domain.repository.Repository
 import kotlinx.coroutines.flow.Flow
@@ -43,5 +44,11 @@ class GetTrendingMoviesUseCase @Inject constructor(private val repository: Repos
 
     suspend fun execute(): Flow<Resource<Movies>> {
         return repository.getTrendingMovies(apiKey = API_KEY)
+    }
+}
+
+class GetMoveGenresUseCase @Inject constructor(private val repository: Repository){
+    suspend fun execute():Flow<Resource<Genre>>{
+        return repository.getMovieGenres(API_KEY)
     }
 }

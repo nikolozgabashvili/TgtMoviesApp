@@ -2,6 +2,7 @@ package com.example.tgtmoviesapp.application.domain.repository
 
 
 import com.example.tgtmoviesapp.application.commons.resource.Resource
+import com.example.tgtmoviesapp.application.domain.models.Genre
 import com.example.tgtmoviesapp.application.domain.models.Movies
 import com.example.tgtmoviesapp.application.domain.models.TvShows
 import kotlinx.coroutines.flow.Flow
@@ -15,5 +16,5 @@ interface Repository {
     suspend fun getPITMovies(apiKey:String?):Flow<Resource<Movies>>
     ///-----------------------------
 
-
+    suspend fun getMovieGenres(apiKey: String?):Flow<Resource<Genre>>
 }

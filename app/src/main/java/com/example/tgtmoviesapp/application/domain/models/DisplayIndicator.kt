@@ -1,6 +1,6 @@
 package com.example.tgtmoviesapp.application.domain.models
 
-enum class MovieModelIndicator {
+enum class DisplayIndicator {
     WIDE_IMAGE,
     NONE
 

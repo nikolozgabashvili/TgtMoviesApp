@@ -3,10 +3,12 @@ package com.example.tgtmoviesapp.application.presentation.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tgtmoviesapp.application.commons.resource.Resource
+import com.example.tgtmoviesapp.application.domain.models.TvGenre
 import com.example.tgtmoviesapp.application.domain.models.TvShows
 import com.example.tgtmoviesapp.application.domain.usecases.GetPopularTvShowsUseCase
 import com.example.tgtmoviesapp.application.domain.usecases.GetTopRatedTvShowsUseCase
 import com.example.tgtmoviesapp.application.domain.usecases.GetTrendingTvShowsUseCase
+import com.example.tgtmoviesapp.application.domain.usecases.GetTvGenresUseCase
 import com.example.tgtmoviesapp.application.domain.usecases.GetUpcomingTvShowsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,6 +21,7 @@ class TvShowsViewModel @Inject constructor(
     private val getTrendingTvShowsUseCase: GetTrendingTvShowsUseCase,
     private val getUpcomingTvShowsUseCase: GetUpcomingTvShowsUseCase,
     private val getTopRatedTvShowsUseCase: GetTopRatedTvShowsUseCase,
+    private val getTvGenresUseCase: GetTvGenresUseCase
 ) : ViewModel() {
 
     private val _popularTvShows = MutableStateFlow<Resource<TvShows>?>(null)
@@ -33,13 +36,25 @@ class TvShowsViewModel @Inject constructor(
     private val _topRatedTvShows = MutableStateFlow<Resource<TvShows>?>(null)
     val topRatedTvShows: MutableStateFlow<Resource<TvShows>?> = _topRatedTvShows
 
+    private val _tvGenres = MutableStateFlow<Resource<TvGenre>?>(null)
+    val tvGenres: MutableStateFlow<Resource<TvGenre>?> = _tvGenres
+
 
     init {
+        getTvGenres()
         getPopularMovies()
         getUpcomingMovies()
         getTopRatedMovies()
         getPITMovies()
         getTrendingMovies()
+    }
+
+    private fun getTvGenres() {
+        viewModelScope.launch {
+            getTvGenresUseCase.execute().collect{resource->
+                _tvGenres.value = resource
+            }
+        }
     }
 
     private fun getTrendingMovies() {

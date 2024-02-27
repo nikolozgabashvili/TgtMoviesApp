@@ -35,8 +35,38 @@ class MainFragment : Fragment() {
 
         val navhost = childFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navhost.findNavController()
+
         val bottomNavView =binding.bottomNavigationView
-        bottomNavView.setupWithNavController(navController)
+//        bottomNavView.setupWithNavController(navController)
+
+
+        bottomNavView.setOnItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.moviesFragment -> {
+                    navController.navigate(R.id.moviesFragment)
+                    true
+                }
+                R.id.tvShowFragment -> {
+                    navController.navigate(R.id.tvShowFragment)
+                    true
+                }
+                R.id.celebritiesFragment -> {
+                    navController.navigate(R.id.celebritiesFragment)
+                    true
+                }
+                else -> false
+            }
+        }
+
+        bottomNavView.setOnItemReselectedListener {
+
+        }
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            bottomNavView.menu.findItem(destination.id)?.isChecked = true
+        }
+
+
     }
 
     override fun onDestroyView() {

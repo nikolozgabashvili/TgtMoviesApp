@@ -2,8 +2,10 @@ package com.example.tgtmoviesapp.application.di
 
 import com.example.tgtmoviesapp.application.commons.constants.Constants.BASE_URL
 import com.example.tgtmoviesapp.application.data.remote.Api
+import com.example.tgtmoviesapp.application.data.remote.repository.CelebritiesRepositoryImpl
 import com.example.tgtmoviesapp.application.data.remote.repository.RepositoryImpl
 import com.example.tgtmoviesapp.application.data.remote.repository.TvShowsRepositoryImpl
+import com.example.tgtmoviesapp.application.domain.repository.CelebritiesRepository
 import com.example.tgtmoviesapp.application.domain.repository.Repository
 import com.example.tgtmoviesapp.application.domain.repository.TvShowsRepository
 import dagger.Module
@@ -48,6 +50,12 @@ object MainModule {
     @Singleton
     fun provideTvRepository(api: Api): TvShowsRepository {
         return TvShowsRepositoryImpl(api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCelebRepository(api: Api): CelebritiesRepository {
+        return CelebritiesRepositoryImpl(api)
     }
 
 

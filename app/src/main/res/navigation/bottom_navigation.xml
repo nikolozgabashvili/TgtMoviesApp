@@ -10,6 +10,7 @@
         android:label="fragment_movies"
         tools:layout="@layout/fragment_movies" >
         <action
+            app:popUpToInclusive="true"
             android:id="@+id/action_moviesFragment_to_tvShowFragment"
             app:destination="@id/tvShowFragment" />
     </fragment>
@@ -19,6 +20,7 @@
         android:label="fragment_tv_show"
         tools:layout="@layout/fragment_tv_show" >
         <action
+            app:popUpToInclusive="true"
             android:id="@+id/action_tvShowFragment_to_celebritiesFragment"
             app:destination="@id/celebritiesFragment" />
     </fragment>

@@ -10,15 +10,17 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.tgtmoviesapp.application.domain.models.MovieModelIndicator
+import com.example.tgtmoviesapp.application.domain.models.DisplayIndicator
+import com.example.tgtmoviesapp.application.domain.models.Genre
 import com.example.tgtmoviesapp.application.domain.models.Movies
 import com.example.tgtmoviesapp.application.presentation.recyclerAdapters.movieAdapters.MovieAdapter
 import com.example.tgtmoviesapp.application.presentation.recyclerAdapters.movieAdapters.TopRatedMoviesAdapter
 import com.example.tgtmoviesapp.application.presentation.viewModels.MoviesViewModel
 import com.example.tgtmoviesapp.databinding.FragmentMoviesBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-
+@AndroidEntryPoint
 class MoviesFragment : Fragment() {
     private var _binding: FragmentMoviesBinding? = null
     private val binding get() = _binding!!
@@ -34,6 +36,8 @@ class MoviesFragment : Fragment() {
     private lateinit var pITAdapter: MovieAdapter
     private lateinit var trendingRecyclerView: RecyclerView
     private lateinit var trendingAdapter: MovieAdapter
+
+    private  var movieGenreList: List<Genre.Genre?> = mutableListOf()
 
     private val mainViewModel: MoviesViewModel by activityViewModels()
 
@@ -108,6 +112,32 @@ class MoviesFragment : Fragment() {
 
             }
         }
+        lifecycleScope.launch {
+            mainViewModel.moviesGenres.collect {
+
+                it?.let {resource->
+                    resource.data?.let {genre->
+                        genre.genres?.let {lst->
+
+                            updateGenreAdapters(lst)
+                        }
+                    }
+                }
+
+
+            }
+
+        }
+
+
+    }
+
+    private fun updateGenreAdapters(lst: List<Genre.Genre?>) {
+        trendingAdapter.setMovieGenres(lst)
+        popularAdapter.setMovieGenres(lst)
+        topRatedAdapter.setMovieGenres(lst)
+        upcomingAdapter.setMovieGenres(lst)
+        pITAdapter.setMovieGenres(lst)
     }
 
     private fun updateTrendingAdapter(data: Movies) {
@@ -120,7 +150,7 @@ class MoviesFragment : Fragment() {
     }
 
     private fun updateUpcomingAdapter(data: Movies) {
-        upcomingAdapter.setMovieList(data)
+        upcomingAdapter.setMovieList(data,)
 
     }
 
@@ -130,7 +160,7 @@ class MoviesFragment : Fragment() {
     }
 
     private fun updatePITAdapter(data: Movies) {
-        pITAdapter.setMovieList(data, MovieModelIndicator.WIDE_IMAGE)
+        pITAdapter.setMovieList(data, DisplayIndicator.WIDE_IMAGE)
 
     }
 
