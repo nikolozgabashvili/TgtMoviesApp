@@ -11,7 +11,8 @@
     android:background="@color/mainColor">
 
     <ImageView
-
+        android:padding="1dp"
+        android:background="@drawable/image_stroke"
         android:id="@+id/imageView"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"

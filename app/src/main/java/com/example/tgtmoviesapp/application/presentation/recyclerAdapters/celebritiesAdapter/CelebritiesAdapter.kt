@@ -2,6 +2,7 @@ package com.example.tgtmoviesapp.application.presentation.recyclerAdapters.celeb
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -21,8 +22,8 @@ class CelebritiesAdapter : RecyclerView.Adapter<CelebritiesAdapter.CelebViewHold
 
     private var personList: List<Person.Result?> = emptyList()
     private var imageType: DisplayIndicator = DisplayIndicator.NONE
-    private var minh = 400
-    private var minw = 250
+    private var minh = 410
+    private var minw = 270
 
     fun setCelebList(
         lstModel: List<Person.Result?>,
@@ -80,6 +81,8 @@ class CelebritiesAdapter : RecyclerView.Adapter<CelebritiesAdapter.CelebViewHold
         holder.binding.movieGenre.maxWidth = holder.binding.imageView.width
         holder.binding.movieTitle.maxWidth = holder.binding.imageView.width
         holder.binding.movieTitle.maxLines = 2
+        holder.binding.imageView.scaleType= ImageView.ScaleType.FIT_CENTER
+        holder.binding.imageView.setBackgroundResource(R.drawable.person_item_stroke)
 
 
         holder.binding.movieGenre.text = currentItem?.knownForDepartment

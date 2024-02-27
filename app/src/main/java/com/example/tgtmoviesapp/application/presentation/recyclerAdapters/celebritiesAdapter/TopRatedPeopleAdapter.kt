@@ -2,6 +2,7 @@ package com.example.tgtmoviesapp.application.presentation.recyclerAdapters.celeb
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -44,17 +45,22 @@ class TopRatedPeopleAdapter: RecyclerView.Adapter<TopRatedPeopleAdapter.TopViewH
         item?.let {
             holder.binding.movieTitle.text = it.name
             holder.binding.movieGenre.text = it.knownForDepartment
+
             Glide.with(holder.binding.root.context)
                 .load(Constants.PROFILE_IMAGE_URL +it.profilePath)
-                .override(180, 180)
+                .override(180, 200)
                 .circleCrop()
                 .error(
                     Glide.with(holder.binding.root.context)
                         .load(R.drawable.person_item)
-                        .override(180,180)
+                        .override(180,200)
                         .circleCrop()
+
                 )
+
                 .into(holder.binding.imageView)
+            holder.binding.imageView.scaleType=ImageView.ScaleType.FIT_CENTER
+            holder.binding.imageView.setBackgroundResource(R.drawable.circle_stroke)
         }
 
     }

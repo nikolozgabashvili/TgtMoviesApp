@@ -11,6 +11,8 @@
 
 
     <ImageView
+        android:padding="1dp"
+        android:background="@drawable/image_stroke"
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
