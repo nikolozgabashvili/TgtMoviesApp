@@ -39,6 +39,9 @@ class TvShowsViewModel @Inject constructor(
     private val _tvGenres = MutableStateFlow<Resource<TvGenre>?>(null)
     val tvGenres: MutableStateFlow<Resource<TvGenre>?> = _tvGenres
 
+    fun activate(){
+
+    }
 
     init {
         getTvGenres()

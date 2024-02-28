@@ -1,10 +1,12 @@
 package com.example.tgtmoviesapp.application.data.remote.mappers
 
+import com.example.tgtmoviesapp.application.data.modelsDto.AllItemModelDto
 import com.example.tgtmoviesapp.application.data.modelsDto.MovieGenreDto
 import com.example.tgtmoviesapp.application.data.modelsDto.MoviesDto
 import com.example.tgtmoviesapp.application.data.modelsDto.PersonDto
 import com.example.tgtmoviesapp.application.data.modelsDto.TvGenreDto
 import com.example.tgtmoviesapp.application.data.modelsDto.TvShowsDto
+import com.example.tgtmoviesapp.application.domain.models.AllItemModel
 import com.example.tgtmoviesapp.application.domain.models.Genre
 import com.example.tgtmoviesapp.application.domain.models.Movies
 import com.example.tgtmoviesapp.application.domain.models.Person
@@ -172,4 +174,29 @@ fun TvGenreDto.toTvGenre():TvGenre{
     return TvGenre(
         genres = genres?.toTvGenreList()
     )
+}
+
+fun AllItemModelDto.toAllItemModel():AllItemModel{
+    return AllItemModel(
+        page,results?.toAllItemModelList(),totalPages,totalResults
+    )
+}
+
+private fun AllItemModelDto.Result.toAllItemResult():AllItemModel.Result{
+
+    return AllItemModel.Result(
+        adult,backdropPath,firstAirDate,gender,genreIds,id,knownFor?.toPersonKnownForList(),knownForDepartment, mediaType, name, originCountry, originalLanguage, originalName, originalTitle, overview, popularity, posterPath, profilePath, releaseDate, title, video, voteAverage, voteCount
+
+    )
+}
+
+private fun List<AllItemModelDto.Result?>.toAllItemModelList(): List<AllItemModel.Result> {
+    val resultList = mutableListOf<AllItemModel.Result>()
+
+    this.map {
+        it?.let {
+            resultList.add(it.toAllItemResult())
+        }
+    }
+    return resultList
 }

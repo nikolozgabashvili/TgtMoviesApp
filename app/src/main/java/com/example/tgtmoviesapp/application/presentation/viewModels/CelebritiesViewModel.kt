@@ -28,6 +28,9 @@ class CelebritiesViewModel @Inject constructor(
         getPopularPeople()
         getTrendingPeople()
     }
+    fun activate(){
+
+    }
 
     private fun getTrendingPeople() {
         viewModelScope.launch {

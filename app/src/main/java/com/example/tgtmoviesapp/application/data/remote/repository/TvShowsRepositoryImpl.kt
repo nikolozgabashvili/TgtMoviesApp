@@ -27,7 +27,6 @@ class TvShowsRepositoryImpl @Inject constructor(
             if (response.isSuccessful) {
                 emit(Resource.Success(response.body()?.toTvShows()))
             } else {
-                println("not successfuul")
                 emit(Resource.Error("error", null))
 
             }
@@ -48,7 +47,6 @@ class TvShowsRepositoryImpl @Inject constructor(
             if (response.isSuccessful) {
                 emit(Resource.Success(response.body()?.toTvShows()))
             } else {
-                println("not successfuul")
                 emit(Resource.Error("error", null))
 
             }
@@ -69,7 +67,6 @@ class TvShowsRepositoryImpl @Inject constructor(
             if (response.isSuccessful) {
                 emit(Resource.Success(response.body()?.toTvShows()))
             } else {
-                println("not successfuul")
                 emit(Resource.Error("error", null))
 
             }
@@ -90,7 +87,6 @@ class TvShowsRepositoryImpl @Inject constructor(
             if (response.isSuccessful) {
                 emit(Resource.Success(response.body()?.toTvShows()))
             } else {
-                println("not successfuul")
                 emit(Resource.Error("error", null))
 
             }
@@ -111,7 +107,26 @@ class TvShowsRepositoryImpl @Inject constructor(
             if (response.isSuccessful) {
                 emit(Resource.Success(response.body()?.toTvGenre()))
             } else {
-                println("not successfuul")
+                emit(Resource.Error("error", null))
+
+            }
+
+        }
+        catch (e:Exception){
+            emit(Resource.Error("$e", null))
+
+        }
+    }
+
+    override suspend fun searchTvShows(query: String): Flow<Resource<TvShows>> =flow {
+
+        try {
+            val response = api.searchTvShows(apiKey = API_KEY)
+            emit(Resource.Loading(null))
+
+            if (response.isSuccessful) {
+                emit(Resource.Success(response.body()?.toTvShows()))
+            } else {
                 emit(Resource.Error("error", null))
 
             }

@@ -49,12 +49,16 @@ class MoviesViewModel @Inject constructor(
     val moviesGenres: MutableStateFlow<Resource<Genre>?> = _movieGenres
 
     init {
+        println("init")
         getMovieGenres()
         getPopularMovies()
         getUpcomingMovies()
         getTopRatedMovies()
         getPITMovies()
         getTrendingMovies()
+
+    }
+    fun activate(){
 
     }
 
@@ -75,6 +79,7 @@ class MoviesViewModel @Inject constructor(
             trendingMoviesUseCase.execute().collect { resource ->
 
                 _trendingMovies.value = resource
+
 
 
             }
@@ -102,7 +107,7 @@ class MoviesViewModel @Inject constructor(
             upcomingMoviesUseCase.execute().collect { resource ->
 
                 _upcomingMovies.value = resource
-                println(resource)
+
 
             }
 

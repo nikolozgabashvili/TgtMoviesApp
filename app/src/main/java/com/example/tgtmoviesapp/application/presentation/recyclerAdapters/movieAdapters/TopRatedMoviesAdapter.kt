@@ -60,7 +60,7 @@ class TopRatedMoviesAdapter:RecyclerView.Adapter<TopRatedMoviesAdapter.TopViewHo
                         }
                 }
             }
-            println(genreList)
+
             holder.binding.movieGenre.text = genreList.joinToString(separator = ",")
 
 

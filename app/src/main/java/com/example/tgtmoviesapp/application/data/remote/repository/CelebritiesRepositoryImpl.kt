@@ -21,7 +21,7 @@ class CelebritiesRepositoryImpl @Inject constructor(val api: Api): CelebritiesRe
             if (response.isSuccessful) {
                 emit(Resource.Success(response.body()?.toPerson()))
             } else {
-                println("not successfuul")
+
                 emit(Resource.Error("error", null))
 
             }
@@ -41,7 +41,7 @@ class CelebritiesRepositoryImpl @Inject constructor(val api: Api): CelebritiesRe
             if (response.isSuccessful) {
                 emit(Resource.Success(response.body()?.toPerson()))
             } else {
-                println("not successfuul")
+
                 emit(Resource.Error("error", null))
 
             }
@@ -53,4 +53,21 @@ class CelebritiesRepositoryImpl @Inject constructor(val api: Api): CelebritiesRe
         }
     }
 
+    override suspend fun searchPeople(query: String): Flow<Resource<Person>> = flow {
+        try {
+            val response = api.searchPerson()
+            emit(Resource.Loading(null))
+
+            if (response.isSuccessful) {
+                emit(Resource.Success(response.body()?.toPerson()))
+            } else {
+
+                emit(Resource.Error("error", null))
+
+            }
+        } catch (e: Exception) {
+            emit(Resource.Error("$e", null))
+
+        }
+    }
 }

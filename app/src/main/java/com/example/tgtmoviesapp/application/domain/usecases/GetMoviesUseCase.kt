@@ -2,10 +2,12 @@ package com.example.tgtmoviesapp.application.domain.usecases
 
 import com.example.tgtmoviesapp.application.commons.constants.Constants.API_KEY
 import com.example.tgtmoviesapp.application.commons.resource.Resource
+import com.example.tgtmoviesapp.application.domain.models.AllItemModel
 import com.example.tgtmoviesapp.application.domain.models.Genre
 import com.example.tgtmoviesapp.application.domain.models.Movies
 import com.example.tgtmoviesapp.application.domain.repository.Repository
 import kotlinx.coroutines.flow.Flow
+import org.jetbrains.annotations.Async.Execute
 import javax.inject.Inject
 
 class GetPopularMoviesUseCase @Inject constructor(private val repository: Repository) {
@@ -50,5 +52,11 @@ class GetTrendingMoviesUseCase @Inject constructor(private val repository: Repos
 class GetMoveGenresUseCase @Inject constructor(private val repository: Repository){
     suspend fun execute():Flow<Resource<Genre>>{
         return repository.getMovieGenres(API_KEY)
+    }
+}
+
+class GetSearchMoviesUseCase @Inject constructor(private val repository: Repository){
+    suspend fun execute():Flow<Resource<Movies>>{
+        return repository.searchMovie()
     }
 }

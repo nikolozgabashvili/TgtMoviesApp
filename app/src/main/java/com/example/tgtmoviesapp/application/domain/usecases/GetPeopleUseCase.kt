@@ -17,6 +17,16 @@ class GetPopularPeopleUseCase @Inject constructor(private val repository: Celebr
 
 }
 
+class SearchPeopleUseCase @Inject constructor(private val repository: CelebritiesRepository) {
+
+    suspend fun execute(): Flow<Resource<Person>> {
+
+        return repository.searchPeople()
+
+    }
+
+}
+
 class GetTrendingPeopleUseCase @Inject constructor(private val repository: CelebritiesRepository) {
 
     suspend fun execute(): Flow<Resource<Person>> {
@@ -24,3 +34,6 @@ class GetTrendingPeopleUseCase @Inject constructor(private val repository: Celeb
     }
 
 }
+
+
+

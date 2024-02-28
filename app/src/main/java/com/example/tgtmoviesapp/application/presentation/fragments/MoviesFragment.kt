@@ -37,7 +37,7 @@ class MoviesFragment : Fragment() {
     private lateinit var trendingRecyclerView: RecyclerView
     private lateinit var trendingAdapter: MovieAdapter
 
-    private  var movieGenreList: List<Genre.Genre?> = mutableListOf()
+
 
     private val mainViewModel: MoviesViewModel by activityViewModels()
 
@@ -56,13 +56,14 @@ class MoviesFragment : Fragment() {
 
     }
 
+
     private fun setupObservers() {
         lifecycleScope.launch {
             mainViewModel.movies.collect {
                 it?.let {
                     it.data?.let { data ->
                         updatePopularAdapter(data)
-                        println(data)
+
                     }
 
                 }

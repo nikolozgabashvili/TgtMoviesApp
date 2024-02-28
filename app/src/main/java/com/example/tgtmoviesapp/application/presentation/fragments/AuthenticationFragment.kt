@@ -5,8 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.tgtmoviesapp.R
+import com.example.tgtmoviesapp.application.presentation.viewModels.CelebritiesViewModel
+import com.example.tgtmoviesapp.application.presentation.viewModels.MoviesViewModel
+import com.example.tgtmoviesapp.application.presentation.viewModels.TvShowsViewModel
 import com.example.tgtmoviesapp.databinding.FragmentAuthenticationBinding
 
 
@@ -14,6 +18,7 @@ class AuthenticationFragment : Fragment() {
 
     private var _binding:FragmentAuthenticationBinding? = null
     private val binding get() = _binding!!
+
 
 
     override fun onCreateView(
@@ -26,6 +31,7 @@ class AuthenticationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         binding.signInButton.setOnClickListener{
             findNavController().popBackStack()

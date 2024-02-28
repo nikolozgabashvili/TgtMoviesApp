@@ -32,7 +32,7 @@ class CelebritiesAdapter : RecyclerView.Adapter<CelebritiesAdapter.CelebViewHold
 
         lstModel.let {
             personList = it
-            println(it)
+
         }
 
         this.imageType = imageType
@@ -87,7 +87,7 @@ class CelebritiesAdapter : RecyclerView.Adapter<CelebritiesAdapter.CelebViewHold
 
         holder.binding.movieGenre.text = currentItem?.knownForDepartment
         holder.binding.movieTitle.text = currentItem?.name
-        println(currentItem?.name)
+
 
 
     }

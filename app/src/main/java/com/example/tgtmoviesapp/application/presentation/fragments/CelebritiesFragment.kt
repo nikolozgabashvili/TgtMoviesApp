@@ -114,8 +114,7 @@ class CelebritiesFragment : Fragment() {
         }
         popularPersonAdapter1.setCelebList(firstPart)
         popularPersonAdapter2.setCelebList(secondPart)
-        println(firstPart)
-        println(secondPart)
+
     }
 
 

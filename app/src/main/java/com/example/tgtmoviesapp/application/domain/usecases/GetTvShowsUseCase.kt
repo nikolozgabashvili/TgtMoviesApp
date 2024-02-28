@@ -31,6 +31,12 @@ class GetTopRatedTvShowsUseCase @Inject constructor(private val repository: TvSh
     }
 }
 
+class SearchTvShowsUseCase @Inject constructor(private val repository: TvShowsRepository) {
+    suspend fun execute(): Flow<Resource<TvShows>> {
+        return repository.searchTvShows()
+    }
+}
+
 class GetTvGenresUseCase @Inject constructor(private val repository: TvShowsRepository){
     suspend fun execute():Flow<Resource<TvGenre>>{
         return repository.getTvGenres(API_KEY)

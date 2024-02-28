@@ -29,7 +29,6 @@ class MovieAdapter() : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
         lstModel.results?.let {
             movieList = it
-            println("aeeee")
         }
 
         this.movieType = movieType
@@ -84,7 +83,7 @@ class MovieAdapter() : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
                     }
             }
         }
-        println(genreList)
+
         holder.binding.movieGenre.text = genreList.joinToString(separator = ",")
 
         holder.binding.movieTitle.maxWidth = holder.binding.imageView.width
