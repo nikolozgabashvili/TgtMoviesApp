@@ -91,6 +91,8 @@ interface Api {
     ): Response<MovieGenreDto>
 
 
+
+
     @GET("genre/tv/list")
     suspend fun getTvGenre (
         @Query("language") lang: String = "en",
@@ -103,28 +105,28 @@ interface Api {
     suspend fun getSearchResults (
         @Query("language") lang: String = "en-US",
         @Query("api_key") apiKey: String = API_KEY,
-        @Query("query") query: String = ""
+        @Query("query") query: String?
     ): Response<AllItemModelDto>
 
     @GET("search/movie")
     suspend fun searchMovies (
         @Query("language") lang: String = "en-US",
         @Query("api_key") apiKey: String = API_KEY,
-        @Query("query") query: String = ""
+        @Query("query") query: String
     ): Response<MoviesDto>
 
     @GET("search/person")
     suspend fun searchPerson (
         @Query("language") lang: String = "en-US",
         @Query("api_key") apiKey: String = API_KEY,
-        @Query("query") query: String = ""
+        @Query("query") query: String
     ): Response<PersonDto>
 
     @GET("search/tv")
     suspend fun searchTvShows (
         @Query("language") lang: String = "en-US",
         @Query("api_key") apiKey: String = API_KEY,
-        @Query("query") query: String = ""
+        @Query("query") query: String
     ): Response<TvShowsDto>
 
 

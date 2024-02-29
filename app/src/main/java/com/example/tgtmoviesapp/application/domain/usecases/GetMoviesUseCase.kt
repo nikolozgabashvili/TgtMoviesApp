@@ -9,6 +9,7 @@ import com.example.tgtmoviesapp.application.domain.repository.Repository
 import kotlinx.coroutines.flow.Flow
 import org.jetbrains.annotations.Async.Execute
 import javax.inject.Inject
+import javax.inject.Qualifier
 
 class GetPopularMoviesUseCase @Inject constructor(private val repository: Repository) {
 
@@ -56,7 +57,13 @@ class GetMoveGenresUseCase @Inject constructor(private val repository: Repositor
 }
 
 class GetSearchMoviesUseCase @Inject constructor(private val repository: Repository){
-    suspend fun execute():Flow<Resource<Movies>>{
-        return repository.searchMovie()
+    suspend fun execute(query:String):Flow<Resource<Movies>>{
+        return repository.searchMovie(query = query)
+    }
+}
+
+class SearchAllItemsUseCase @Inject constructor(private val repository: Repository){
+    suspend fun execute(query:String):Flow<Resource<AllItemModel>>{
+        return repository.getSearchResults(query)
     }
 }

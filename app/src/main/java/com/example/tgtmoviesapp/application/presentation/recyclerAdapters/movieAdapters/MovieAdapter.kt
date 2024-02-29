@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.tgtmoviesapp.R
 import com.example.tgtmoviesapp.application.commons.constants.Constants.BACKDROP_IMAGE_BASE_URL
 import com.example.tgtmoviesapp.application.commons.constants.Constants.IMAGE_BASE_URL
 import com.example.tgtmoviesapp.application.domain.models.DisplayIndicator
@@ -58,17 +59,27 @@ class MovieAdapter() : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
 
         val currentItem = movieList[position]
+        var path = ""
         if (movieType !=DisplayIndicator.WIDE_IMAGE) {
+            holder.binding.imageView.minimumWidth = 300
+            holder.binding.imageView.minimumHeight=440
+            path = IMAGE_BASE_URL + (currentItem?.posterPath?:"jbdjadhjbadadsb")
             Glide.with(holder.binding.root.context)
 
-                .load(IMAGE_BASE_URL + currentItem?.posterPath)
+                .load(path)
                 .override(340, 440)
+                .placeholder(R.drawable.movies_item)
                 .into(holder.binding.imageView)
+
         }else{
+            path = IMAGE_BASE_URL + (currentItem?.backdropPath?:"jbdjadhjbadadsb")
+            holder.binding.imageView.minimumWidth = 600
+            holder.binding.imageView.minimumHeight=350
             Glide.with(holder.binding.root.context)
 
-                .load(BACKDROP_IMAGE_BASE_URL + currentItem?.backdropPath)
+                .load(path)
                 .override(600, 440)
+                .placeholder(R.drawable.movies_item)
                 .into(holder.binding.imageView)
         }
 

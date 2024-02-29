@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavDestination
 import androidx.navigation.Navigation
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -62,6 +63,11 @@ class MainFragment : Fragment() {
         val navController = navhost.findNavController()
 
         val bottomNavView =binding.bottomNavigationView
+        lifecycleScope.launch {
+
+
+
+        }
 //        bottomNavView.setupWithNavController(navController)
 
 
@@ -71,6 +77,7 @@ class MainFragment : Fragment() {
             try {
                 navController.navigate(menuItem.itemId)
                 true
+
             }catch (e:Exception){
 
                 false
@@ -78,10 +85,19 @@ class MainFragment : Fragment() {
         }
 
         bottomNavView.setOnItemReselectedListener {
+            if (it.itemId!=navController.currentDestination?.id){
+                navController.popBackStack()
 
+
+
+            }
         }
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id == R.id.secondSearchFragment){
+                bottomNavView.menu.findItem(R.id.searchFragment)?.isChecked = true
+
+            }
             bottomNavView.menu.findItem(destination.id)?.isChecked = true
         }
 

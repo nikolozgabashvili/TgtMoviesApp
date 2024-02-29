@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.tgtmoviesapp.R
 import com.example.tgtmoviesapp.application.commons.constants.Constants
 import com.example.tgtmoviesapp.application.domain.models.DisplayIndicator
 import com.example.tgtmoviesapp.application.domain.models.Genre
@@ -59,19 +60,28 @@ class TvShowsAdapter() : RecyclerView.Adapter<TvShowsAdapter.TvShowViewHolder>()
 
     override fun onBindViewHolder(holder: TvShowViewHolder, position: Int) {
 
-
+        var path = ""
         val currentItem = showList[position]
         if (showType != DisplayIndicator.WIDE_IMAGE) {
+            holder.binding.imageView.minimumWidth = 300
+            holder.binding.imageView.minimumHeight=350
+            path = Constants.IMAGE_BASE_URL + (currentItem?.posterPath?:"jbdjadhjbadadsb")
             Glide.with(holder.binding.root.context)
 
-                .load(Constants.IMAGE_BASE_URL + currentItem?.posterPath)
+                .load(path)
                 .apply(RequestOptions().override(340, 440))
+                .placeholder(R.drawable.movies_item)
                 .into(holder.binding.imageView)
         } else {
+            path = Constants.IMAGE_BASE_URL + (currentItem?.backdropPath?:"jbdjadhjbadadsb")
+            holder.binding.imageView.minimumWidth = 600
+            holder.binding.imageView.minimumHeight=350
             Glide.with(holder.binding.root.context)
 
-                .load(Constants.IMAGE_BASE_URL + currentItem?.backdropPath)
+                .load(path)
                 .apply(RequestOptions().override(600, 440))
+                .placeholder(R.drawable.movies_item)
+
                 .into(holder.binding.imageView)
         }
         val genreIds = currentItem?.genreIds

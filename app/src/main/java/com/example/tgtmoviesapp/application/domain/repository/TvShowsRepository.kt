@@ -16,6 +16,6 @@ interface TvShowsRepository {
     //------------
     suspend fun getTvGenres(apiKey: String?):Flow<Resource<TvGenre>>
 
-    suspend fun searchTvShows(query: String = ""):Flow<Resource<TvShows>>
+    suspend fun searchTvShows(query: String ):Flow<Resource<TvShows>>
 
 }

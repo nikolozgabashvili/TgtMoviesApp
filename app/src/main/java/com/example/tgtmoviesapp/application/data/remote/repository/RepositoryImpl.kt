@@ -113,7 +113,7 @@ class RepositoryImpl @Inject constructor(
 
     override suspend fun searchMovie(query: String): Flow<Resource<Movies>> = flow {
         try {
-            val response = api.searchMovies()
+            val response = api.searchMovies(query = query)
             emit(Resource.Loading(loading = true))
 
             if (response.isSuccessful) {
@@ -132,7 +132,7 @@ class RepositoryImpl @Inject constructor(
 
     override suspend fun getSearchResults(query: String): Flow<Resource<AllItemModel>> = flow {
         try {
-            val response = api.getSearchResults()
+            val response = api.getSearchResults(query=query)
             emit(Resource.Loading(loading = true))
             if (response.isSuccessful) {
                 emit(Resource.Success(response.body()?.toAllItemModel()))

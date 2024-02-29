@@ -1,46 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".application.presentation.fragments.TvShowFragment">
+    android:background="@color/mainColor"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".application.presentation.fragments.SecondSearchFragment">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
+        android:background="@color/headLineColor"
+        android:gravity="center"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
+        <Button
+            android:id="@+id/backButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/baseline_arrow_back_24" />
 
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"            android:background="@color/headLineColor"
-            android:gravity="center_vertical"
-            android:padding="6dp"
-            android:text="Tv Shows"
-            android:textColor="@color/white"
-            android:textSize="26sp"
+        <SearchView
+            android:id="@+id/searchView"
+            style="@style/Base.Theme.TgtMoviesApp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:queryHint="Search"
+            android:theme="@style/Base.Theme.TgtMoviesApp"
+
+            android:visibility="visible"
+            app:hideNavigationIcon="true"
+            app:iconifiedByDefault="false" />
+
+        <Button
+
+            android:id="@+id/cancelSearchButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/cancel"
+            android:backgroundTint="@color/headLineColor"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
-
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#00FFFFFF"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <ScrollView
-        android:scrollbars="none"
-
+        android:visibility="invisible"
+        android:id="@+id/movieDisplay"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/mainColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView">
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout" >
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -50,17 +78,17 @@
             android:gravity="center_vertical">
 
             <TextView
-                android:id="@+id/todayAiringTvShows"
+                android:id="@+id/popularMoviesTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Airing Today"
+                android:text="Movies"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/seeAiringTodayTvShows"
+                android:id="@+id/seePopularMovies"
 
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -71,34 +99,35 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/todayAiringTvShowsRecycler"
+                android:id="@+id/movieRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
                 android:layout_marginTop="6dp"
                 android:minHeight="150dp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/todayAiringTvShows"
+                app:layout_constraintTop_toBottomOf="@+id/popularMoviesTxt"
                 tools:listitem="@layout/movie_item_default" />
 
             <TextView
-                android:id="@+id/trendingTvShows"
+                android:id="@+id/playingInTheatres"
 
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="10dp"
-                android:text="Trending"
+                android:text="Tv Shows"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/todayAiringTvShowsRecycler" />
+                app:layout_constraintTop_toBottomOf="@id/movieRecycler" />
 
 
             <TextView
-                android:id="@+id/seeTrendingTvShows"
+                android:id="@+id/seePlayingInTheatreMovies"
 
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -106,95 +135,79 @@
                 android:text="See all>"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/todayAiringTvShowsRecycler" />
+                app:layout_constraintTop_toBottomOf="@id/movieRecycler" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/trendingTvShowsRecycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:minHeight="150dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/trendingTvShows" />
-
-
-            <TextView
-                android:id="@+id/topRatedTvShows"
-
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="4dp"
-                android:text="Top Rated"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/trendingTvShowsRecycler" />
-
-
-            <TextView
-                android:id="@+id/seeTopRatedMovies"
-
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="See all>"
-                android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/trendingTvShowsRecycler" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/topRatedTvShowsRecyclerGrid"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:minHeight="150dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/topRatedTvShows" />
-
-            <TextView
-                android:id="@+id/popularTvShows"
-
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="10dp"
-                android:text="Popular"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/topRatedTvShowsRecyclerGrid" />
-
-
-            <TextView
-                android:id="@+id/seePopularTvShows"
-
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginTop="12dp"
-                android:text="See all>"
-                android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/topRatedTvShowsRecyclerGrid" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/popularTvShowsRecycler"
+                android:id="@+id/tvShowsRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:minHeight="80dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/popularTvShows" />
+                app:layout_constraintTop_toBottomOf="@+id/playingInTheatres" />
+
+            <TextView
+                android:id="@+id/trendingMovies"
+
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="10dp"
+                android:text="Celebrities"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvShowsRecycler" />
+
+
+            <TextView
+                android:id="@+id/seeTrendingMovies"
+
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="12dp"
+                android:text="See all>"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvShowsRecycler" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/peopleRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:minHeight="150dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/trendingMovies" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </ScrollView>
 
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/barrier"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:barrierDirection="left" />
+        android:text="Search for movies,Tv Shows, Celebrities"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:id="@+id/blankTextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/predictiveSearchDisplay"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,35 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".application.presentation.fragments.CelebritiesFragment">
+    android:orientation="vertical"
+    tools:context=".application.presentation.fragments.FoundMoviesFragment">
 
-    <TextView
-
-        android:id="@+id/textView"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/headLineColor"
-        android:gravity="center_vertical"
-        android:padding="6dp"
-        android:text="Movies"
-        android:textColor="@color/white"
-        android:textSize="26sp"
+        android:layout_height="wrap_content"
+        android:elevation="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+
+
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/headLineColor"
+            android:gravity="center_vertical"
+            android:padding="6dp"
+            android:text="Movies"
+            android:textColor="@color/white"
+            android:textSize="26sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.cardview.widget.CardView>
+
 
     <ScrollView
         android:scrollbars="none"
+
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:background="@color/mainColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView">
+        app:layout_constraintTop_toBottomOf="@+id/cardView"
+        app:layout_constraintStart_toStartOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -39,17 +55,17 @@
             android:gravity="center_vertical">
 
             <TextView
-                android:id="@+id/popularCelebText"
+                android:id="@+id/popularMoviesTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Popular"
+                android:text="Movies"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/seePopularPeople"
+                android:id="@+id/seePopularMovies"
 
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -60,48 +76,35 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/popularPersonRecycler1"
+                android:id="@+id/popularMovieRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
                 android:layout_marginTop="6dp"
+                android:minHeight="150dp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/popularCelebText"
-                tools:listitem="@layout/movie_item_default">
-
-
-            </androidx.recyclerview.widget.RecyclerView>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/popularPersonRecycler2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/popularPersonRecycler1"
+                app:layout_constraintTop_toBottomOf="@+id/popularMoviesTxt"
                 tools:listitem="@layout/movie_item_default" />
 
             <TextView
-                android:id="@+id/trendingPerson"
+                android:id="@+id/playingInTheatres"
 
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="10dp"
-                android:text="Trending"
+                android:text="Tv Shows"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/popularPersonRecycler2" />
+                app:layout_constraintTop_toBottomOf="@id/popularMovieRecycler" />
 
 
             <TextView
-                android:id="@+id/seetrendingPeople"
+                android:id="@+id/seePlayingInTheatreMovies"
 
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -109,16 +112,57 @@
                 android:text="See all>"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/popularPersonRecycler2" />
+                app:layout_constraintTop_toBottomOf="@id/popularMovieRecycler" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/trendingPeopleRecycler"
+                android:id="@+id/playingInTheatresRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
+                android:minHeight="80dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/trendingPerson" />
+                app:layout_constraintTop_toBottomOf="@+id/playingInTheatres" />
+
+            <TextView
+                android:id="@+id/trendingMovies"
+
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="10dp"
+                android:text="Celebrities"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/playingInTheatresRecycler" />
+
+
+            <TextView
+                android:id="@+id/seeTrendingMovies"
+
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="12dp"
+                android:text="See all>"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/playingInTheatresRecycler" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/trendingMoviesRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:minHeight="150dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/trendingMovies" />
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </ScrollView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</LinearLayout>

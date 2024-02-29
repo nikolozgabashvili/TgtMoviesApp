@@ -19,9 +19,9 @@ class GetPopularPeopleUseCase @Inject constructor(private val repository: Celebr
 
 class SearchPeopleUseCase @Inject constructor(private val repository: CelebritiesRepository) {
 
-    suspend fun execute(): Flow<Resource<Person>> {
+    suspend fun execute(query:String): Flow<Resource<Person>> {
 
-        return repository.searchPeople()
+        return repository.searchPeople(query)
 
     }
 

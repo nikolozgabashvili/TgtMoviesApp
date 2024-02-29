@@ -55,7 +55,7 @@ class CelebritiesRepositoryImpl @Inject constructor(val api: Api): CelebritiesRe
 
     override suspend fun searchPeople(query: String): Flow<Resource<Person>> = flow {
         try {
-            val response = api.searchPerson()
+            val response = api.searchPerson(query = query   )
             emit(Resource.Loading(null))
 
             if (response.isSuccessful) {

@@ -21,7 +21,7 @@ interface Repository {
     ///-----------------------------
 
     suspend fun getMovieGenres(apiKey: String?):Flow<Resource<Genre>>
-    suspend fun searchMovie(query: String = ""):Flow<Resource<Movies>>
+    suspend fun searchMovie(query: String):Flow<Resource<Movies>>
 
-    suspend fun getSearchResults(query: String = ""):Flow<Resource<AllItemModel>>
+    suspend fun getSearchResults(query: String):Flow<Resource<AllItemModel>>
 }

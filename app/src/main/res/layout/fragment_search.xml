@@ -27,12 +27,12 @@
             android:layout_gravity="end"
             android:text="Search"
             android:textColor="@color/white"
-            android:textSize="30sp"
+            android:textSize="28sp"
 
             />
 
         <Button
-            android:id="@+id/imageView2"
+            android:id="@+id/searchButton"
             android:layout_width="30dp"
             android:layout_height="30dp"
             style="@android:style/Widget.Button"
@@ -63,74 +63,82 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="6dp"
+                android:layout_margin="8dp"
                 android:text="Trending"
                 android:textColor="@color/white"
                 android:textSize="30sp" />
 
             <TextView
+                android:id="@+id/trendingMovie1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="6dp"
+                android:layout_margin="8dp"
                 android:text="Trending"
                 android:textColor="@color/green"
-                android:textSize="18sp" />
+                android:textSize="24sp" />
 
             <TextView
+                android:id="@+id/trendingMovie2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="6dp"
+                android:layout_margin="8dp"
                 android:text="Trending"
                 android:textColor="@color/green"
-                android:textSize="18sp" />
+                android:textSize="24sp" />
 
             <TextView
+                android:id="@+id/trendingMovie3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="6dp"
+                android:layout_margin="8dp"
                 android:text="Trending"
                 android:textColor="@color/green"
-                android:textSize="18sp" />
+                android:textSize="24sp" />
 
             <TextView
+                android:id="@+id/trendingMovie4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="6dp"
+                android:layout_margin="8dp"
                 android:text="Trending"
                 android:textColor="@color/green"
-                android:textSize="18sp" />
+                android:textSize="24sp" />
 
             <TextView
+                android:id="@+id/trendingMovie5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="6dp"
+                android:layout_margin="8dp"
                 android:text="Trending"
                 android:textColor="@color/green"
-                android:textSize="18sp" />
+                android:textSize="24sp" />
 
             <TextView
+                android:id="@+id/trendingMovie6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="6dp"
+                android:layout_margin="8dp"
                 android:text="Trending"
                 android:textColor="@color/green"
-                android:textSize="18sp" />
+                android:textSize="24sp" />
 
             <TextView
+                android:id="@+id/trendingMovie7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="6dp"
+                android:layout_margin="8dp"
                 android:text="Trending"
                 android:textColor="@color/green"
-                android:textSize="18sp" />
+                android:textSize="24sp" />
 
             <TextView
+                android:id="@+id/trendingMovie8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="6dp"
+                android:layout_margin="8dp"
                 android:text="Trending"
                 android:textColor="@color/green"
-                android:textSize="18sp" />
+                android:textSize="24sp" />
 
         </LinearLayout>
 
