@@ -33,14 +33,26 @@ class SearchViewModel @Inject constructor(
     private val _movies = MutableStateFlow<Resource<Movies>?>(null)
     val movies: MutableStateFlow<Resource<Movies>?> = _movies
 
+    private val _moviesPaged = MutableStateFlow<Resource<Movies>?>(null)
+    val moviesPaged: MutableStateFlow<Resource<Movies>?> = _moviesPaged
+
     private val _tvShows = MutableStateFlow<Resource<TvShows>?>(null)
     val tvShows: MutableStateFlow<Resource<TvShows>?> = _tvShows
+
+    private val _tvShowsPaged = MutableStateFlow<Resource<TvShows>?>(null)
+    val tvShowsPaged: MutableStateFlow<Resource<TvShows>?> = _tvShowsPaged
+
 
     private var _people  = MutableStateFlow<Resource<Person>?>(null)
     val people : MutableStateFlow<Resource<Person>?> = _people
 
+    private var _peoplePaged  = MutableStateFlow<Resource<Person>?>(null)
+    val peoplePaged : MutableStateFlow<Resource<Person>?> = _peoplePaged
+
     private var _searchNameList = MutableStateFlow<MutableList<String>>(mutableListOf())
     val searchNameList :MutableStateFlow<MutableList<String>> = _searchNameList
+
+    var foundList = MutableStateFlow<Array<List<Any?>>>(Array(3){ emptyList()})
 
 
     private val _textFlow = MutableStateFlow("")
@@ -55,6 +67,11 @@ class SearchViewModel @Inject constructor(
     fun cancelDebounceJob(){
         debounceJob?.cancel()
     }
+    fun clearFoundList(){
+        foundList.value[0] = emptyList()
+        foundList.value[1] = emptyList()
+        foundList.value[2] = emptyList()
+    }
 
     fun clearSearch(){
         _textFlow.value = ""
@@ -64,7 +81,7 @@ class SearchViewModel @Inject constructor(
     @OptIn(FlowPreview::class)
     fun startDebounceJob() {
         debounceJob = viewModelScope.launch {
-            textFlow.debounce(debounceDelay).collect {
+            textFlow.debounce(0).collect {
                 getAllItemInfo(it)
                 println("hehehehe")
             }
@@ -104,6 +121,7 @@ class SearchViewModel @Inject constructor(
             searchPeopleUseCase.execute(query = query).collect{
 
                 _people.value = it
+                _peoplePaged.value = it
             }
         }
     }
@@ -113,15 +131,43 @@ class SearchViewModel @Inject constructor(
             searchTvShowsUseCase.execute(query = query).collect{
 
                 _tvShows.value = it
+                _tvShowsPaged.value = it
             }
         }
     }
 
-    private fun searchMovie(query: String) {
+    fun searchMovie(query: String,page:Int = 1) {
         viewModelScope.launch {
-            searchMoviesUseCase.execute(query = query).collect{
+            searchMoviesUseCase.execute(query = query,page).collect{
 
                 _movies.value = it
+                _moviesPaged.value = it
+            }
+        }
+    }
+    fun searchMovieByPage(query: String,page:Int = 1) {
+        viewModelScope.launch {
+            searchMoviesUseCase.execute(query = query,page).collect{
+
+                _moviesPaged.value = it
+
+            }
+        }
+    }
+    fun searchTvShowsByPage(query: String,page:Int = 1) {
+        viewModelScope.launch {
+            searchTvShowsUseCase.execute(query = query,page).collect{
+
+                _tvShowsPaged.value = it
+            }
+        }
+    }
+
+    fun searchPeopleByPage(query: String,page:Int = 1) {
+        viewModelScope.launch {
+            searchPeopleUseCase.execute(query = query,page).collect{
+
+                _peoplePaged.value = it
             }
         }
     }

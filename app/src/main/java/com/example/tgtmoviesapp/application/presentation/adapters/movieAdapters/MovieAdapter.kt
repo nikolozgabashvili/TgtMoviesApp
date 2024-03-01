@@ -1,12 +1,10 @@
-package com.example.tgtmoviesapp.application.presentation.recyclerAdapters.movieAdapters
+package com.example.tgtmoviesapp.application.presentation.adapters.movieAdapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.example.tgtmoviesapp.R
-import com.example.tgtmoviesapp.application.commons.constants.Constants.BACKDROP_IMAGE_BASE_URL
 import com.example.tgtmoviesapp.application.commons.constants.Constants.IMAGE_BASE_URL
 import com.example.tgtmoviesapp.application.domain.models.DisplayIndicator
 import com.example.tgtmoviesapp.application.domain.models.Genre
@@ -26,11 +24,11 @@ class MovieAdapter() : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
     private var movieGenreList: List<Genre.Genre?> = mutableListOf()
 
 
-    fun setMovieList(lstModel: Movies,  movieType: DisplayIndicator = DisplayIndicator.NONE) {
+    fun setMovieList(lstModel: List<Movies.Result?>,  movieType: DisplayIndicator = DisplayIndicator.NONE) {
 
-        lstModel.results?.let {
-            movieList = it
-        }
+
+            movieList = lstModel
+
 
         this.movieType = movieType
 

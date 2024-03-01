@@ -32,8 +32,8 @@ class GetTopRatedTvShowsUseCase @Inject constructor(private val repository: TvSh
 }
 
 class SearchTvShowsUseCase @Inject constructor(private val repository: TvShowsRepository) {
-    suspend fun execute(query:String): Flow<Resource<TvShows>> {
-        return repository.searchTvShows(query)
+    suspend fun execute(query:String,page:Int = 1): Flow<Resource<TvShows>> {
+        return repository.searchTvShows(query,page)
     }
 }
 

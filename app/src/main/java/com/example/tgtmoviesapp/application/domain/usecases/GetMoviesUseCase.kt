@@ -57,8 +57,8 @@ class GetMoveGenresUseCase @Inject constructor(private val repository: Repositor
 }
 
 class GetSearchMoviesUseCase @Inject constructor(private val repository: Repository){
-    suspend fun execute(query:String):Flow<Resource<Movies>>{
-        return repository.searchMovie(query = query)
+    suspend fun execute(query:String,page:Int=1):Flow<Resource<Movies>>{
+        return repository.searchMovie(query = query, page = page)
     }
 }
 

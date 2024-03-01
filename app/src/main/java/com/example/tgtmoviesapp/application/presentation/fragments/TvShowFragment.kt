@@ -11,11 +11,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tgtmoviesapp.application.domain.models.DisplayIndicator
-import com.example.tgtmoviesapp.application.domain.models.Genre
 import com.example.tgtmoviesapp.application.domain.models.TvGenre
 import com.example.tgtmoviesapp.application.domain.models.TvShows
-import com.example.tgtmoviesapp.application.presentation.recyclerAdapters.tvshowAdapters.TopRatedShowsAdapter
-import com.example.tgtmoviesapp.application.presentation.recyclerAdapters.tvshowAdapters.TvShowsAdapter
+import com.example.tgtmoviesapp.application.presentation.adapters.tvshowAdapters.TopRatedShowsAdapter
+import com.example.tgtmoviesapp.application.presentation.adapters.tvshowAdapters.TvShowsAdapter
 import com.example.tgtmoviesapp.application.presentation.viewModels.TvShowsViewModel
 import com.example.tgtmoviesapp.databinding.FragmentTvShowBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -147,7 +146,8 @@ class TvShowFragment : Fragment() {
     }
 
     private fun updateTopRatedAdapter(data: TvShows) {
-        topRatedAdapter.setShowList(data)
+        data.results?.let { topRatedAdapter.setShowList(data.results) }
+
 
     }
 

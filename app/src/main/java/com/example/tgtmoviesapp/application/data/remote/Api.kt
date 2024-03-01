@@ -79,56 +79,55 @@ interface Api {
     ): Response<PersonDto>
 
     @GET("trending/person/day")
-    suspend fun getTrendingPerson (
+    suspend fun getTrendingPerson(
         @Query("language") lang: String = "en-US",
         @Query("api_key") apiKey: String
     ): Response<PersonDto>
 
     @GET("genre/movie/list")
-    suspend fun getMovieGenres (
+    suspend fun getMovieGenres(
         @Query("language") lang: String = "en",
         @Query("api_key") apiKey: String
     ): Response<MovieGenreDto>
 
 
-
-
     @GET("genre/tv/list")
-    suspend fun getTvGenre (
+    suspend fun getTvGenre(
         @Query("language") lang: String = "en",
         @Query("api_key") apiKey: String
     ): Response<TvGenreDto>
 
 
-
     @GET("search/multi")
-    suspend fun getSearchResults (
+    suspend fun getSearchResults(
         @Query("language") lang: String = "en-US",
         @Query("api_key") apiKey: String = API_KEY,
         @Query("query") query: String?
     ): Response<AllItemModelDto>
 
     @GET("search/movie")
-    suspend fun searchMovies (
+    suspend fun searchMovies(
         @Query("language") lang: String = "en-US",
         @Query("api_key") apiKey: String = API_KEY,
-        @Query("query") query: String
+        @Query("query") query: String,
+        @Query("page") page: Int = 1
     ): Response<MoviesDto>
 
     @GET("search/person")
-    suspend fun searchPerson (
+    suspend fun searchPerson(
         @Query("language") lang: String = "en-US",
         @Query("api_key") apiKey: String = API_KEY,
-        @Query("query") query: String
+        @Query("query") query: String,
+        @Query("page") page: Int = 1
     ): Response<PersonDto>
 
     @GET("search/tv")
-    suspend fun searchTvShows (
+    suspend fun searchTvShows(
         @Query("language") lang: String = "en-US",
         @Query("api_key") apiKey: String = API_KEY,
-        @Query("query") query: String
+        @Query("query") query: String,
+        @Query("page") page: Int = 1
     ): Response<TvShowsDto>
-
 
 
 }

@@ -111,9 +111,9 @@ class RepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun searchMovie(query: String): Flow<Resource<Movies>> = flow {
+    override suspend fun searchMovie(query: String,page:Int): Flow<Resource<Movies>> = flow {
         try {
-            val response = api.searchMovies(query = query)
+            val response = api.searchMovies(query = query, page = page)
             emit(Resource.Loading(loading = true))
 
             if (response.isSuccessful) {

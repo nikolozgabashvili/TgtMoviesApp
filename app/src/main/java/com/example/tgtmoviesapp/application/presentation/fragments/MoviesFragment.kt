@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.tgtmoviesapp.application.domain.models.DisplayIndicator
 import com.example.tgtmoviesapp.application.domain.models.Genre
 import com.example.tgtmoviesapp.application.domain.models.Movies
-import com.example.tgtmoviesapp.application.presentation.recyclerAdapters.movieAdapters.MovieAdapter
-import com.example.tgtmoviesapp.application.presentation.recyclerAdapters.movieAdapters.TopRatedMoviesAdapter
+import com.example.tgtmoviesapp.application.presentation.adapters.movieAdapters.MovieAdapter
+import com.example.tgtmoviesapp.application.presentation.adapters.movieAdapters.TopRatedMoviesAdapter
 import com.example.tgtmoviesapp.application.presentation.viewModels.MoviesViewModel
 import com.example.tgtmoviesapp.databinding.FragmentMoviesBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -142,27 +142,38 @@ class MoviesFragment : Fragment() {
     }
 
     private fun updateTrendingAdapter(data: Movies) {
-        trendingAdapter.setMovieList(data)
+        data.results?.let {
+            trendingAdapter.setMovieList(data.results)
+        }
+
     }
 
     private fun updatePopularAdapter(data: Movies) {
-        popularAdapter.setMovieList(data)
+        data.results?.let {
+            popularAdapter.setMovieList(data.results)
+        }
 
     }
 
     private fun updateUpcomingAdapter(data: Movies) {
-        upcomingAdapter.setMovieList(data,)
+        data.results?.let {
+            upcomingAdapter.setMovieList(data.results)
+        }
 
     }
 
     private fun updateTopRatedAdapter(data: Movies) {
-        topRatedAdapter.setMovieList(data)
+        data.results?.let {
+            topRatedAdapter.setMovieList(data.results,DisplayIndicator.WIDE_IMAGE)
+        }
+
 
     }
 
     private fun updatePITAdapter(data: Movies) {
-        pITAdapter.setMovieList(data, DisplayIndicator.WIDE_IMAGE)
-
+        data.results?.let {
+            pITAdapter.setMovieList(data.results,DisplayIndicator.WIDE_IMAGE)
+        }
     }
 
 

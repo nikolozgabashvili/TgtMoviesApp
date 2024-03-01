@@ -1,15 +1,8 @@
-package com.example.tgtmoviesapp.application.presentation.recyclerAdapters.searchAdapter
+package com.example.tgtmoviesapp.application.presentation.adapters.searchAdapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.example.tgtmoviesapp.application.commons.constants.Constants
-import com.example.tgtmoviesapp.application.domain.models.DisplayIndicator
-import com.example.tgtmoviesapp.application.domain.models.Genre
-import com.example.tgtmoviesapp.application.domain.models.Movies
-import com.example.tgtmoviesapp.application.presentation.recyclerAdapters.movieAdapters.MovieAdapter
-import com.example.tgtmoviesapp.databinding.MovieItemDefaultBinding
 import com.example.tgtmoviesapp.databinding.SearchItemBinding
 
 class SearchAdapter : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
@@ -30,6 +23,8 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
         notifyDataSetChanged()
     }
 
+    var onItemClick: ((String) -> Unit)? = null
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
 
@@ -47,6 +42,8 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
         val item = stringList[position]
         holder.binding.searchText.text = item
-
+        holder.binding.root.setOnClickListener {
+            onItemClick?.invoke(item)
+        }
     }
 }

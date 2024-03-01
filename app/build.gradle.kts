@@ -75,6 +75,9 @@ dependencies {
 
     //animatedBottomBar
     implementation ("nl.joery.animatedbottombar:library:1.1.0")
+
+    //paging
+    implementation("androidx.paging:paging-runtime:3.2.1")
 }
 
 kapt {

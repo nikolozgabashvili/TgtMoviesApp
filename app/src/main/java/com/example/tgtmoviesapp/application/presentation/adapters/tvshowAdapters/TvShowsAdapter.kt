@@ -1,4 +1,4 @@
-package com.example.tgtmoviesapp.application.presentation.recyclerAdapters.tvshowAdapters
+package com.example.tgtmoviesapp.application.presentation.adapters.tvshowAdapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,7 +8,6 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.tgtmoviesapp.R
 import com.example.tgtmoviesapp.application.commons.constants.Constants
 import com.example.tgtmoviesapp.application.domain.models.DisplayIndicator
-import com.example.tgtmoviesapp.application.domain.models.Genre
 import com.example.tgtmoviesapp.application.domain.models.TvGenre
 import com.example.tgtmoviesapp.application.domain.models.TvShows
 import com.example.tgtmoviesapp.databinding.MovieItemDefaultBinding
@@ -75,7 +74,7 @@ class TvShowsAdapter() : RecyclerView.Adapter<TvShowsAdapter.TvShowViewHolder>()
         } else {
             path = Constants.IMAGE_BASE_URL + (currentItem?.backdropPath?:"jbdjadhjbadadsb")
             holder.binding.imageView.minimumWidth = 600
-            holder.binding.imageView.minimumHeight=350
+            holder.binding.imageView.minimumHeight=340
             Glide.with(holder.binding.root.context)
 
                 .load(path)

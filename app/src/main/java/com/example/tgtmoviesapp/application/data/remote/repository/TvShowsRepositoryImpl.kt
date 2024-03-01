@@ -118,10 +118,10 @@ class TvShowsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun searchTvShows(query: String): Flow<Resource<TvShows>> =flow {
+    override suspend fun searchTvShows(query: String,page:Int): Flow<Resource<TvShows>> =flow {
 
         try {
-            val response = api.searchTvShows(apiKey = API_KEY, query = query)
+            val response = api.searchTvShows(apiKey = API_KEY, query = query, page = page)
             emit(Resource.Loading(null))
 
             if (response.isSuccessful) {

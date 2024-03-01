@@ -10,14 +10,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.tgtmoviesapp.R
 import com.example.tgtmoviesapp.application.domain.models.Person
-import com.example.tgtmoviesapp.application.presentation.recyclerAdapters.celebritiesAdapter.CelebritiesAdapter
-import com.example.tgtmoviesapp.application.presentation.recyclerAdapters.celebritiesAdapter.TopRatedPeopleAdapter
+import com.example.tgtmoviesapp.application.presentation.adapters.celebritiesAdapter.CelebritiesAdapter
+import com.example.tgtmoviesapp.application.presentation.adapters.celebritiesAdapter.TopRatedPeopleAdapter
 import com.example.tgtmoviesapp.application.presentation.viewModels.CelebritiesViewModel
 import com.example.tgtmoviesapp.databinding.FragmentCelebritiesBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -84,7 +82,8 @@ class CelebritiesFragment : Fragment() {
     }
 
     private fun updateTrendingAdapter(it: Person) {
-        trendingAdapter.setPersonList(it)
+        it.results?.let { trendingAdapter.setPersonList(it) }
+
     }
 
     private fun initPopularAdapters() {

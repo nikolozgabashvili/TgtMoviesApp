@@ -1,4 +1,4 @@
-package com.example.tgtmoviesapp.application.presentation.recyclerAdapters.celebritiesAdapter
+package com.example.tgtmoviesapp.application.presentation.adapters.celebritiesAdapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

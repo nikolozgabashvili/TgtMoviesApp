@@ -12,39 +12,44 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tgtmoviesapp.R
 import com.example.tgtmoviesapp.application.domain.models.DisplayIndicator
-import com.example.tgtmoviesapp.application.domain.models.Genre
-import com.example.tgtmoviesapp.application.domain.models.Movies
-import com.example.tgtmoviesapp.application.presentation.adapters.movieAdapters.MovieAdapter
-import com.example.tgtmoviesapp.application.presentation.adapters.movieAdapters.TopRatedMoviesAdapter
-import com.example.tgtmoviesapp.application.presentation.viewModels.MoviesViewModel
+import com.example.tgtmoviesapp.application.domain.models.Person
+import com.example.tgtmoviesapp.application.domain.models.TvGenre
+import com.example.tgtmoviesapp.application.domain.models.TvShows
+import com.example.tgtmoviesapp.application.presentation.adapters.celebritiesAdapter.TopRatedPeopleAdapter
+import com.example.tgtmoviesapp.application.presentation.adapters.tvshowAdapters.TopRatedShowsAdapter
+import com.example.tgtmoviesapp.application.presentation.viewModels.CelebritiesViewModel
 import com.example.tgtmoviesapp.application.presentation.viewModels.SearchViewModel
-import com.example.tgtmoviesapp.databinding.FragmentFoundMoviesBinding
+import com.example.tgtmoviesapp.application.presentation.viewModels.TvShowsViewModel
+import com.example.tgtmoviesapp.databinding.FragmentFoundCelebritiesBinding
+import com.example.tgtmoviesapp.databinding.FragmentFoundThingsBinding
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.launch
 
-class FoundMoviesFragment : Fragment() {
 
-    private var _binding:FragmentFoundMoviesBinding? = null
+class FoundCelebritiesFragment : Fragment() {
+
+
+
+    private var _binding: FragmentFoundCelebritiesBinding? = null
     private val binding get()= _binding!!
 
-    private lateinit var moviesAdapter: TopRatedMoviesAdapter
-    private lateinit var movieRecyclerView: RecyclerView
-
+    private lateinit var peopleAdapter: TopRatedPeopleAdapter
+    private lateinit var peopleRecyclerView: RecyclerView
 
     private val searchViewModel: SearchViewModel by activityViewModels()
-    private val moviesViewModel: MoviesViewModel by activityViewModels()
-    private var currentPage = 1
-    private var currentMovieList :List<Movies.Result?>  = mutableListOf()
-    private var requestNextPage = true
+    private val peopleSearchViewModel: CelebritiesViewModel by activityViewModels()
 
+
+
+    private var currentPage = 1
+    private var currentMovieList :List<Person.Result?>  = mutableListOf()
+    private var requestNextPage = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentFoundMoviesBinding.inflate(inflater,container,false)
+        _binding = FragmentFoundCelebritiesBinding.inflate(inflater,container,false)
         return binding.root
     }
 
@@ -57,20 +62,21 @@ class FoundMoviesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initAdapter()
         setupObserver()
+
     }
 
     private fun setupObserver() {
         lifecycleScope.launch {
-            searchViewModel.moviesPaged.collect{
+            searchViewModel.peoplePaged.collect{
                 it?.let {
                     it.data?.let { movies ->
                         //TODO may cause bug dd temp solve
                         if (movies.page==1)
                             currentMovieList = emptyList()
-                            currentPage = 1
-                        val lst = currentMovieList+movies.results as List<Movies.Result?>
+
+                        val lst = currentMovieList+movies.results as List<Person.Result?>
                         currentMovieList = lst
-                        updateMoviesAdapter(lst)
+                        updatePeopleAdapter(lst)
                         delay(100)
                         requestNextPage = true
 
@@ -78,27 +84,16 @@ class FoundMoviesFragment : Fragment() {
                 }
             }
         }
-        lifecycleScope.launch {
-            moviesViewModel.moviesGenres.collect{
-                it?.let {
-                    it.data?.let {  genre->
-                        genre.genres?.let {updateGenreAdapters(genre.genres)  }
 
-
-
-                    }
-                }
-            }
-        }
     }
 
     private fun initAdapter(){
-        moviesAdapter = TopRatedMoviesAdapter()
-        movieRecyclerView = binding.root
-        movieRecyclerView.adapter = moviesAdapter
-        movieRecyclerView.layoutManager =
+        peopleAdapter = TopRatedPeopleAdapter()
+        peopleRecyclerView = binding.root
+        peopleRecyclerView.adapter = peopleAdapter
+        peopleRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        movieRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        peopleRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
@@ -112,7 +107,7 @@ class FoundMoviesFragment : Fragment() {
 
                 if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0 &&requestNextPage) {
                     val txt = requireActivity().findViewById<SearchView>(R.id.searchView)
-                    searchViewModel.searchMovieByPage(txt.query.toString(),++currentPage)
+                    searchViewModel.searchPeopleByPage(txt.query.toString(),++currentPage)
                     requestNextPage = false
 
                 }
@@ -123,18 +118,12 @@ class FoundMoviesFragment : Fragment() {
 
     }
 
-    private fun updateMoviesAdapter(movies: List<Movies.Result?>?) {
+    private fun updatePeopleAdapter(movies: List<Person.Result?>?) {
         movies?.let {
-            moviesAdapter.setMovieList(movies,DisplayIndicator.FOUND_IMAGE_TYPE)
+            peopleAdapter.setPersonList(movies, DisplayIndicator.FOUND_IMAGE_TYPE)
         }
 
     }
-
-    private fun updateGenreAdapters(lst: List<Genre.Genre?>) {
-        moviesAdapter.setMovieGenres(lst)
-    }
-
-
 
 
 

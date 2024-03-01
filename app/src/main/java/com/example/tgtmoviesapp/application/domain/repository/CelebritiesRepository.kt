@@ -9,6 +9,6 @@ interface CelebritiesRepository {
     suspend fun getPopularPeople(apiKey:String?): Flow<Resource<Person>>
     suspend fun getTrendingPeople(apiKey:String?): Flow<Resource<Person>>
 
-    suspend fun searchPeople(query: String):Flow<Resource<Person>>
+    suspend fun searchPeople(query: String,page:Int):Flow<Resource<Person>>
 
 }
