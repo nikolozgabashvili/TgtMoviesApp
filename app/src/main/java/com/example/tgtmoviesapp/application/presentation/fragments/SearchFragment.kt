@@ -43,7 +43,8 @@ class SearchFragment : Fragment() {
         collectTrendingNames()
 
         binding.searchButton.setOnClickListener{
-            findNavController().navigate(R.id.action_searchFragment_to_secondSearchFragment)
+            val action = SearchFragmentDirections.actionSearchFragment2ToSecondSearchFragment("NONE")
+            findNavController().navigate(R.id.action_searchFragment2_to_secondSearchFragment)
 
         }
     }

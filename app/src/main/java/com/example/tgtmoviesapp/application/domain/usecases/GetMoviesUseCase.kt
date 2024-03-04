@@ -13,16 +13,16 @@ import javax.inject.Qualifier
 
 class GetPopularMoviesUseCase @Inject constructor(private val repository: Repository) {
 
-    suspend fun execute(): Flow<Resource<Movies>> {
-        return repository.getPopularMovies(API_KEY)
+    suspend fun execute(page:Int = 1): Flow<Resource<Movies>> {
+        return repository.getPopularMovies(API_KEY, page = page)
     }
 
 }
 
 class GetUpcomingMoviesUseCase @Inject constructor(private val repository: Repository) {
 
-    suspend fun execute(): Flow<Resource<Movies>> {
-        return repository.getUpcomingMovies(API_KEY)
+    suspend fun execute(page:Int = 1): Flow<Resource<Movies>> {
+        return repository.getUpcomingMovies(API_KEY, page = page)
     }
 
 }
@@ -31,22 +31,22 @@ class GetUpcomingMoviesUseCase @Inject constructor(private val repository: Repos
 
 class GetTopRatedMoviesUseCase @Inject constructor(private val repository: Repository) {
 
-    suspend fun execute(): Flow<Resource<Movies>> {
-        return repository.getTopRatedMovies(apiKey = API_KEY)
+    suspend fun execute(page:Int = 1): Flow<Resource<Movies>> {
+        return repository.getTopRatedMovies(apiKey = API_KEY, page = page)
     }
 
 }
 class GetPITMoviesUseCase @Inject constructor(private val repository: Repository) {
 
-    suspend fun execute(): Flow<Resource<Movies>> {
-        return repository.getPITMovies(apiKey = API_KEY)
+    suspend fun execute(page:Int = 1): Flow<Resource<Movies>> {
+        return repository.getPITMovies(apiKey = API_KEY, page = page)
     }
 }
 
 class GetTrendingMoviesUseCase @Inject constructor(private val repository: Repository) {
 
-    suspend fun execute(): Flow<Resource<Movies>> {
-        return repository.getTrendingMovies(apiKey = API_KEY)
+    suspend fun execute(page:Int = 1): Flow<Resource<Movies>> {
+        return repository.getTrendingMovies(apiKey = API_KEY, page = page)
     }
 }
 

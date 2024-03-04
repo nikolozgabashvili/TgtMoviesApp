@@ -1,11 +1,11 @@
 package com.example.tgtmoviesapp.application.presentation.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,29 +14,27 @@ import com.example.tgtmoviesapp.R
 import com.example.tgtmoviesapp.application.domain.models.DisplayIndicator
 import com.example.tgtmoviesapp.application.domain.models.Genre
 import com.example.tgtmoviesapp.application.domain.models.Movies
-import com.example.tgtmoviesapp.application.presentation.adapters.movieAdapters.MovieAdapter
 import com.example.tgtmoviesapp.application.presentation.adapters.movieAdapters.TopRatedMoviesAdapter
 import com.example.tgtmoviesapp.application.presentation.viewModels.MoviesViewModel
 import com.example.tgtmoviesapp.application.presentation.viewModels.SearchViewModel
 import com.example.tgtmoviesapp.databinding.FragmentFoundMoviesBinding
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.launch
 
 class FoundMoviesFragment : Fragment() {
 
-    private var _binding:FragmentFoundMoviesBinding? = null
-    private val binding get()= _binding!!
+    private var _binding: FragmentFoundMoviesBinding? = null
+    private val binding get() = _binding!!
 
     private lateinit var moviesAdapter: TopRatedMoviesAdapter
     private lateinit var movieRecyclerView: RecyclerView
 
+    private var movieType: String? = "NONE"
 
     private val searchViewModel: SearchViewModel by activityViewModels()
     private val moviesViewModel: MoviesViewModel by activityViewModels()
     private var currentPage = 1
-    private var currentMovieList :List<Movies.Result?>  = mutableListOf()
+    private var currentMovieList: List<Movies.Result?> = mutableListOf()
     private var requestNextPage = true
 
 
@@ -44,64 +42,98 @@ class FoundMoviesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentFoundMoviesBinding.inflate(inflater,container,false)
+        _binding = FragmentFoundMoviesBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        //TODO clear paging or not? --------
+//        moviesViewModel.setMoviePagingNull()
         _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+        movieType = arguments?.getString("movieType", "NONE")?:"NONE"
+
         initAdapter()
         setupObserver()
+
     }
 
     private fun setupObserver() {
-        lifecycleScope.launch {
-            searchViewModel.moviesPaged.collect{
-                it?.let {
-                    it.data?.let { movies ->
-                        //TODO may cause bug dd temp solve
-                        if (movies.page==1)
-                            currentMovieList = emptyList()
-                            currentPage = 1
-                        val lst = currentMovieList+movies.results as List<Movies.Result?>
-                        currentMovieList = lst
-                        updateMoviesAdapter(lst)
-                        delay(100)
-                        requestNextPage = true
 
+
+        if (movieType == "NONE") {
+            lifecycleScope.launch {
+
+                searchViewModel.moviesPaged.collect {
+                    it?.let {
+                        it.data?.let { movies ->
+                            //TODO may cause bug dd temp solve
+                            if (movies.page == 1) {
+                                currentMovieList = emptyList()
+                                currentPage = 1
+                            }
+                            val lst = currentMovieList + movies.results as List<Movies.Result?>
+                            currentMovieList = lst
+                            updateMoviesAdapter(lst)
+                            delay(100)
+                            requestNextPage = true
+
+                        }
+                    }
+                }
+            }
+        } else {
+            lifecycleScope.launch {
+                moviesViewModel.moviePaging.collect {
+                    it?.let {
+                        it.data?.let { movies ->
+                            //TODO may cause bug dd temp solve
+                            println("moviepagingggg")
+                            if (movies.page == 1) {
+                                currentMovieList = emptyList()
+                                currentPage = 1
+                            }
+                            val lst = currentMovieList + movies.results as List<Movies.Result?>
+                            currentMovieList = lst
+                            updateMoviesAdapter(lst)
+                            delay(100)
+                            requestNextPage = true
+
+                        }
                     }
                 }
             }
         }
         lifecycleScope.launch {
-            moviesViewModel.moviesGenres.collect{
+            moviesViewModel.moviesGenres.collect {
                 it?.let {
-                    it.data?.let {  genre->
-                        genre.genres?.let {updateGenreAdapters(genre.genres)  }
-
+                    it.data?.let { genre ->
+                        genre.genres?.let { updateGenreAdapters(genre.genres) }
 
 
                     }
                 }
             }
         }
+
     }
 
-    private fun initAdapter(){
+    private fun initAdapter() {
         moviesAdapter = TopRatedMoviesAdapter()
         movieRecyclerView = binding.root
         movieRecyclerView.adapter = moviesAdapter
+
         movieRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         movieRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-
 
 
                 val layoutManager = recyclerView.layoutManager
@@ -110,9 +142,34 @@ class FoundMoviesFragment : Fragment() {
                 val firstVisibleItemPosition =
                     (layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
 
-                if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0 &&requestNextPage) {
-                    val txt = requireActivity().findViewById<SearchView>(R.id.searchView)
-                    searchViewModel.searchMovieByPage(txt.query.toString(),++currentPage)
+                if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0 && requestNextPage) {
+                    when (movieType) {
+                        "NONE" -> {
+                            val txt = requireActivity().findViewById<SearchView>(R.id.searchView)
+                            searchViewModel.searchMovieByPage(txt.query.toString(), ++currentPage)
+                        }
+
+                        "POPULAR" -> {
+
+                            moviesViewModel.getPopularMovieByPage(++currentPage)
+                        }
+
+                        "TRENDING" -> {
+                            moviesViewModel.getTrendingMovieByPage(++currentPage)
+                        }
+
+                        "PIT" -> {
+                            moviesViewModel.getPITMovieByPage(++currentPage)
+                        }
+
+                        "UPCOMING" -> {
+                            moviesViewModel.getUpcomingMovieByPage(++currentPage)
+                        }
+
+                        "TOP_RATED" -> {
+                            moviesViewModel.getTopRatedMovieByPage(++currentPage)
+                        }
+                    }
                     requestNextPage = false
 
                 }
@@ -120,12 +177,11 @@ class FoundMoviesFragment : Fragment() {
         })
 
 
-
     }
 
     private fun updateMoviesAdapter(movies: List<Movies.Result?>?) {
         movies?.let {
-            moviesAdapter.setMovieList(movies,DisplayIndicator.FOUND_IMAGE_TYPE)
+            moviesAdapter.setMovieList(movies, DisplayIndicator.FOUND_IMAGE_TYPE)
         }
 
     }
@@ -133,9 +189,6 @@ class FoundMoviesFragment : Fragment() {
     private fun updateGenreAdapters(lst: List<Genre.Genre?>) {
         moviesAdapter.setMovieGenres(lst)
     }
-
-
-
 
 
 }

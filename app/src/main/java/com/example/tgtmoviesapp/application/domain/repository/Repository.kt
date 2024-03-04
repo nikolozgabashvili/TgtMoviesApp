@@ -13,11 +13,11 @@ import retrofit2.http.Query
 
 interface Repository {
 
-    suspend fun getPopularMovies(apiKey:String?):Flow<Resource<Movies>>
-    suspend fun getTopRatedMovies(apiKey:String?):Flow<Resource<Movies>>
-    suspend fun getUpcomingMovies(apiKey:String?):Flow<Resource<Movies>>
-    suspend fun getTrendingMovies(apiKey:String?):Flow<Resource<Movies>>
-    suspend fun getPITMovies(apiKey:String?):Flow<Resource<Movies>>
+    suspend fun getPopularMovies(apiKey:String?,page:Int = 1):Flow<Resource<Movies>>
+    suspend fun getTopRatedMovies(apiKey:String?,page:Int = 1):Flow<Resource<Movies>>
+    suspend fun getUpcomingMovies(apiKey:String?,page:Int = 1):Flow<Resource<Movies>>
+    suspend fun getTrendingMovies(apiKey:String?,page:Int = 1):Flow<Resource<Movies>>
+    suspend fun getPITMovies(apiKey:String?,page:Int = 1):Flow<Resource<Movies>>
     ///-----------------------------
 
     suspend fun getMovieGenres(apiKey: String?):Flow<Resource<Genre>>

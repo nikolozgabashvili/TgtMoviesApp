@@ -13,9 +13,9 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class CelebritiesRepositoryImpl @Inject constructor(val api: Api): CelebritiesRepository {
-    override suspend fun getPopularPeople(apiKey: String?): Flow<Resource<Person>> = flow{
+    override suspend fun getPopularPeople(apiKey: String?,page:Int): Flow<Resource<Person>> = flow{
         try {
-            val response = api.getPopularPeople(apiKey = API_KEY)
+            val response = api.getPopularPeople(apiKey = API_KEY, page = page)
             emit(Resource.Loading(null))
 
             if (response.isSuccessful) {
@@ -33,9 +33,9 @@ class CelebritiesRepositoryImpl @Inject constructor(val api: Api): CelebritiesRe
         }
     }
 
-    override suspend fun getTrendingPeople(apiKey: String?): Flow<Resource<Person>> =flow {
+    override suspend fun getTrendingPeople(apiKey: String?,page:Int): Flow<Resource<Person>> =flow {
         try {
-            val response = api.getTrendingPerson(apiKey = API_KEY)
+            val response = api.getTrendingPerson(apiKey = API_KEY, page = page)
             emit(Resource.Loading(null))
 
             if (response.isSuccessful) {

@@ -40,6 +40,8 @@ class FoundShowsFragment : Fragment() {
     private val searchViewModel: SearchViewModel by activityViewModels()
     private val tvSearchViewModel: TvShowsViewModel by activityViewModels()
 
+    private var movieType: String? = "NONE"
+
     private var currentPage = 1
     private var currentMovieList :List<TvShows.Result?>  = mutableListOf()
     private var requestNextPage = true
@@ -59,26 +61,48 @@ class FoundShowsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        movieType = arguments?.getString("movieType", "NONE")?:"NONE"
         initAdapter()
         setupObserver()
 
     }
 
     private fun setupObserver() {
-        lifecycleScope.launch {
-            searchViewModel.tvShowsPaged.collect{
-                it?.let {
-                    it.data?.let { movies ->
-                        //TODO may cause bug dd temp solve
-                        if (movies.page==1)
-                            currentMovieList = emptyList()
+        if (movieType=="NONE") {
+            lifecycleScope.launch {
+                searchViewModel.tvShowsPaged.collect {
+                    it?.let {
+                        it.data?.let { movies ->
+                            //TODO may cause bug dd temp solve
+                            if (movies.page == 1)
+                                currentMovieList = emptyList()
 
-                        val lst = currentMovieList+movies.results as List<TvShows.Result?>
-                        currentMovieList = lst
-                        updateTvAdapter(lst)
-                        delay(100)
-                        requestNextPage = true
+                            val lst = currentMovieList + movies.results as List<TvShows.Result?>
+                            currentMovieList = lst
+                            updateTvAdapter(lst)
+                            delay(100)
+                            requestNextPage = true
 
+                        }
+                    }
+                }
+            }
+        }else{
+            lifecycleScope.launch {
+                tvSearchViewModel.tvPaging.collect {
+                    it?.let {
+                        it.data?.let { movies ->
+                            //TODO may cause bug dd temp solve
+                            if (movies.page == 1)
+                                currentMovieList = emptyList()
+
+                            val lst = currentMovieList + movies.results as List<TvShows.Result?>
+                            currentMovieList = lst
+                            updateTvAdapter(lst)
+                            delay(100)
+                            requestNextPage = true
+
+                        }
                     }
                 }
             }
@@ -116,8 +140,30 @@ class FoundShowsFragment : Fragment() {
                     (layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
 
                 if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0 &&requestNextPage) {
-                    val txt = requireActivity().findViewById<SearchView>(R.id.searchView)
-                    searchViewModel.searchTvShowsByPage(txt.query.toString(),++currentPage)
+                    when (movieType) {
+                        "NONE" -> {
+                            val txt = requireActivity().findViewById<SearchView>(R.id.searchView)
+                            searchViewModel.searchTvShowsByPage(txt.query.toString(), ++currentPage)
+                        }
+
+                        "POPULAR" -> {
+
+                            tvSearchViewModel.getPopularTvByPage(++currentPage)
+                        }
+
+                        "TRENDING" -> {
+                            tvSearchViewModel.getTrendingTvByPage(++currentPage)
+                        }
+
+                        "TOP_RATED" -> {
+                            tvSearchViewModel.getTopRatedTvByPage(++currentPage)
+                        }
+
+                        "UPCOMING" -> {
+                            tvSearchViewModel.getUpcomingTvByPage(++currentPage)
+                        }
+
+                    }
                     requestNextPage = false
 
                 }

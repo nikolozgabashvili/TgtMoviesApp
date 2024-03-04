@@ -8,10 +8,10 @@ import kotlinx.coroutines.flow.Flow
 
 interface TvShowsRepository {
 
-    suspend fun getPopularTvShows(apiKey:String?): Flow<Resource<TvShows>>
-    suspend fun getTopRatedTvShows(apiKey:String?): Flow<Resource<TvShows>>
-    suspend fun getUpcomingTvShows(apiKey:String?): Flow<Resource<TvShows>>
-    suspend fun getTrendingTvShows(apiKey:String?): Flow<Resource<TvShows>>
+    suspend fun getPopularTvShows(apiKey:String?,page:Int = 1): Flow<Resource<TvShows>>
+    suspend fun getTopRatedTvShows(apiKey:String?,page:Int = 1): Flow<Resource<TvShows>>
+    suspend fun getUpcomingTvShows(apiKey:String?,page:Int = 1): Flow<Resource<TvShows>>
+    suspend fun getTrendingTvShows(apiKey:String?,page:Int = 1): Flow<Resource<TvShows>>
 
     //------------
     suspend fun getTvGenres(apiKey: String?):Flow<Resource<TvGenre>>

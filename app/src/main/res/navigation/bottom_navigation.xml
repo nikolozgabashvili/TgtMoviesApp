@@ -10,9 +10,11 @@
         android:label="fragment_movies"
         tools:layout="@layout/fragment_movies" >
         <action
-            app:popUpToInclusive="true"
             android:id="@+id/action_moviesFragment_to_tvShowFragment"
             app:destination="@id/tvShowFragment" />
+        <action
+            android:id="@+id/action_moviesFragment_to_foundMoviesFragment"
+            app:destination="@id/foundMoviesFragment" />
     </fragment>
     <fragment
         android:id="@+id/tvShowFragment"
@@ -23,27 +25,45 @@
             app:popUpToInclusive="true"
             android:id="@+id/action_tvShowFragment_to_celebritiesFragment"
             app:destination="@id/celebritiesFragment" />
+        <action
+            android:id="@+id/action_tvShowFragment_to_foundShowsFragment"
+            app:destination="@id/foundShowsFragment" />
     </fragment>
     <fragment
         android:id="@+id/celebritiesFragment"
         android:name="com.example.tgtmoviesapp.application.presentation.fragments.CelebritiesFragment"
         android:label="CelebritiesFragment" >
         <action
-            android:id="@+id/action_celebritiesFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/searchFragment"
-        android:name="com.example.tgtmoviesapp.application.presentation.fragments.SearchFragment"
-        android:label="fragment_search"
-        tools:layout="@layout/fragment_search" >
+            android:id="@+id/action_celebritiesFragment_to_search_navigation"
+            app:destination="@id/search_navigation" />
         <action
-            android:id="@+id/action_searchFragment_to_secondSearchFragment"
-            app:destination="@id/secondSearchFragment" />
+            android:id="@+id/action_celebritiesFragment_to_foundCelebritiesFragment"
+            app:destination="@id/foundCelebritiesFragment" />
+    </fragment>
+    <include app:graph="@navigation/search_navigation" />
+    <fragment
+        android:id="@+id/foundMoviesFragment"
+        android:name="com.example.tgtmoviesapp.application.presentation.fragments.FoundMoviesFragment"
+        android:label="fragment_found_movies"
+        tools:layout="@layout/fragment_found_movies" >
+        <argument
+            android:name="movieType"
+            app:argType="string"
+            android:defaultValue="NONE" />
     </fragment>
     <fragment
-        android:id="@+id/secondSearchFragment"
-        android:name="com.example.tgtmoviesapp.application.presentation.fragments.SecondSearchFragment"
-        android:label="fragment_second_search"
-        tools:layout="@layout/fragment_second_search" />
+        android:id="@+id/foundCelebritiesFragment"
+        android:name="com.example.tgtmoviesapp.application.presentation.fragments.FoundCelebritiesFragment"
+        android:label="fragment_found_celebrities"
+        tools:layout="@layout/fragment_found_celebrities" />
+    <fragment
+        android:id="@+id/foundShowsFragment"
+        android:name="com.example.tgtmoviesapp.application.presentation.fragments.FoundShowsFragment"
+        android:label="fragment_found_shows"
+        tools:layout="@layout/fragment_found_shows" >
+        <argument
+            android:name="movieType"
+            app:argType="string"
+            android:defaultValue="NONE" />
+    </fragment>
 </navigation>

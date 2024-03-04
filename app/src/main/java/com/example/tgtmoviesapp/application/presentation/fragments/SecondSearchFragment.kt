@@ -17,6 +17,7 @@ import com.example.tgtmoviesapp.application.presentation.viewModels.SearchViewMo
 import com.example.tgtmoviesapp.databinding.FragmentSecondSearchBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 
@@ -32,14 +33,19 @@ class SecondSearchFragment : Fragment() {
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
 
+    private var movieSuccess = false
+    private var tvSuccess = false
+    private var celebritySuccess = false
+
+    var successList = MutableStateFlow(arrayOf<Boolean>())
+
 
     private val searchViewModel: SearchViewModel by activityViewModels()
 
 
     private lateinit var viewpagerAdapter: ViewPagerAdapter
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSecondSearchBinding.inflate(inflater, container, false)
 
@@ -50,6 +56,7 @@ class SecondSearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        successList.value = Array(3) { false }
         initViews()
         initAdapters()
         setupViewPager()
@@ -65,7 +72,7 @@ class SecondSearchFragment : Fragment() {
     }
 
     private fun setupViewPager() {
-        viewpagerAdapter = ViewPagerAdapter(this)
+        viewpagerAdapter = ViewPagerAdapter(requireParentFragment())
         viewPager.adapter = viewpagerAdapter
         TabLayoutMediator(tabLayout, viewPager) { tab, pos ->
             tab.text = viewpagerAdapter.getPageTitle(pos)
@@ -101,7 +108,9 @@ class SecondSearchFragment : Fragment() {
         miniSearchRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         searchAdapter.onItemClick = {
+
             searchView.setQuery(it, true)
+
         }
 
     }
@@ -130,9 +139,11 @@ class SecondSearchFragment : Fragment() {
                 it?.let {
                     it.data?.let { movies ->
                         movies.results?.let { lst ->
-                            searchViewModel.foundList.value[0] = lst
-                            searchViewModel.foundList.value =
-                                searchViewModel.foundList.value.copyOf()
+                            movieSuccess = lst.isNotEmpty()
+
+                            successList.value[1] = true
+                            successList.value = successList.value.copyOf()
+
                         }
                     }
                 }
@@ -144,10 +155,11 @@ class SecondSearchFragment : Fragment() {
                 it?.let {
                     it.data?.let { movies ->
                         movies.results?.let { lst ->
+                            tvSuccess = lst.isNotEmpty()
 
-                            searchViewModel.foundList.value[1] = lst
-                            searchViewModel.foundList.value =
-                                searchViewModel.foundList.value.copyOf()
+                            successList.value[0] = true
+                            successList.value = successList.value.copyOf()
+
                         }
                     }
                 }
@@ -160,23 +172,35 @@ class SecondSearchFragment : Fragment() {
                     resource.data?.let { movies ->
                         movies.results?.let { lst ->
 
-                            searchViewModel.foundList.value[2] = lst
-                            searchViewModel.foundList.value =
-                                searchViewModel.foundList.value.copyOf()
+                            celebritySuccess = lst.isNotEmpty()
+
+                            successList.value[2] = true
+                            successList.value = successList.value.copyOf()
+
+
                         }
                     }
                 }
             }
         }
-
         lifecycleScope.launch {
-            searchViewModel.foundList.collect {
+            successList.collect {
+                println("mapcollected")
+                if (it[0] && it[1] && it[2]) {
+                    viewpagerAdapter.updateAdapter(movieSuccess, tvSuccess, celebritySuccess)
+                    if (movieSuccess && !celebritySuccess && !tvSuccess) {
+                        setupSingleDisplay()
+                    } else if (celebritySuccess && !movieSuccess && !tvSuccess) {
+                        setupSingleDisplay()
+                    } else if (!celebritySuccess && !movieSuccess && tvSuccess) {
+                        setupSingleDisplay()
 
-                viewpagerAdapter.run {
-                    updateAdapter(it)
-                    notifyDataSetChanged()
+                    } else if (!celebritySuccess && !movieSuccess) {
+                        setDefaultViews()
+                    } else {
+                        setupFoundInfoDisplay()
+                    }
                 }
-                setupFundInfoDisplay()
             }
         }
 
@@ -190,7 +214,7 @@ class SecondSearchFragment : Fragment() {
         binding.blankTextView.visibility = View.INVISIBLE
     }
 
-    private fun setupFundInfoDisplay() {
+    private fun setupFoundInfoDisplay() {
         viewPager.visibility = View.VISIBLE
         binding.tabLayout.visibility = View.VISIBLE
         binding.predictiveSearchDisplay.visibility = View.INVISIBLE
@@ -200,11 +224,11 @@ class SecondSearchFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        searchViewModel.clearSearch()
-        setDefaultViews()
-        searchViewModel.clearFoundList()
-        _binding = null
 
+        setDefaultViews()
+
+
+        _binding = null
     }
 
 
@@ -214,6 +238,9 @@ class SecondSearchFragment : Fragment() {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 val q = query ?: ""
                 searchViewModel.getEverythingByQuery(q)
+                successList.value = Array(3) { false }
+
+                setupViewPager()
                 return true
             }
 
@@ -229,14 +256,14 @@ class SecondSearchFragment : Fragment() {
                     binding.blankTextView.visibility = View.VISIBLE
                     binding.predictiveSearchDisplay.visibility = View.INVISIBLE
                 }
+
                 setDefaultViews()
                 searchViewModel.clearFoundList()
                 return true
 
             }
 
-        }
-        )
+        })
 
     }
 

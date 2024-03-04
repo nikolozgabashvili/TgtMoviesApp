@@ -11,8 +11,8 @@ import javax.inject.Inject
 
 class GetPopularPeopleUseCase @Inject constructor(private val repository: CelebritiesRepository) {
 
-    suspend fun execute(): Flow<Resource<Person>> {
-        return repository.getPopularPeople(Constants.API_KEY)
+    suspend fun execute(page:Int = 1): Flow<Resource<Person>> {
+        return repository.getPopularPeople(Constants.API_KEY, page = page)
     }
 
 }
@@ -29,8 +29,8 @@ class SearchPeopleUseCase @Inject constructor(private val repository: Celebritie
 
 class GetTrendingPeopleUseCase @Inject constructor(private val repository: CelebritiesRepository) {
 
-    suspend fun execute(): Flow<Resource<Person>> {
-        return repository.getTrendingPeople(Constants.API_KEY)
+    suspend fun execute(page:Int = 1): Flow<Resource<Person>> {
+        return repository.getTrendingPeople(Constants.API_KEY, page = page)
     }
 
 }

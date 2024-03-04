@@ -39,7 +39,7 @@ class MainFragment : Fragment() {
     private val moviesViewModel: MoviesViewModel by activityViewModels()
     private val tvShowsViewModel: TvShowsViewModel by activityViewModels()
     private val celebritiesViewModel: CelebritiesViewModel by activityViewModels()
-    private val loadingList = Array(11) { true }
+
 
     private val _loadingList : MutableStateFlow<Array<Boolean>> = MutableStateFlow(Array(11) { true })
 
@@ -63,11 +63,7 @@ class MainFragment : Fragment() {
         val navController = navhost.findNavController()
 
         val bottomNavView =binding.bottomNavigationView
-        lifecycleScope.launch {
 
-
-
-        }
 //        bottomNavView.setupWithNavController(navController)
 
 
@@ -75,7 +71,13 @@ class MainFragment : Fragment() {
 
         bottomNavView.setOnItemSelectedListener { menuItem ->
             try {
-                navController.navigate(menuItem.itemId)
+                if (menuItem.itemId ==R.id.searchFragment){
+                    navController.navigate(R.id.search_navigation)
+                }else {
+
+                    navController.navigate(menuItem.itemId)
+
+                }
                 true
 
             }catch (e:Exception){
@@ -85,11 +87,8 @@ class MainFragment : Fragment() {
         }
 
         bottomNavView.setOnItemReselectedListener {
-            if (it.itemId!=navController.currentDestination?.id){
+            if (it.itemId!=navController.currentDestination?.id) {
                 navController.popBackStack()
-
-
-
             }
         }
 

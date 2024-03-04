@@ -73,7 +73,9 @@ class TopRatedPeopleAdapter : RecyclerView.Adapter<TopRatedPeopleAdapter.TopView
                 holder.binding.constraint.minWidth = 1000
                 holder.binding.imageView.minimumHeight = 400
                 holder.binding.imageView.minimumWidth = 300
-                holder.binding.ratingLayout.visibility = View.VISIBLE
+                holder.binding.ratingLayout.visibility = View. INVISIBLE
+                holder.binding.movieGenre.text=item.knownForDepartment
+                holder.binding.movieTitle.text=item.name
 
                 Glide.with(holder.binding.root.context)
                     .load(Constants.IMAGE_BASE_URL + it.profilePath)

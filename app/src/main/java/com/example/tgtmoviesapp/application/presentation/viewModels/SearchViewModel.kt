@@ -55,6 +55,7 @@ class SearchViewModel @Inject constructor(
     var foundList = MutableStateFlow<Array<List<Any?>>>(Array(3){ emptyList()})
 
 
+
     private val _textFlow = MutableStateFlow("")
     val textFlow: MutableStateFlow<String> = _textFlow
 
@@ -89,7 +90,9 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun getAllItemInfo(query: String) {
+
+
+    private fun getAllItemInfo(query: String) {
         viewModelScope.launch {
             val localLst = mutableListOf<String>()
             searchAllItemsUseCase.execute(query).collect{
@@ -102,7 +105,7 @@ class SearchViewModel @Inject constructor(
                             }
                         }
                         searchNameList.value = localLst
-                        println(searchNameList)
+
                     }
                 }
 

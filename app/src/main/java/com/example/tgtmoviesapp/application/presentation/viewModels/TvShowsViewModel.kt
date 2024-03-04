@@ -35,6 +35,8 @@ class TvShowsViewModel @Inject constructor(
 
     private val _topRatedTvShows = MutableStateFlow<Resource<TvShows>?>(null)
     val topRatedTvShows: MutableStateFlow<Resource<TvShows>?> = _topRatedTvShows
+    private val _tvPaging = MutableStateFlow<Resource<TvShows>?>(null)
+    val tvPaging: MutableStateFlow<Resource<TvShows>?> = _tvPaging
 
     private val _tvGenres = MutableStateFlow<Resource<TvGenre>?>(null)
     val tvGenres: MutableStateFlow<Resource<TvGenre>?> = _tvGenres
@@ -75,6 +77,43 @@ class TvShowsViewModel @Inject constructor(
             }
         }
     }
+    fun getPopularTvByPage(page:Int = 1) {
+        viewModelScope.launch {
+            getPopularTvShowsUseCase.execute(page).collect{
+
+                _tvPaging.value = it
+
+            }
+        }
+    }
+    fun getTrendingTvByPage(page:Int = 1) {
+        viewModelScope.launch {
+            getTrendingTvShowsUseCase.execute(page).collect{
+
+                _tvPaging.value = it
+
+            }
+        }
+    }
+    fun getUpcomingTvByPage(page:Int = 1) {
+        viewModelScope.launch {
+            getUpcomingTvShowsUseCase.execute(page).collect{
+
+                _tvPaging.value = it
+
+            }
+        }
+    }
+    fun getTopRatedTvByPage(page:Int = 1) {
+        viewModelScope.launch {
+            getTopRatedTvShowsUseCase.execute(page).collect{
+
+                _tvPaging.value = it
+
+            }
+        }
+    }
+
 
     private fun getTopRatedMovies() {
         viewModelScope.launch {
@@ -98,6 +137,10 @@ class TvShowsViewModel @Inject constructor(
                 _popularTvShows.value = resource
             }
         }
+    }
+
+    fun setMoviePagingValue(value: Resource<TvShows>?) {
+        _tvPaging.value = value
     }
 
 }

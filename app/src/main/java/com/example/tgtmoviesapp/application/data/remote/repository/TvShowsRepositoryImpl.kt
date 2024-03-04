@@ -18,10 +18,10 @@ class TvShowsRepositoryImpl @Inject constructor(
     private val api: Api
 ):TvShowsRepository {
 
-    override suspend fun getPopularTvShows(apiKey: String?): Flow<Resource<TvShows>> = flow {
+    override suspend fun getPopularTvShows(apiKey: String?,page:Int): Flow<Resource<TvShows>> = flow {
 
         try {
-            val response = api.getPopularTvShows(API_KEY)
+            val response = api.getPopularTvShows(API_KEY, page = page)
             emit(Resource.Loading(null))
 
             if (response.isSuccessful) {
@@ -38,10 +38,10 @@ class TvShowsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getTopRatedTvShows(apiKey: String?): Flow<Resource<TvShows>> = flow {
+    override suspend fun getTopRatedTvShows(apiKey: String?,page:Int ): Flow<Resource<TvShows>> = flow {
 
         try {
-            val response = api.getTopRatedTvShows(apiKey = API_KEY)
+            val response = api.getTopRatedTvShows(apiKey = API_KEY, page = page)
             emit(Resource.Loading(null))
 
             if (response.isSuccessful) {
@@ -58,10 +58,10 @@ class TvShowsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getUpcomingTvShows(apiKey: String?): Flow<Resource<TvShows>> = flow {
+    override suspend fun getUpcomingTvShows(apiKey: String?,page:Int ): Flow<Resource<TvShows>> = flow {
 
         try {
-            val response = api.getUpcomingTvShows(apiKey = API_KEY)
+            val response = api.getUpcomingTvShows(apiKey = API_KEY, page = page)
             emit(Resource.Loading(null))
 
             if (response.isSuccessful) {
@@ -78,10 +78,10 @@ class TvShowsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getTrendingTvShows(apiKey: String?): Flow<Resource<TvShows>> = flow {
+    override suspend fun getTrendingTvShows(apiKey: String?,page:Int): Flow<Resource<TvShows>> = flow {
 
         try {
-            val response = api.getTrendingTvShows(apiKey = API_KEY)
+            val response = api.getTrendingTvShows(apiKey = API_KEY, page = page)
             emit(Resource.Loading(null))
 
             if (response.isSuccessful) {

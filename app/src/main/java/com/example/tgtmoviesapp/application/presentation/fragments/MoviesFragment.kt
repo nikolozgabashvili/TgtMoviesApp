@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -53,6 +54,32 @@ class MoviesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initAdapters()
         setupObservers()
+
+        binding.seePopularMovies.setOnClickListener {
+            val action = MoviesFragmentDirections.actionMoviesFragmentToFoundMoviesFragment("POPULAR")
+            mainViewModel.setMoviePagingValue(mainViewModel.movies.value)
+            findNavController().navigate(action)
+        }
+        binding.seeTrendingMovies.setOnClickListener {
+            val action = MoviesFragmentDirections.actionMoviesFragmentToFoundMoviesFragment("TRENDING")
+            mainViewModel.setMoviePagingValue(mainViewModel.trendingMovies.value)
+            findNavController().navigate(action)
+        }
+        binding.seeTopRatedMovies.setOnClickListener {
+            val action = MoviesFragmentDirections.actionMoviesFragmentToFoundMoviesFragment("TOP_RATED")
+            mainViewModel.setMoviePagingValue(mainViewModel.topRatedMovies.value)
+            findNavController().navigate(action)
+        }
+        binding.seePlayingInTheatreMovies.setOnClickListener {
+            val action = MoviesFragmentDirections.actionMoviesFragmentToFoundMoviesFragment("PIT")
+            mainViewModel.setMoviePagingValue(mainViewModel.pITMovies.value)
+            findNavController().navigate(action)
+        }
+        binding.seeUpcomingMovies.setOnClickListener {
+            val action = MoviesFragmentDirections.actionMoviesFragmentToFoundMoviesFragment("UPCOMING")
+            mainViewModel.setMoviePagingValue(mainViewModel.upcomingMovies.value)
+            findNavController().navigate(action)
+        }
 
     }
 

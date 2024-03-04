@@ -48,6 +48,9 @@ class MoviesViewModel @Inject constructor(
     private val _movieGenres = MutableStateFlow<Resource<Genre>?>(null)
     val moviesGenres: MutableStateFlow<Resource<Genre>?> = _movieGenres
 
+    private val _moviePaging = MutableStateFlow<Resource<Movies>?>(null)
+    val moviePaging: MutableStateFlow<Resource<Movies>?> = _moviePaging
+
     init {
         println("init")
         getMovieGenres()
@@ -71,6 +74,52 @@ class MoviesViewModel @Inject constructor(
 
             }
 
+        }
+    }
+
+    fun getPopularMovieByPage(page:Int = 1) {
+        viewModelScope.launch {
+            moviesUseCase.execute(page).collect{
+
+                _moviePaging.value = it
+
+            }
+        }
+    }
+    fun getTrendingMovieByPage(page:Int = 1) {
+        viewModelScope.launch {
+            trendingMoviesUseCase.execute(page).collect{
+
+                _moviePaging.value = it
+
+            }
+        }
+    }
+    fun getUpcomingMovieByPage(page:Int = 1) {
+        viewModelScope.launch {
+            upcomingMoviesUseCase.execute(page).collect{
+
+                _moviePaging.value = it
+
+            }
+        }
+    }
+    fun getPITMovieByPage(page:Int = 1) {
+        viewModelScope.launch {
+            pITMoviesUseCase.execute(page).collect{
+
+                _moviePaging.value = it
+
+            }
+        }
+    }
+    fun getTopRatedMovieByPage(page:Int = 1) {
+        viewModelScope.launch {
+            topRatedMoviesUseCase.execute(page).collect{
+
+                _moviePaging.value = it
+
+            }
         }
     }
 
@@ -142,6 +191,14 @@ class MoviesViewModel @Inject constructor(
         }
 
 
+    }
+
+    fun setMoviePagingNull() {
+        _moviePaging.value = null
+    }
+
+    fun setMoviePagingValue(value:Resource<Movies>?) {
+        _moviePaging.value = value
     }
 
 

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -51,6 +52,28 @@ class TvShowFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initAdapters()
         setupObservers()
+
+        binding.seePopularTvShows.setOnClickListener {
+            val action = TvShowFragmentDirections.actionTvShowFragmentToFoundShowsFragment("POPULAR")
+            tvShowsViewModel.setMoviePagingValue(tvShowsViewModel.popularTvShows.value)
+            findNavController().navigate(action)
+        }
+        binding.seeTrendingTvShows.setOnClickListener {
+            val action = TvShowFragmentDirections.actionTvShowFragmentToFoundShowsFragment("TRENDING")
+            tvShowsViewModel.setMoviePagingValue(tvShowsViewModel.trendingTvShows.value)
+            findNavController().navigate(action)
+        }
+        binding.seeTopRatedMovies.setOnClickListener {
+            val action = TvShowFragmentDirections.actionTvShowFragmentToFoundShowsFragment("TOP_RATED")
+            tvShowsViewModel.setMoviePagingValue(tvShowsViewModel.topRatedTvShows.value)
+            findNavController().navigate(action)
+        }
+        binding.seeAiringTodayTvShows.setOnClickListener {
+            val action = TvShowFragmentDirections.actionTvShowFragmentToFoundShowsFragment("UPCOMING")
+            tvShowsViewModel.setMoviePagingValue(tvShowsViewModel.upcomingTvShows.value)
+            findNavController().navigate(action)
+
+        }
 
     }
 

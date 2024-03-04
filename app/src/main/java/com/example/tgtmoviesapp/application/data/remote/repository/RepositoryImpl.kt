@@ -17,10 +17,10 @@ import javax.inject.Inject
 class RepositoryImpl @Inject constructor(
     private val api: Api
 ) : Repository {
-    override suspend fun getPopularMovies(apiKey:String?): Flow<Resource<Movies>>  = flow {
+    override suspend fun getPopularMovies(apiKey:String?,page:Int): Flow<Resource<Movies>>  = flow {
 
         try {
-            val response = api.getPopularMovies(API_KEY)
+            val response = api.getPopularMovies(API_KEY, page = page)
             emit(Resource.Loading(loading = true))
             if (response.isSuccessful) {
                 emit(Resource.Success(response.body()?.toMovies()))
@@ -36,10 +36,10 @@ class RepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getTopRatedMovies(apiKey: String?): Flow<Resource<Movies>> =flow{
+    override suspend fun getTopRatedMovies(apiKey: String?,page:Int): Flow<Resource<Movies>> =flow{
 
         try {
-            val response = api.getTopRatedMovies(apiKey=API_KEY)
+            val response = api.getTopRatedMovies(apiKey=API_KEY, page = page)
             emit(Resource.Loading(loading = true))
             if (response.isSuccessful) {
                 emit(Resource.Success(response.body()?.toMovies()))
@@ -55,10 +55,10 @@ class RepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getUpcomingMovies(apiKey:String?): Flow<Resource<Movies>> = flow {
+    override suspend fun getUpcomingMovies(apiKey:String?,page:Int): Flow<Resource<Movies>> = flow {
 
         try {
-            val response = api.getUpcomingMovies(apiKey= API_KEY)
+            val response = api.getUpcomingMovies(apiKey= API_KEY, page = page)
             emit(Resource.Loading(loading = true))
             if (response.isSuccessful) {
                 emit(Resource.Success(response.body()?.toMovies()))
@@ -74,9 +74,9 @@ class RepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getPITMovies(apiKey: String?): Flow<Resource<Movies>> =flow {
+    override suspend fun getPITMovies(apiKey: String?,page:Int): Flow<Resource<Movies>> =flow {
         try {
-            val response = api.getPITMovies(apiKey= API_KEY)
+            val response = api.getPITMovies(apiKey= API_KEY, page = page)
             emit(Resource.Loading(loading = true))
             if (response.isSuccessful) {
                 emit(Resource.Success(response.body()?.toMovies()))
@@ -148,9 +148,9 @@ class RepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getTrendingMovies(apiKey: String?): Flow<Resource<Movies>> = flow {
+    override suspend fun getTrendingMovies(apiKey: String?,page:Int): Flow<Resource<Movies>> = flow {
         try {
-            val response = api.getTrendingMovies(apiKey= API_KEY)
+            val response = api.getTrendingMovies(apiKey= API_KEY, page = page)
             emit(Resource.Loading(loading = true))
             if (response.isSuccessful) {
                 emit(Resource.Success(response.body()?.toMovies()))
