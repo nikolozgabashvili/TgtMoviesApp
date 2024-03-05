@@ -1,10 +1,11 @@
-package com.example.tgtmoviesapp.application.presentation.fragments
+package com.example.tgtmoviesapp.application.presentation.fragments.search
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -12,12 +13,11 @@ import com.example.tgtmoviesapp.R
 import com.example.tgtmoviesapp.application.presentation.viewModels.MoviesViewModel
 import com.example.tgtmoviesapp.databinding.FragmentSearchBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class SearchFragment : Fragment() {
+class SearchFragment : Fragment(), View.OnClickListener {
 
     private var _binding:FragmentSearchBinding? = null
     private val binding get() = _binding!!
@@ -43,10 +43,18 @@ class SearchFragment : Fragment() {
         collectTrendingNames()
 
         binding.searchButton.setOnClickListener{
-            val action = SearchFragmentDirections.actionSearchFragment2ToSecondSearchFragment("NONE")
-            findNavController().navigate(R.id.action_searchFragment2_to_secondSearchFragment)
+            val action = SearchFragmentDirections.actionSearchFragment2ToSecondSearchFragment("","NONE")
+            findNavController().navigate(action)
 
         }
+        binding.trendingMovie1.setOnClickListener (this)
+        binding.trendingMovie2.setOnClickListener (this)
+        binding.trendingMovie3.setOnClickListener (this)
+        binding.trendingMovie4.setOnClickListener (this)
+        binding.trendingMovie5.setOnClickListener (this)
+        binding.trendingMovie6.setOnClickListener (this)
+        binding.trendingMovie7.setOnClickListener (this)
+        binding.trendingMovie8.setOnClickListener (this)
     }
 
     private fun collectTrendingNames() {
@@ -77,6 +85,13 @@ class SearchFragment : Fragment() {
             binding.trendingMovie6.text = movieNameList[5]
             binding.trendingMovie7.text = movieNameList[6]
             binding.trendingMovie8.text = movieNameList[7]
+        }
+    }
+
+    override fun onClick(v: View?) {
+        if (v is TextView){
+            val action = SearchFragmentDirections.actionSearchFragment2ToSecondSearchFragment(v.text.toString(),"NONE")
+            findNavController().navigate(action)
         }
     }
 

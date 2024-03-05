@@ -5,4 +5,5 @@
     <color name="mainColor">#122727</color>
     <color name="headLineColor">#0f1c1c</color>
     <color name="green">#42D302</color>
+    <color name="gray">#DDDDDDDD</color>
 </resources>

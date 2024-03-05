@@ -8,6 +8,7 @@ import com.example.tgtmoviesapp.application.domain.usecases.GetPopularPeopleUseC
 import com.example.tgtmoviesapp.application.domain.usecases.GetTrendingPeopleUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,14 +25,13 @@ class CelebritiesViewModel @Inject constructor(
     private var _trendingPeople  = MutableStateFlow<Resource<Person>?>(null)
     val trendingPeople : MutableStateFlow<Resource<Person>?> = _trendingPeople
 
+    private var _peoplePaging  = MutableStateFlow<Resource<Person>?>(null)
+    val peoplePaging : MutableStateFlow<Resource<Person>?> = _peoplePaging
+
     init {
         getPopularPeople()
         getTrendingPeople()
     }
-    fun activate(){
-
-    }
-
     private fun getTrendingPeople() {
         viewModelScope.launch {
             trendingPeopleUseCase.execute().collect { resource ->
@@ -54,6 +54,24 @@ class CelebritiesViewModel @Inject constructor(
             }
 
         }
+    }
+     fun getPopularCelebrityByPage(page:Int = 1){
+        viewModelScope.launch {
+            popularPeopleUseCase.execute(page).collect{
+                _peoplePaging.value = it
+            }
+        }
+    }
+     fun getTrendingCelebrityByPage(page:Int = 1){
+        viewModelScope.launch {
+            trendingPeopleUseCase.execute(page).collect{
+                _peoplePaging.value = it
+            }
+        }
+    }
+
+    fun setPeoplePagingValue(value: Resource<Person>?) {
+        _peoplePaging.value = value
     }
 
 

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/searchFragment2"
-        android:name="com.example.tgtmoviesapp.application.presentation.fragments.SearchFragment"
+        android:name="com.example.tgtmoviesapp.application.presentation.fragments.search.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" >
         <action
@@ -16,12 +16,16 @@
     </fragment>
     <fragment
         android:id="@+id/secondSearchFragment"
-        android:name="com.example.tgtmoviesapp.application.presentation.fragments.SecondSearchFragment"
+        android:name="com.example.tgtmoviesapp.application.presentation.fragments.search.SecondSearchFragment"
         android:label="fragment_second_search"
         tools:layout="@layout/fragment_second_search" >
         <argument
             android:name="movieType"
             app:argType="string"
             android:defaultValue="NONE" />
+        <argument
+            android:name="searchviewText"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 </navigation>

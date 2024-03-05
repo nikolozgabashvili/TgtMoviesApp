@@ -61,12 +61,14 @@ class TopRatedShowsAdapter : RecyclerView.Adapter<TopRatedShowsAdapter.TopViewHo
             }
         }else{
             item?.let {
-                holder.binding.movieGenre.maxWidth = 470
-                holder.binding.movieTitle.maxWidth = 470
+                holder.binding.movieGenre.maxWidth = 600
+                holder.binding.movieTitle.maxWidth = 600
                 holder.binding.constraint.minHeight = 400
-                holder.binding.constraint.minWidth = 1000
+                holder.binding.constraint.minWidth = 1100
                 holder.binding.imageView.minimumHeight = 400
                 holder.binding.imageView.minimumWidth = 300
+                holder.binding.movieTitle.textSize = 18f
+                holder.binding.movieGenre.textSize = 16f
                 holder.binding.ratingLayout.visibility = View.VISIBLE
 
                 Glide.with(holder.binding.root.context)

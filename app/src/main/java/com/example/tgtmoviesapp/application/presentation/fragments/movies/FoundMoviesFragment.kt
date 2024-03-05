@@ -1,4 +1,4 @@
-package com.example.tgtmoviesapp.application.presentation.fragments
+package com.example.tgtmoviesapp.application.presentation.fragments.movies
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -81,8 +81,15 @@ class FoundMoviesFragment : Fragment() {
                             val lst = currentMovieList + movies.results as List<Movies.Result?>
                             currentMovieList = lst
                             updateMoviesAdapter(lst)
-                            delay(100)
-                            requestNextPage = true
+                            movies.page?.let {
+                                movies.totalPages?.let {
+                                    if (movies.page<movies.totalPages) {
+                                        delay(100)
+                                        requestNextPage = true
+                                    }
+                                }
+                            }
+
 
                         }
                     }
@@ -102,8 +109,14 @@ class FoundMoviesFragment : Fragment() {
                             val lst = currentMovieList + movies.results as List<Movies.Result?>
                             currentMovieList = lst
                             updateMoviesAdapter(lst)
-                            delay(100)
-                            requestNextPage = true
+                            movies.page?.let {
+                                movies.totalPages?.let {
+                                    if (movies.page<movies.totalPages) {
+                                        delay(100)
+                                        requestNextPage = true
+                                    }
+                                }
+                            }
 
                         }
                     }

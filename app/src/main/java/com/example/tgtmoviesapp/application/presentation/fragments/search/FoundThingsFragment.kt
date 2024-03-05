@@ -1,4 +1,4 @@
-package com.example.tgtmoviesapp.application.presentation.fragments
+package com.example.tgtmoviesapp.application.presentation.fragments.search
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

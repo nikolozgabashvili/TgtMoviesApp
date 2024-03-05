@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".application.presentation.fragments.TvShowFragment">
+    tools:context=".application.presentation.fragments.tvShows.TvShowFragment">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -16,9 +16,10 @@
 
         <TextView
 
-            android:id="@+id/textView"
+            android:id="@+id/header"
             android:layout_width="match_parent"
-            android:layout_height="50dp"            android:background="@color/headLineColor"
+            android:layout_height="50dp"
+            android:background="@color/headLineColor"
             android:gravity="center_vertical"
             android:padding="6dp"
             android:text="Tv Shows"
@@ -32,11 +33,11 @@
 
 
     <ScrollView
-        android:scrollbars="none"
-
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/mainColor"
+        android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

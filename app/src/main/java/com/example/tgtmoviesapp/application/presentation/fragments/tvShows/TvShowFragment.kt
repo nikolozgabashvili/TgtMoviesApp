@@ -1,5 +1,6 @@
-package com.example.tgtmoviesapp.application.presentation.fragments
+package com.example.tgtmoviesapp.application.presentation.fragments.tvShows
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -52,6 +53,22 @@ class TvShowFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initAdapters()
         setupObservers()
+        setupListeners()
+
+
+    }
+
+    private fun setupListeners() {
+
+        binding.scrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
+
+            if (scrollY>0){
+                binding.header.setBackgroundColor(Color.parseColor("#122727"))
+            }else{
+                binding.header.setBackgroundColor(Color.parseColor("#0f1c1c"))
+            }
+
+        }
 
         binding.seePopularTvShows.setOnClickListener {
             val action = TvShowFragmentDirections.actionTvShowFragmentToFoundShowsFragment("POPULAR")
@@ -74,7 +91,6 @@ class TvShowFragment : Fragment() {
             findNavController().navigate(action)
 
         }
-
     }
 
     private fun setupObservers() {

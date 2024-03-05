@@ -6,7 +6,7 @@
     app:startDestination="@id/moviesFragment">
     <fragment
         android:id="@+id/moviesFragment"
-        android:name="com.example.tgtmoviesapp.application.presentation.fragments.MoviesFragment"
+        android:name="com.example.tgtmoviesapp.application.presentation.fragments.movies.MoviesFragment"
         android:label="fragment_movies"
         tools:layout="@layout/fragment_movies" >
         <action
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/tvShowFragment"
-        android:name="com.example.tgtmoviesapp.application.presentation.fragments.TvShowFragment"
+        android:name="com.example.tgtmoviesapp.application.presentation.fragments.tvShows.TvShowFragment"
         android:label="fragment_tv_show"
         tools:layout="@layout/fragment_tv_show" >
         <action
@@ -31,7 +31,7 @@
     </fragment>
     <fragment
         android:id="@+id/celebritiesFragment"
-        android:name="com.example.tgtmoviesapp.application.presentation.fragments.CelebritiesFragment"
+        android:name="com.example.tgtmoviesapp.application.presentation.fragments.celebrities.CelebritiesFragment"
         android:label="CelebritiesFragment" >
         <action
             android:id="@+id/action_celebritiesFragment_to_search_navigation"
@@ -43,7 +43,7 @@
     <include app:graph="@navigation/search_navigation" />
     <fragment
         android:id="@+id/foundMoviesFragment"
-        android:name="com.example.tgtmoviesapp.application.presentation.fragments.FoundMoviesFragment"
+        android:name="com.example.tgtmoviesapp.application.presentation.fragments.movies.FoundMoviesFragment"
         android:label="fragment_found_movies"
         tools:layout="@layout/fragment_found_movies" >
         <argument
@@ -53,12 +53,17 @@
     </fragment>
     <fragment
         android:id="@+id/foundCelebritiesFragment"
-        android:name="com.example.tgtmoviesapp.application.presentation.fragments.FoundCelebritiesFragment"
+        android:name="com.example.tgtmoviesapp.application.presentation.fragments.celebrities.FoundCelebritiesFragment"
         android:label="fragment_found_celebrities"
-        tools:layout="@layout/fragment_found_celebrities" />
+        tools:layout="@layout/fragment_found_celebrities" >
+        <argument
+            android:name="dataType"
+            app:argType="string"
+            android:defaultValue="NONE" />
+    </fragment>
     <fragment
         android:id="@+id/foundShowsFragment"
-        android:name="com.example.tgtmoviesapp.application.presentation.fragments.FoundShowsFragment"
+        android:name="com.example.tgtmoviesapp.application.presentation.fragments.tvShows.FoundShowsFragment"
         android:label="fragment_found_shows"
         tools:layout="@layout/fragment_found_shows" >
         <argument

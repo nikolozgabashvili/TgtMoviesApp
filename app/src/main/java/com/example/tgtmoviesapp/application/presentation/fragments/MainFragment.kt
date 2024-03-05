@@ -59,8 +59,8 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupObservers()
 
-        val navhost = childFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val navController = navhost.findNavController()
+        val navHost = childFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHost.findNavController()
 
         val bottomNavView =binding.bottomNavigationView
 
@@ -232,7 +232,9 @@ class MainFragment : Fragment() {
 
 
         }
+
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

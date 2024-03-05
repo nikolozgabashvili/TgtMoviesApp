@@ -1,4 +1,4 @@
-package com.example.tgtmoviesapp.application.presentation.fragments
+package com.example.tgtmoviesapp.application.presentation.fragments.tvShows
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -12,17 +12,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tgtmoviesapp.R
 import com.example.tgtmoviesapp.application.domain.models.DisplayIndicator
-import com.example.tgtmoviesapp.application.domain.models.Genre
-import com.example.tgtmoviesapp.application.domain.models.Movies
 import com.example.tgtmoviesapp.application.domain.models.TvGenre
 import com.example.tgtmoviesapp.application.domain.models.TvShows
-import com.example.tgtmoviesapp.application.presentation.adapters.movieAdapters.TopRatedMoviesAdapter
 import com.example.tgtmoviesapp.application.presentation.adapters.tvshowAdapters.TopRatedShowsAdapter
-import com.example.tgtmoviesapp.application.presentation.adapters.tvshowAdapters.TvShowsAdapter
-import com.example.tgtmoviesapp.application.presentation.viewModels.MoviesViewModel
 import com.example.tgtmoviesapp.application.presentation.viewModels.SearchViewModel
 import com.example.tgtmoviesapp.application.presentation.viewModels.TvShowsViewModel
-import com.example.tgtmoviesapp.databinding.FragmentFoundMoviesBinding
 import com.example.tgtmoviesapp.databinding.FragmentFoundShowsBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -80,8 +74,14 @@ class FoundShowsFragment : Fragment() {
                             val lst = currentMovieList + movies.results as List<TvShows.Result?>
                             currentMovieList = lst
                             updateTvAdapter(lst)
-                            delay(100)
-                            requestNextPage = true
+                            movies.page?.let {
+                                movies.totalPages?.let {
+                                    if (movies.page<movies.totalPages) {
+                                        delay(100)
+                                        requestNextPage = true
+                                    }
+                                }
+                            }
 
                         }
                     }
@@ -99,8 +99,14 @@ class FoundShowsFragment : Fragment() {
                             val lst = currentMovieList + movies.results as List<TvShows.Result?>
                             currentMovieList = lst
                             updateTvAdapter(lst)
-                            delay(100)
-                            requestNextPage = true
+                            movies.page?.let {
+                                movies.totalPages?.let {
+                                    if (movies.page<movies.totalPages) {
+                                        delay(100)
+                                        requestNextPage = true
+                                    }
+                                }
+                            }
 
                         }
                     }
@@ -144,6 +150,7 @@ class FoundShowsFragment : Fragment() {
                         "NONE" -> {
                             val txt = requireActivity().findViewById<SearchView>(R.id.searchView)
                             searchViewModel.searchTvShowsByPage(txt.query.toString(), ++currentPage)
+                            println("page:$currentPage")
                         }
 
                         "POPULAR" -> {
@@ -165,6 +172,7 @@ class FoundShowsFragment : Fragment() {
 
                     }
                     requestNextPage = false
+
 
                 }
             }

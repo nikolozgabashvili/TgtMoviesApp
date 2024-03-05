@@ -1,5 +1,6 @@
-package com.example.tgtmoviesapp.application.presentation.fragments
+package com.example.tgtmoviesapp.application.presentation.fragments.movies
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -54,6 +55,21 @@ class MoviesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initAdapters()
         setupObservers()
+        setupListeners()
+
+
+    }
+
+    private fun setupListeners() {
+        binding.scrollView2.setOnScrollChangeListener { _, _, scrollY, _, _ ->
+
+            if (scrollY>0){
+                binding.header.setBackgroundColor(Color.parseColor("#122727"))
+            }else{
+                binding.header.setBackgroundColor(Color.parseColor("#0f1c1c"))
+            }
+
+        }
 
         binding.seePopularMovies.setOnClickListener {
             val action = MoviesFragmentDirections.actionMoviesFragmentToFoundMoviesFragment("POPULAR")

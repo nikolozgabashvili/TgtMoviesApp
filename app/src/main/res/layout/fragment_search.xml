@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/mainColor"
     android:orientation="vertical"
-    tools:context=".application.presentation.fragments.SearchFragment">
+    tools:context=".application.presentation.fragments.search.SearchFragment">
 
     <LinearLayout
         android:background="@color/headLineColor"
@@ -75,7 +75,7 @@
                 android:layout_margin="8dp"
                 android:text="Trending"
                 android:textColor="@color/green"
-                android:textSize="24sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/trendingMovie2"
@@ -84,7 +84,7 @@
                 android:layout_margin="8dp"
                 android:text="Trending"
                 android:textColor="@color/green"
-                android:textSize="24sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/trendingMovie3"
@@ -93,7 +93,7 @@
                 android:layout_margin="8dp"
                 android:text="Trending"
                 android:textColor="@color/green"
-                android:textSize="24sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/trendingMovie4"
@@ -102,7 +102,7 @@
                 android:layout_margin="8dp"
                 android:text="Trending"
                 android:textColor="@color/green"
-                android:textSize="24sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/trendingMovie5"
@@ -111,7 +111,7 @@
                 android:layout_margin="8dp"
                 android:text="Trending"
                 android:textColor="@color/green"
-                android:textSize="24sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/trendingMovie6"
@@ -120,7 +120,7 @@
                 android:layout_margin="8dp"
                 android:text="Trending"
                 android:textColor="@color/green"
-                android:textSize="24sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/trendingMovie7"
@@ -129,7 +129,7 @@
                 android:layout_margin="8dp"
                 android:text="Trending"
                 android:textColor="@color/green"
-                android:textSize="24sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/trendingMovie8"
@@ -138,7 +138,7 @@
                 android:layout_margin="8dp"
                 android:text="Trending"
                 android:textColor="@color/green"
-                android:textSize="24sp" />
+                android:textSize="18sp" />
 
         </LinearLayout>
 

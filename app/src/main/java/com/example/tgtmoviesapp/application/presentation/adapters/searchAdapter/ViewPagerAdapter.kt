@@ -1,12 +1,11 @@
 package com.example.tgtmoviesapp.application.presentation.adapters.searchAdapter
 
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.tgtmoviesapp.application.presentation.fragments.FoundCelebritiesFragment
-import com.example.tgtmoviesapp.application.presentation.fragments.FoundMoviesFragment
-import com.example.tgtmoviesapp.application.presentation.fragments.FoundShowsFragment
-import com.example.tgtmoviesapp.application.presentation.fragments.FoundThingsFragment
+import com.example.tgtmoviesapp.application.presentation.fragments.celebrities.FoundCelebritiesFragment
+import com.example.tgtmoviesapp.application.presentation.fragments.movies.FoundMoviesFragment
+import com.example.tgtmoviesapp.application.presentation.fragments.tvShows.FoundShowsFragment
+import com.example.tgtmoviesapp.application.presentation.fragments.search.FoundThingsFragment
 
 class ViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 

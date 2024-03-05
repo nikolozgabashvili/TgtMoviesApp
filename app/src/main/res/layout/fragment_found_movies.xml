@@ -6,4 +6,4 @@
     android:layout_height="match_parent"
     android:background="@color/mainColor"
     android:orientation="vertical"
-    tools:context=".application.presentation.fragments.FoundMoviesFragment"/>
+    tools:context=".application.presentation.fragments.movies.FoundMoviesFragment"/>

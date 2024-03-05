@@ -67,15 +67,18 @@ class TopRatedPeopleAdapter : RecyclerView.Adapter<TopRatedPeopleAdapter.TopView
         }else
         {
             item?.let {
-                holder.binding.movieGenre.maxWidth = 470
-                holder.binding.movieTitle.maxWidth = 470
+                holder.binding.movieGenre.maxWidth = 600
+                holder.binding.movieTitle.maxWidth = 600
                 holder.binding.constraint.minHeight = 400
-                holder.binding.constraint.minWidth = 1000
+                holder.binding.constraint.minWidth = 1100
                 holder.binding.imageView.minimumHeight = 400
                 holder.binding.imageView.minimumWidth = 300
+                holder.binding.movieTitle.textSize = 18f
+                holder.binding.movieGenre.textSize = 16f
                 holder.binding.ratingLayout.visibility = View. INVISIBLE
                 holder.binding.movieGenre.text=item.knownForDepartment
                 holder.binding.movieTitle.text=item.name
+
 
                 Glide.with(holder.binding.root.context)
                     .load(Constants.IMAGE_BASE_URL + it.profilePath)

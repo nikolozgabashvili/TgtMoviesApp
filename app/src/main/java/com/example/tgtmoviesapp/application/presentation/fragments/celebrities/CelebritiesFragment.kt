@@ -1,5 +1,6 @@
-package com.example.tgtmoviesapp.application.presentation.fragments
+package com.example.tgtmoviesapp.application.presentation.fragments.celebrities
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -55,6 +57,32 @@ class CelebritiesFragment : Fragment() {
         initPopularAdapters()
         initTrendingAdapters()
         setUpObservers()
+        setupListeners()
+
+    }
+
+    private fun setupListeners() {
+        binding.scrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
+
+            if (scrollY>0){
+                binding.header.setBackgroundColor(Color.parseColor("#122727"))
+            }else{
+                binding.header.setBackgroundColor(Color.parseColor("#0f1c1c"))
+            }
+
+        }
+
+        binding.seePopularPeople.setOnClickListener {
+            val action = CelebritiesFragmentDirections.actionCelebritiesFragmentToFoundCelebritiesFragment("POPULAR")
+            celebViewModel.setPeoplePagingValue(celebViewModel.popularPeople.value)
+            findNavController().navigate(action)
+        }
+        binding.seetrendingPeople.setOnClickListener {
+            val action = CelebritiesFragmentDirections.actionCelebritiesFragmentToFoundCelebritiesFragment("TRENDING")
+            celebViewModel.setPeoplePagingValue(celebViewModel.trendingPeople.value)
+            findNavController().navigate(action)
+        }
+
     }
 
     private fun setUpObservers() {

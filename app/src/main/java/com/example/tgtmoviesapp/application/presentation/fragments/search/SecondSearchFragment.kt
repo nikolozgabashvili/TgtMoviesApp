@@ -1,5 +1,6 @@
-package com.example.tgtmoviesapp.application.presentation.fragments
+package com.example.tgtmoviesapp.application.presentation.fragments.search
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +20,8 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+
+
 
 
 class SecondSearchFragment : Fragment() {
@@ -57,13 +60,17 @@ class SecondSearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         successList.value = Array(3) { false }
+        val searchViewText = arguments?.getString("searchviewText")?:""
+
         initViews()
         initAdapters()
         setupViewPager()
         setupObservers()
-
         search()
 
+
+        if (searchViewText.isNotEmpty())
+            searchView.setQuery(searchViewText,false)
 
         binding.backButton.setOnClickListener {
             activity?.supportFragmentManager?.popBackStack()
@@ -84,6 +91,7 @@ class SecondSearchFragment : Fragment() {
         searchView = binding.searchView
         viewPager = binding.viewpager
         tabLayout = binding.tabLayout
+        searchView.isIconified = false
     }
 
     fun setDefaultViews() {
@@ -121,7 +129,7 @@ class SecondSearchFragment : Fragment() {
         lifecycleScope.launch {
             searchViewModel.searchNameList.collect {
 
-                if (it.isNotEmpty()) {
+                if (it.isNotEmpty()){
 
                     updateSearchAdapter(it)
                     miniSearchRecyclerView.visibility = View.VISIBLE
@@ -267,4 +275,9 @@ class SecondSearchFragment : Fragment() {
 
     }
 
+}
+private fun  Array<Boolean>.isAllTrue(): Boolean {
+    return this.all {
+        it
+    }
 }

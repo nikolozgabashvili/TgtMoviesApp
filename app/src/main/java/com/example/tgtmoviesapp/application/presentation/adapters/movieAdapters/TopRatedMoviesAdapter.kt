@@ -52,6 +52,7 @@ class TopRatedMoviesAdapter : RecyclerView.Adapter<TopRatedMoviesAdapter.TopView
             item?.let {
                 holder.binding.movieGenre.maxWidth = 470
                 holder.binding.movieTitle.maxWidth = 470
+
                 holder.binding.movieTitle.text = it.title
                 Glide.with(holder.binding.root.context)
                     .load(IMAGE_BASE_URL + it.posterPath)
@@ -62,8 +63,10 @@ class TopRatedMoviesAdapter : RecyclerView.Adapter<TopRatedMoviesAdapter.TopView
             holder.binding.constraint.minWidth = 700
         } else {
             item?.let {
-                holder.binding.movieGenre.maxWidth = 470
-                holder.binding.movieTitle.maxWidth = 470
+                holder.binding.movieGenre.maxWidth = 600
+                holder.binding.movieTitle.maxWidth = 600
+                holder.binding.movieTitle.textSize = 18f
+                holder.binding.movieGenre.textSize = 16f
                 holder.binding.movieTitle.text = it.title
                 Glide.with(holder.binding.root.context)
                     .load(IMAGE_BASE_URL + it.posterPath)
@@ -72,7 +75,7 @@ class TopRatedMoviesAdapter : RecyclerView.Adapter<TopRatedMoviesAdapter.TopView
 
                     .into(holder.binding.imageView)
                 holder.binding.constraint.minHeight = 400
-                holder.binding.constraint.minWidth = 1000
+                holder.binding.constraint.minWidth = 1100
                 holder.binding.ratingLayout.visibility = View.VISIBLE
                 item.voteAverage?.let {
                     holder.binding.ratingBar.stepSize = 2f
