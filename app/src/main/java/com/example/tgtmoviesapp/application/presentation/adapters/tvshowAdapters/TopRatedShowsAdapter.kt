@@ -49,9 +49,6 @@ class TopRatedShowsAdapter : RecyclerView.Adapter<TopRatedShowsAdapter.TopViewHo
         if (typeIndicator!=DisplayIndicator.FOUND_IMAGE_TYPE) {
             item?.let {
                 holder.binding.constraint.minWidth=700
-                holder.binding.movieGenre.maxWidth = 470
-                holder.binding.movieTitle.maxWidth = 470
-
                 Glide.with(holder.binding.root.context)
                     .load(Constants.IMAGE_BASE_URL + it.posterPath)
                     .override(100, 100)
@@ -61,10 +58,13 @@ class TopRatedShowsAdapter : RecyclerView.Adapter<TopRatedShowsAdapter.TopViewHo
             }
         }else{
             item?.let {
-                holder.binding.movieGenre.maxWidth = 600
-                holder.binding.movieTitle.maxWidth = 600
-                holder.binding.constraint.minHeight = 400
-                holder.binding.constraint.minWidth = 1100
+                holder.binding.constraint.layoutParams = ViewGroup.MarginLayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    setMargins(10, 10, 10, 10)
+                }
+
                 holder.binding.imageView.minimumHeight = 400
                 holder.binding.imageView.minimumWidth = 300
                 holder.binding.movieTitle.textSize = 18f

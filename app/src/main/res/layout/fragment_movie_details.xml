@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/mainColor"
     android:orientation="vertical"
-    tools:context=".application.presentation.fragments.DetailsFragment">
+    tools:context=".application.presentation.fragments.MovieDetailsFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -142,7 +142,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/movieTitle" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
+                android:id="@+id/genreRecycler"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
@@ -164,7 +164,7 @@
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/posterImage"
-                app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+                app:layout_constraintTop_toBottomOf="@+id/genreRecycler" />
 
             <TextView
                 android:id="@+id/collection"
@@ -214,6 +214,7 @@
                 app:layout_constraintTop_toTopOf="@+id/cast" />
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/castRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -224,6 +225,49 @@
                 tools:itemCount="1"
                 tools:listitem="@layout/movie_item_default" />
 
+            <TextView
+                android:id="@+id/videos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="Videos"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/castRecycler" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/videoRecyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/videos"
+                tools:itemCount="1"
+                tools:listitem="@layout/movie_item_default" />
+            <TextView
+                android:id="@+id/information"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="Information"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/videoRecyclerview" />
+
+            <TextView
+                android:id="@+id/RecommendedMovies"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="Recommended"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/information" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

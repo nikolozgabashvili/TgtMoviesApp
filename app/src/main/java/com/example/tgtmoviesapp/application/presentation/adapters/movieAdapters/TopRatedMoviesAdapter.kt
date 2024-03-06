@@ -50,8 +50,7 @@ class TopRatedMoviesAdapter : RecyclerView.Adapter<TopRatedMoviesAdapter.TopView
         val item = gridItemList[position]
         if (typeIndicator != DisplayIndicator.FOUND_IMAGE_TYPE) {
             item?.let {
-                holder.binding.movieGenre.maxWidth = 470
-                holder.binding.movieTitle.maxWidth = 470
+
 
                 holder.binding.movieTitle.text = it.title
                 Glide.with(holder.binding.root.context)
@@ -63,8 +62,7 @@ class TopRatedMoviesAdapter : RecyclerView.Adapter<TopRatedMoviesAdapter.TopView
             holder.binding.constraint.minWidth = 700
         } else {
             item?.let {
-                holder.binding.movieGenre.maxWidth = 600
-                holder.binding.movieTitle.maxWidth = 600
+
                 holder.binding.movieTitle.textSize = 18f
                 holder.binding.movieGenre.textSize = 16f
                 holder.binding.movieTitle.text = it.title
@@ -74,8 +72,12 @@ class TopRatedMoviesAdapter : RecyclerView.Adapter<TopRatedMoviesAdapter.TopView
                     .override(300, 400)
 
                     .into(holder.binding.imageView)
-                holder.binding.constraint.minHeight = 400
-                holder.binding.constraint.minWidth = 1100
+                holder.binding.constraint.layoutParams = ViewGroup.MarginLayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    setMargins(10, 10, 10, 10)
+                }
                 holder.binding.ratingLayout.visibility = View.VISIBLE
                 item.voteAverage?.let {
                     holder.binding.ratingBar.stepSize = 2f

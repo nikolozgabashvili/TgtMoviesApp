@@ -12,18 +12,22 @@ import com.example.tgtmoviesapp.application.domain.models.DisplayIndicator
 import com.example.tgtmoviesapp.application.domain.models.Person
 import com.example.tgtmoviesapp.databinding.MovieItemLongBinding
 
-class TopRatedPeopleAdapter : RecyclerView.Adapter<TopRatedPeopleAdapter.TopViewHolder>() {
+class TopRatedPeopleAdapter() :
+    RecyclerView.Adapter<TopRatedPeopleAdapter.TopViewHolder>() {
 
     var gridItemList: List<Person.Result?> = emptyList()
     var typeIndicator: DisplayIndicator = DisplayIndicator.NONE
+
+
     fun setPersonList(
         topRatedClass: List<Person.Result?>,
-        typeIndicator: DisplayIndicator = DisplayIndicator.NONE
-    ) {
+        typeIndicator: DisplayIndicator = DisplayIndicator.NONE,
+
+        ) {
         topRatedClass.let {
+
             gridItemList = it
             this.typeIndicator = typeIndicator
-
         }
         notifyDataSetChanged()
 
@@ -36,6 +40,7 @@ class TopRatedPeopleAdapter : RecyclerView.Adapter<TopRatedPeopleAdapter.TopView
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopViewHolder {
         val binding =
             MovieItemLongBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+
         return TopViewHolder(binding)
     }
 
@@ -64,29 +69,32 @@ class TopRatedPeopleAdapter : RecyclerView.Adapter<TopRatedPeopleAdapter.TopView
                 holder.binding.imageView.scaleType = ImageView.ScaleType.FIT_CENTER
                 holder.binding.imageView.setBackgroundResource(R.drawable.circle_stroke)
             }
-        }else
-        {
+        } else {
             item?.let {
-                holder.binding.movieGenre.maxWidth = 600
-                holder.binding.movieTitle.maxWidth = 600
+
+                holder.binding.constraint.layoutParams = ViewGroup.MarginLayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    setMargins(10, 10, 10, 10)
+                }
+
                 holder.binding.constraint.minHeight = 400
-                holder.binding.constraint.minWidth = 1100
                 holder.binding.imageView.minimumHeight = 400
                 holder.binding.imageView.minimumWidth = 300
                 holder.binding.movieTitle.textSize = 18f
                 holder.binding.movieGenre.textSize = 16f
-                holder.binding.ratingLayout.visibility = View. INVISIBLE
-                holder.binding.movieGenre.text=item.knownForDepartment
-                holder.binding.movieTitle.text=item.name
+                holder.binding.ratingLayout.visibility = View.INVISIBLE
+                holder.binding.movieGenre.text = item.knownForDepartment
+                holder.binding.movieTitle.text = item.name
 
 
                 Glide.with(holder.binding.root.context)
                     .load(Constants.IMAGE_BASE_URL + it.profilePath)
-                    .placeholder(R.drawable.movies_item)
+                    .placeholder(R.drawable.person_item)
                     .override(300, 400)
 
                     .into(holder.binding.imageView)
-
 
 
             }

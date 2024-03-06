@@ -76,7 +76,7 @@ class FoundCelebritiesFragment : Fragment() {
                             updatePeopleAdapter(lst)
                             movies.page?.let {
                                 movies.totalPages?.let {
-                                    if (movies.page<movies.totalPages) {
+                                    if (movies.page < movies.totalPages) {
                                         delay(100)
                                         requestNextPage = true
                                     }
@@ -101,7 +101,7 @@ class FoundCelebritiesFragment : Fragment() {
                             updatePeopleAdapter(lst)
                             movies.page?.let {
                                 movies.totalPages?.let {
-                                    if (movies.page<movies.totalPages) {
+                                    if (movies.page < movies.totalPages) {
                                         delay(100)
                                         requestNextPage = true
                                     }
@@ -117,8 +117,9 @@ class FoundCelebritiesFragment : Fragment() {
     }
 
     private fun initAdapter() {
-        peopleAdapter = TopRatedPeopleAdapter()
+
         peopleRecyclerView = binding.root
+        peopleAdapter = TopRatedPeopleAdapter()
         peopleRecyclerView.adapter = peopleAdapter
         peopleRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -160,6 +161,7 @@ class FoundCelebritiesFragment : Fragment() {
 
     private fun updatePeopleAdapter(movies: List<Person.Result?>?) {
         movies?.let {
+
             peopleAdapter.setPersonList(movies, DisplayIndicator.FOUND_IMAGE_TYPE)
         }
 
