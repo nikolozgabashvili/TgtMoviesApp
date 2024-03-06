@@ -5,4 +5,7 @@
     <string name="back_button">back button</string>
     <string name="backgroundImage">backgroundImage</string>
     <string name="cast_and_crew"><![CDATA[Cast & Crew]]></string>
+    <string name="your_favourite_movies_and_tv_shows"><![CDATA[Your favourite Movies & Tv Shows]]></string>
+    <string name="rated_movies_and_tv_shows"><![CDATA[Rated Movies & Tv Shows]]></string>
+    <string name="set_light_and_dark_theme"><![CDATA[Set Light & Dark Theme]]></string>
 </resources>

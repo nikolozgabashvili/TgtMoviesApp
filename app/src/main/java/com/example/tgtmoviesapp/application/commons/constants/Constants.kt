@@ -8,4 +8,6 @@ object Constants {
     const val BACKDROP_IMAGE_BASE_URL = "http://image.tmdb.org/t/p/original"
     const val PROFILE_IMAGE_URL = "http://image.tmdb.org/t/p/original"
 
+    const val MOVIE_BY_ID = "https://api.themoviedb.org/3"
+
 }

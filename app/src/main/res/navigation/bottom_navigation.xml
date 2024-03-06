@@ -71,4 +71,9 @@
             app:argType="string"
             android:defaultValue="NONE" />
     </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.tgtmoviesapp.application.presentation.fragments.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>

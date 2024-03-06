@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tgtmoviesapp.R
@@ -20,6 +21,7 @@ import com.example.tgtmoviesapp.application.presentation.viewModels.TvShowsViewM
 import com.example.tgtmoviesapp.databinding.FragmentFoundShowsBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 
 class FoundShowsFragment : Fragment() {
@@ -56,6 +58,8 @@ class FoundShowsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         movieType = arguments?.getString("movieType", "NONE")?:"NONE"
+        binding.movieType.text = movieType
+        binding.backButton.setOnClickListener{findNavController().popBackStack()}
         initAdapter()
         setupObserver()
 
@@ -63,6 +67,7 @@ class FoundShowsFragment : Fragment() {
 
     private fun setupObserver() {
         if (movieType=="NONE") {
+            binding.header.visibility = View.GONE
             lifecycleScope.launch {
                 searchViewModel.tvShowsPaged.collect {
                     it?.let {
@@ -88,6 +93,7 @@ class FoundShowsFragment : Fragment() {
                 }
             }
         }else{
+            binding.header.visibility = View.VISIBLE
             lifecycleScope.launch {
                 tvSearchViewModel.tvPaging.collect {
                     it?.let {
@@ -129,7 +135,7 @@ class FoundShowsFragment : Fragment() {
 
     private fun initAdapter(){
         tvShowsAdapter = TopRatedShowsAdapter()
-        tvShowsRecyclerView = binding.root
+        tvShowsRecyclerView = binding.recycler
         tvShowsRecyclerView.adapter = tvShowsAdapter
         tvShowsRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -153,20 +159,20 @@ class FoundShowsFragment : Fragment() {
                             println("page:$currentPage")
                         }
 
-                        "POPULAR" -> {
+                        "Popular" -> {
 
                             tvSearchViewModel.getPopularTvByPage(++currentPage)
                         }
 
-                        "TRENDING" -> {
+                        "Trending" -> {
                             tvSearchViewModel.getTrendingTvByPage(++currentPage)
                         }
 
-                        "TOP_RATED" -> {
+                        "Top Rated" -> {
                             tvSearchViewModel.getTopRatedTvByPage(++currentPage)
                         }
 
-                        "UPCOMING" -> {
+                        "Airing Today" -> {
                             tvSearchViewModel.getUpcomingTvByPage(++currentPage)
                         }
 

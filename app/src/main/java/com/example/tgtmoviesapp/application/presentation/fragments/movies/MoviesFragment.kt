@@ -72,27 +72,27 @@ class MoviesFragment : Fragment() {
         }
 
         binding.seePopularMovies.setOnClickListener {
-            val action = MoviesFragmentDirections.actionMoviesFragmentToFoundMoviesFragment("POPULAR")
+            val action = MoviesFragmentDirections.actionMoviesFragmentToFoundMoviesFragment("Popular")
             mainViewModel.setMoviePagingValue(mainViewModel.movies.value)
             findNavController().navigate(action)
         }
         binding.seeTrendingMovies.setOnClickListener {
-            val action = MoviesFragmentDirections.actionMoviesFragmentToFoundMoviesFragment("TRENDING")
+            val action = MoviesFragmentDirections.actionMoviesFragmentToFoundMoviesFragment("Trending")
             mainViewModel.setMoviePagingValue(mainViewModel.trendingMovies.value)
             findNavController().navigate(action)
         }
         binding.seeTopRatedMovies.setOnClickListener {
-            val action = MoviesFragmentDirections.actionMoviesFragmentToFoundMoviesFragment("TOP_RATED")
+            val action = MoviesFragmentDirections.actionMoviesFragmentToFoundMoviesFragment("Top Rated")
             mainViewModel.setMoviePagingValue(mainViewModel.topRatedMovies.value)
             findNavController().navigate(action)
         }
         binding.seePlayingInTheatreMovies.setOnClickListener {
-            val action = MoviesFragmentDirections.actionMoviesFragmentToFoundMoviesFragment("PIT")
+            val action = MoviesFragmentDirections.actionMoviesFragmentToFoundMoviesFragment("Playing In Theatres")
             mainViewModel.setMoviePagingValue(mainViewModel.pITMovies.value)
             findNavController().navigate(action)
         }
         binding.seeUpcomingMovies.setOnClickListener {
-            val action = MoviesFragmentDirections.actionMoviesFragmentToFoundMoviesFragment("UPCOMING")
+            val action = MoviesFragmentDirections.actionMoviesFragmentToFoundMoviesFragment("Upcoming")
             mainViewModel.setMoviePagingValue(mainViewModel.upcomingMovies.value)
             findNavController().navigate(action)
         }

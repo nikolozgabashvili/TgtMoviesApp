@@ -65,16 +65,16 @@ class TopRatedShowsAdapter : RecyclerView.Adapter<TopRatedShowsAdapter.TopViewHo
                     setMargins(10, 10, 10, 10)
                 }
 
-                holder.binding.imageView.minimumHeight = 400
-                holder.binding.imageView.minimumWidth = 300
-                holder.binding.movieTitle.textSize = 18f
-                holder.binding.movieGenre.textSize = 16f
+                holder.binding.imageView.minimumHeight = 280
+                holder.binding.imageView.minimumWidth = 200
+                holder.binding.movieTitle.textSize = 16f
+                holder.binding.movieGenre.textSize = 14f
                 holder.binding.ratingLayout.visibility = View.VISIBLE
 
                 Glide.with(holder.binding.root.context)
                     .load(Constants.IMAGE_BASE_URL + it.posterPath)
                     .placeholder(R.drawable.movies_item)
-                    .override(300, 400)
+                    .override(200, 280)
 
                     .into(holder.binding.imageView)
 
@@ -84,7 +84,7 @@ class TopRatedShowsAdapter : RecyclerView.Adapter<TopRatedShowsAdapter.TopViewHo
                     holder.binding.ratingBar.rating = item.voteAverage.toFloat()
                 }
 
-                holder.binding.ratingText.text = "(${item.voteCount})"
+
 
             }
         }

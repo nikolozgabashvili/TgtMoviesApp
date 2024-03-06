@@ -86,24 +86,24 @@ class ViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
         if (itemCount == 4) {
             return when (position) {
                 0 -> "all"
-                1 -> "FoundMoviesFragment()"
-                2 -> "FoundShowsFragment()"
-                else -> "FoundCelebritiesFragment()"
+                1 -> "movies"
+                2 -> "tv Shows"
+                else -> "celebrities"
             }
         } else if (itemCount == 2 && !celebritySuccess) {
             return when (position) {
-                0 -> "FoundMoviesFragment()"
-                else -> "FoundShowsFragment()"
+                0 -> "movies"
+                else -> "tv Shows"
             }
         } else if (itemCount == 2 && !tvSuccess) {
             return when (position) {
-                0 -> "FoundMoviesFragment()"
-                else -> "FoundCelebritiesFragment()"
+                0 -> "movies"
+                else -> "celebrities"
             }
         } else if (itemCount == 2 && !movieSuccess) {
             return when (position) {
-                0 -> "FoundShowsFragment()"
-                else ->" FoundCelebritiesFragment()"
+                0 -> "tv Shows"
+                else ->"celebrities"
             }
         } else if (movieSuccess)
             return ""

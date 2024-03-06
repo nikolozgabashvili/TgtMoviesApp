@@ -23,7 +23,7 @@
             android:layout_weight="1"
             android:id="@+id/textView2"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_gravity="end"
             android:text="Search"
             android:textColor="@color/white"
@@ -31,13 +31,12 @@
 
             />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/searchButton"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            style="@android:style/Widget.Button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/search_item"
             android:backgroundTint="@color/headLineColor"
-            android:background="@drawable/search_item"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </LinearLayout>

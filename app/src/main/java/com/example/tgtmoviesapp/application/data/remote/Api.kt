@@ -10,6 +10,7 @@ import com.example.tgtmoviesapp.application.data.modelsDto.TvShowsDto
 
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface Api {
@@ -140,5 +141,10 @@ interface Api {
         @Query("page") page: Int = 1
     ): Response<TvShowsDto>
 
+    @GET("/movie/{movie_id}?language=en-US")
+    suspend fun getMovieById(
+        @Query("api_key") apiKey: String = API_KEY,
+        @Path("movie_id") movieId:Int
+    )
 
 }

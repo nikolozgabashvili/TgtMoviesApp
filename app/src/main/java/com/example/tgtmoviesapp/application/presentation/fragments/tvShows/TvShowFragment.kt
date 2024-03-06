@@ -71,22 +71,22 @@ class TvShowFragment : Fragment() {
         }
 
         binding.seePopularTvShows.setOnClickListener {
-            val action = TvShowFragmentDirections.actionTvShowFragmentToFoundShowsFragment("POPULAR")
+            val action = TvShowFragmentDirections.actionTvShowFragmentToFoundShowsFragment("Popular")
             tvShowsViewModel.setMoviePagingValue(tvShowsViewModel.popularTvShows.value)
             findNavController().navigate(action)
         }
         binding.seeTrendingTvShows.setOnClickListener {
-            val action = TvShowFragmentDirections.actionTvShowFragmentToFoundShowsFragment("TRENDING")
+            val action = TvShowFragmentDirections.actionTvShowFragmentToFoundShowsFragment("Trending")
             tvShowsViewModel.setMoviePagingValue(tvShowsViewModel.trendingTvShows.value)
             findNavController().navigate(action)
         }
         binding.seeTopRatedMovies.setOnClickListener {
-            val action = TvShowFragmentDirections.actionTvShowFragmentToFoundShowsFragment("TOP_RATED")
+            val action = TvShowFragmentDirections.actionTvShowFragmentToFoundShowsFragment("Top Rated")
             tvShowsViewModel.setMoviePagingValue(tvShowsViewModel.topRatedTvShows.value)
             findNavController().navigate(action)
         }
         binding.seeAiringTodayTvShows.setOnClickListener {
-            val action = TvShowFragmentDirections.actionTvShowFragmentToFoundShowsFragment("UPCOMING")
+            val action = TvShowFragmentDirections.actionTvShowFragmentToFoundShowsFragment("Airing Today")
             tvShowsViewModel.setMoviePagingValue(tvShowsViewModel.upcomingTvShows.value)
             findNavController().navigate(action)
 

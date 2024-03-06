@@ -63,13 +63,13 @@ class TopRatedMoviesAdapter : RecyclerView.Adapter<TopRatedMoviesAdapter.TopView
         } else {
             item?.let {
 
-                holder.binding.movieTitle.textSize = 18f
-                holder.binding.movieGenre.textSize = 16f
+                holder.binding.movieTitle.textSize = 16f
+                holder.binding.movieGenre.textSize = 14f
                 holder.binding.movieTitle.text = it.title
                 Glide.with(holder.binding.root.context)
                     .load(IMAGE_BASE_URL + it.posterPath)
                     .placeholder(R.drawable.movies_item)
-                    .override(300, 400)
+                    .override(200, 280)
 
                     .into(holder.binding.imageView)
                 holder.binding.constraint.layoutParams = ViewGroup.MarginLayoutParams(
@@ -83,9 +83,9 @@ class TopRatedMoviesAdapter : RecyclerView.Adapter<TopRatedMoviesAdapter.TopView
                     holder.binding.ratingBar.stepSize = 2f
                     holder.binding.ratingBar.rating = item.voteAverage.toFloat()
                 }
-                holder.binding.imageView.minimumHeight = 400
-                holder.binding.imageView.minimumWidth = 300
-                holder.binding.ratingText.text = "(${item.voteCount})"
+                holder.binding.imageView.minimumHeight = 280
+                holder.binding.imageView.minimumWidth = 200
+
 
             }
         }

@@ -8,6 +8,7 @@ import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tgtmoviesapp.R
@@ -20,6 +21,7 @@ import com.example.tgtmoviesapp.application.presentation.viewModels.SearchViewMo
 import com.example.tgtmoviesapp.databinding.FragmentFoundMoviesBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 class FoundMoviesFragment : Fragment() {
 
@@ -58,7 +60,8 @@ class FoundMoviesFragment : Fragment() {
 
 
         movieType = arguments?.getString("movieType", "NONE")?:"NONE"
-
+        binding.movieType.text = movieType
+        binding.backButton.setOnClickListener{findNavController().popBackStack()}
         initAdapter()
         setupObserver()
 
@@ -68,6 +71,7 @@ class FoundMoviesFragment : Fragment() {
 
 
         if (movieType == "NONE") {
+            binding.header.visibility=View.GONE
             lifecycleScope.launch {
 
                 searchViewModel.moviesPaged.collect {
@@ -96,6 +100,8 @@ class FoundMoviesFragment : Fragment() {
                 }
             }
         } else {
+            binding.header.visibility=View.VISIBLE
+
             lifecycleScope.launch {
                 moviesViewModel.moviePaging.collect {
                     it?.let {
@@ -139,7 +145,7 @@ class FoundMoviesFragment : Fragment() {
 
     private fun initAdapter() {
         moviesAdapter = TopRatedMoviesAdapter()
-        movieRecyclerView = binding.root
+        movieRecyclerView = binding.recycler
         movieRecyclerView.adapter = moviesAdapter
 
         movieRecyclerView.layoutManager =
@@ -162,24 +168,24 @@ class FoundMoviesFragment : Fragment() {
                             searchViewModel.searchMovieByPage(txt.query.toString(), ++currentPage)
                         }
 
-                        "POPULAR" -> {
+                        "Popular" -> {
 
                             moviesViewModel.getPopularMovieByPage(++currentPage)
                         }
 
-                        "TRENDING" -> {
+                        "Trending" -> {
                             moviesViewModel.getTrendingMovieByPage(++currentPage)
                         }
 
-                        "PIT" -> {
+                        "Playing In Theatres" -> {
                             moviesViewModel.getPITMovieByPage(++currentPage)
                         }
 
-                        "UPCOMING" -> {
+                        "Upcoming" -> {
                             moviesViewModel.getUpcomingMovieByPage(++currentPage)
                         }
 
-                        "TOP_RATED" -> {
+                        "Top Rated" -> {
                             moviesViewModel.getTopRatedMovieByPage(++currentPage)
                         }
                     }

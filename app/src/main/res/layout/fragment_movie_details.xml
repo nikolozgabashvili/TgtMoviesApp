@@ -33,6 +33,7 @@
             android:textSize="26sp" />
 
         <ImageView
+            android:id="@+id/favourites"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:contentDescription="@string/back_button"
@@ -40,6 +41,7 @@
             android:src="@drawable/favourite_empty" />
 
         <ImageView
+            android:id="@+id/rateMovie"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:contentDescription="@string/back_button"
@@ -47,6 +49,7 @@
             android:src="@drawable/star_border" />
 
         <ImageView
+            android:id="@+id/bookmark"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:contentDescription="@string/back_button"
@@ -102,6 +105,7 @@
                 android:id="@+id/ratingBar"
                 style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_width="wrap_content"
+                android:rating="5"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 app:layout_constraintStart_toEndOf="@+id/posterImage"
@@ -259,16 +263,70 @@
                 app:layout_constraintTop_toBottomOf="@+id/videoRecyclerview" />
 
             <TextView
-                android:id="@+id/RecommendedMovies"
+                android:id="@+id/recommendedMovies"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
                 android:text="Recommended"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/information" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recommendedRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recommendedMovies"
+                tools:itemCount="1"
+                tools:listitem="@layout/movie_item_default" />
 
+            <TextView
+                android:id="@+id/seeRecommended"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="See All>"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/recommendedMovies" />
+
+            <TextView
+                android:id="@+id/similarMovies"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="Recommended"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recommendedRecycler" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/similarRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/similarMovies"
+                tools:itemCount="1"
+                tools:listitem="@layout/movie_item_default" />
+
+            <TextView
+                android:id="@+id/seeSimilarMovies"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="See All>"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/similarMovies" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

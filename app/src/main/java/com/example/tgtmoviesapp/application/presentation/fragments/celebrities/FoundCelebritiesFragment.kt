@@ -8,6 +8,7 @@ import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tgtmoviesapp.R
@@ -19,6 +20,7 @@ import com.example.tgtmoviesapp.application.presentation.viewModels.SearchViewMo
 import com.example.tgtmoviesapp.databinding.FragmentFoundCelebritiesBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 
 class FoundCelebritiesFragment : Fragment() {
@@ -55,7 +57,9 @@ class FoundCelebritiesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         dataType = arguments?.getString("dataType", "NONE") ?: "NONE"
-
+        binding.movieType.text = dataType?.lowercase().toString().replaceFirstChar { it.titlecase(
+            Locale.getDefault()) }
+        binding.backButton.setOnClickListener{findNavController().popBackStack()}
         initAdapter()
         setupObserver()
 
@@ -63,6 +67,7 @@ class FoundCelebritiesFragment : Fragment() {
 
     private fun setupObserver() {
         if (dataType == "NONE") {
+            binding.header.visibility = View.GONE
             lifecycleScope.launch {
                 searchViewModel.peoplePaged.collect {
                     it?.let {
@@ -89,6 +94,7 @@ class FoundCelebritiesFragment : Fragment() {
             }
         } else {
             lifecycleScope.launch {
+                binding.header.visibility = View.VISIBLE
                 celebritiesViewModel.peoplePaging.collect {
                     it?.let {
                         it.data?.let { movies ->
@@ -118,7 +124,7 @@ class FoundCelebritiesFragment : Fragment() {
 
     private fun initAdapter() {
 
-        peopleRecyclerView = binding.root
+        peopleRecyclerView = binding.recycler
         peopleAdapter = TopRatedPeopleAdapter()
         peopleRecyclerView.adapter = peopleAdapter
         peopleRecyclerView.layoutManager =

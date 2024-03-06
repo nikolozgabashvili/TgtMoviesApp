@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import com.example.tgtmoviesapp.R
 import com.example.tgtmoviesapp.databinding.FragmentCelebritiesBinding
 import com.example.tgtmoviesapp.databinding.FragmentProfileBinding
@@ -27,6 +28,14 @@ class ProfileFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.authButton.setOnClickListener {
+
+        }
     }
 
 

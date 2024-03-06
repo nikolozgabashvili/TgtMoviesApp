@@ -79,12 +79,12 @@ class TopRatedPeopleAdapter() :
                     setMargins(10, 10, 10, 10)
                 }
 
-                holder.binding.constraint.minHeight = 400
-                holder.binding.imageView.minimumHeight = 400
-                holder.binding.imageView.minimumWidth = 300
-                holder.binding.movieTitle.textSize = 18f
-                holder.binding.movieGenre.textSize = 16f
-                holder.binding.ratingLayout.visibility = View.INVISIBLE
+
+                holder.binding.imageView.minimumHeight = 280
+                holder.binding.imageView.minimumWidth = 200
+                holder.binding.movieTitle.textSize = 16f
+                holder.binding.movieGenre.textSize = 14f
+                holder.binding.ratingLayout.visibility = View.GONE
                 holder.binding.movieGenre.text = item.knownForDepartment
                 holder.binding.movieTitle.text = item.name
 
@@ -92,7 +92,7 @@ class TopRatedPeopleAdapter() :
                 Glide.with(holder.binding.root.context)
                     .load(Constants.IMAGE_BASE_URL + it.profilePath)
                     .placeholder(R.drawable.person_item)
-                    .override(300, 400)
+                    .override(200, 280)
 
                     .into(holder.binding.imageView)
 

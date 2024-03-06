@@ -73,12 +73,12 @@ class CelebritiesFragment : Fragment() {
         }
 
         binding.seePopularPeople.setOnClickListener {
-            val action = CelebritiesFragmentDirections.actionCelebritiesFragmentToFoundCelebritiesFragment("POPULAR")
+            val action = CelebritiesFragmentDirections.actionCelebritiesFragmentToFoundCelebritiesFragment("Popular")
             celebViewModel.setPeoplePagingValue(celebViewModel.popularPeople.value)
             findNavController().navigate(action)
         }
         binding.seetrendingPeople.setOnClickListener {
-            val action = CelebritiesFragmentDirections.actionCelebritiesFragmentToFoundCelebritiesFragment("TRENDING")
+            val action = CelebritiesFragmentDirections.actionCelebritiesFragmentToFoundCelebritiesFragment("Trending")
             celebViewModel.setPeoplePagingValue(celebViewModel.trendingPeople.value)
             findNavController().navigate(action)
         }
