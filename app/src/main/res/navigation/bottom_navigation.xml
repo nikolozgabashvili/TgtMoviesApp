@@ -75,5 +75,19 @@
         android:id="@+id/profileFragment"
         android:name="com.example.tgtmoviesapp.application.presentation.fragments.profile.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_authenticationFragment2"
+            app:destination="@id/authenticationFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/authenticationFragment2"
+        android:name="com.example.tgtmoviesapp.application.presentation.fragments.AuthenticationFragment"
+        android:label="fragment_authentication"
+        tools:layout="@layout/fragment_authentication" >
+        <argument
+            android:name="setCancellable"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </fragment>
 </navigation>

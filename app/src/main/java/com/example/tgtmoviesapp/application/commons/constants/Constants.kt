@@ -10,4 +10,6 @@ object Constants {
 
     const val MOVIE_BY_ID = "https://api.themoviedb.org/3"
 
+    const val AUTHENTICATION_URL = "http://10.15.10.85:5000"
+
 }

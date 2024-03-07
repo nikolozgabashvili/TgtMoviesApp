@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.navigation.fragment.findNavController
 import com.example.tgtmoviesapp.R
 import com.example.tgtmoviesapp.databinding.FragmentCelebritiesBinding
 import com.example.tgtmoviesapp.databinding.FragmentProfileBinding
@@ -34,7 +35,7 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.authButton.setOnClickListener {
-
+            findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToAuthenticationFragment2(true))
         }
     }
 

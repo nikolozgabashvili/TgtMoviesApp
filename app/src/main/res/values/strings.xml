@@ -8,4 +8,8 @@
     <string name="your_favourite_movies_and_tv_shows"><![CDATA[Your favourite Movies & Tv Shows]]></string>
     <string name="rated_movies_and_tv_shows"><![CDATA[Rated Movies & Tv Shows]]></string>
     <string name="set_light_and_dark_theme"><![CDATA[Set Light & Dark Theme]]></string>
+    <string name="already_have_account">already have account?</string>
+    <string name="do_not_have_account">Don\'t have account?</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
 </resources>
