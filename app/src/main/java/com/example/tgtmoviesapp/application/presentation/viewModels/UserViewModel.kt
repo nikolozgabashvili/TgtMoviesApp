@@ -22,7 +22,7 @@ class UserViewModel @Inject constructor(
     private val _loginResource = MutableStateFlow<Resource<String>?>(null)
     val loginResource: MutableStateFlow<Resource<String>?> = _loginResource
 
-    var currentUserToken = ""
+    var currentUserToken = MutableStateFlow<String>("")
 
 
     fun registerUser(username: String, password: String, mail: String) {
@@ -38,7 +38,7 @@ class UserViewModel @Inject constructor(
         viewModelScope.launch {
             loginUserUseCase.execute(username, password).collect {
                 if (it.data!=null)
-                    currentUserToken = it.data
+                    currentUserToken.value = it.data
                 _loginResource.value = it
 
             }

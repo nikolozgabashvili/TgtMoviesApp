@@ -1,6 +1,5 @@
 package com.example.tgtmoviesapp.application.presentation.fragments.search
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,14 +13,13 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.tgtmoviesapp.application.presentation.adapters.searchAdapter.SearchAdapter
 import com.example.tgtmoviesapp.application.presentation.adapters.searchAdapter.ViewPagerAdapter
+import com.example.tgtmoviesapp.application.presentation.fragments.movies.MoviesFragment
 import com.example.tgtmoviesapp.application.presentation.viewModels.SearchViewModel
 import com.example.tgtmoviesapp.databinding.FragmentSecondSearchBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-
-
 
 
 class SecondSearchFragment : Fragment() {
@@ -41,6 +39,7 @@ class SecondSearchFragment : Fragment() {
     private var celebritySuccess = false
 
     var successList = MutableStateFlow(arrayOf<Boolean>())
+    var passingList = arrayOf<Fragment?>()
 
 
     private val searchViewModel: SearchViewModel by activityViewModels()
@@ -60,7 +59,8 @@ class SecondSearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         successList.value = Array(3) { false }
-        val searchViewText = arguments?.getString("searchviewText")?:""
+        passingList = Array(3) { null }
+        val searchViewText = arguments?.getString("searchviewText") ?: ""
 
         initViews()
         initAdapters()
@@ -70,7 +70,7 @@ class SecondSearchFragment : Fragment() {
 
 
         if (searchViewText.isNotEmpty())
-            searchView.setQuery(searchViewText,false)
+            searchView.setQuery(searchViewText, false)
 
         binding.backButton.setOnClickListener {
             activity?.supportFragmentManager?.popBackStack()
@@ -129,7 +129,7 @@ class SecondSearchFragment : Fragment() {
         lifecycleScope.launch {
             searchViewModel.searchNameList.collect {
 
-                if (it.isNotEmpty()){
+                if (it.isNotEmpty()) {
 
                     updateSearchAdapter(it)
                     miniSearchRecyclerView.visibility = View.VISIBLE
@@ -148,7 +148,6 @@ class SecondSearchFragment : Fragment() {
                     it.data?.let { movies ->
                         movies.results?.let { lst ->
                             movieSuccess = lst.isNotEmpty()
-
                             successList.value[1] = true
                             successList.value = successList.value.copyOf()
 
@@ -276,7 +275,8 @@ class SecondSearchFragment : Fragment() {
     }
 
 }
-private fun  Array<Boolean>.isAllTrue(): Boolean {
+
+private fun Array<Boolean>.isAllTrue(): Boolean {
     return this.all {
         it
     }
