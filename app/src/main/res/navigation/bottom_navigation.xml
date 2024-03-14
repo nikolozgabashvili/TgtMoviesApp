@@ -133,5 +133,8 @@
             android:name="movieId"
             app:argType="integer"
             android:defaultValue="-1" />
+        <action
+            android:id="@+id/action_movieDetailsFragment_self"
+            app:destination="@id/movieDetailsFragment" />
     </fragment>
 </navigation>

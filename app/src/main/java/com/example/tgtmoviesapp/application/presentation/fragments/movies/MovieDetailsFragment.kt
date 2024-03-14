@@ -256,6 +256,13 @@ class MovieDetailsFragment : Fragment() {
         recommendedRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
+        recommendedAdapter.onItemClick = {
+            it?.let {
+                val action  = MovieDetailsFragmentDirections.actionMovieDetailsFragmentSelf(it)
+                findNavController().navigate(action)
+            }
+        }
+
     }
 
     private fun initSimilarAdapter() {
@@ -264,6 +271,13 @@ class MovieDetailsFragment : Fragment() {
         similarRecyclerView.adapter = similarAdapter
         similarRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+        similarAdapter.onItemClick = {
+            it?.let {
+                val action  = MovieDetailsFragmentDirections.actionMovieDetailsFragmentSelf(it)
+                findNavController().navigate(action)
+            }
+        }
     }
 
 
