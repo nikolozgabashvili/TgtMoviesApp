@@ -84,6 +84,7 @@ class TopRatedShowsAdapter : RecyclerView.Adapter<TopRatedShowsAdapter.TopViewHo
                     holder.binding.ratingBar.stepSize = 0.2f
                     holder.binding.ratingBar.rating = (item.voteAverage.toFloat()/2)
                 }
+                holder.binding.ratingText.text = "(${item.voteCount.toString()})"
 
 
 

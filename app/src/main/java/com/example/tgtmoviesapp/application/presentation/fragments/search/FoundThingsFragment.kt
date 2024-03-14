@@ -1,12 +1,13 @@
 package com.example.tgtmoviesapp.application.presentation.fragments.search
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -15,11 +16,11 @@ import com.example.tgtmoviesapp.application.domain.models.DisplayIndicator
 import com.example.tgtmoviesapp.application.domain.models.Genre
 import com.example.tgtmoviesapp.application.domain.models.Movies
 import com.example.tgtmoviesapp.application.domain.models.Person
-import com.example.tgtmoviesapp.application.domain.models.TvGenre
 import com.example.tgtmoviesapp.application.domain.models.TvShows
 import com.example.tgtmoviesapp.application.presentation.adapters.celebritiesAdapter.CelebritiesAdapter
 import com.example.tgtmoviesapp.application.presentation.adapters.movieAdapters.MovieAdapter
 import com.example.tgtmoviesapp.application.presentation.adapters.tvshowAdapters.TvShowsAdapter
+import com.example.tgtmoviesapp.application.presentation.fragments.movies.FoundMoviesFragmentDirections
 import com.example.tgtmoviesapp.application.presentation.viewModels.MoviesViewModel
 import com.example.tgtmoviesapp.application.presentation.viewModels.SearchViewModel
 import com.example.tgtmoviesapp.application.presentation.viewModels.TvShowsViewModel
@@ -44,13 +45,13 @@ class FoundThingsFragment : Fragment() {
 
 
     private var _binding: FragmentFoundThingsBinding? = null
-    private val binding get()= _binding!!
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentFoundThingsBinding.inflate(inflater,container,false)
+        _binding = FragmentFoundThingsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -112,9 +113,9 @@ class FoundThingsFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             moviesViewModel.moviesGenres.collect {
 
-                it?.let {resource->
-                    resource.data?.let {genre->
-                        genre.genres?.let {lst->
+                it?.let { resource ->
+                    resource.data?.let { genre ->
+                        genre.genres?.let { lst ->
 
                             updateGenreAdapters(lst)
                         }
@@ -187,6 +188,17 @@ class FoundThingsFragment : Fragment() {
         movieRecyclerView.adapter = moviesAdapter
         movieRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+        moviesAdapter.onItemClick = {
+            if (it != null) {
+                val action =
+                    SecondSearchFragmentDirections.actionSecondSearchFragmentToMovieDetailsFragment(
+                        it
+                    )
+                findNavController().navigate(action)
+            }
+        }
+
     }
 
 

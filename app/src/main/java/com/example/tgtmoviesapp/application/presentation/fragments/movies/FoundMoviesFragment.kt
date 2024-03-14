@@ -21,10 +21,11 @@ import com.example.tgtmoviesapp.application.presentation.fragments.search.Second
 import com.example.tgtmoviesapp.application.presentation.viewModels.MoviesViewModel
 import com.example.tgtmoviesapp.application.presentation.viewModels.SearchViewModel
 import com.example.tgtmoviesapp.databinding.FragmentFoundMoviesBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-
+@AndroidEntryPoint
 class FoundMoviesFragment : Fragment() {
 
     private var _binding: FragmentFoundMoviesBinding? = null

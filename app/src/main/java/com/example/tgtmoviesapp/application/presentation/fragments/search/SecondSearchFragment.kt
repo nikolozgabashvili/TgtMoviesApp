@@ -1,11 +1,9 @@
 package com.example.tgtmoviesapp.application.presentation.fragments.search
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -27,7 +25,7 @@ import kotlinx.coroutines.launch
 
 
 class SecondSearchFragment : Fragment() {
-    private lateinit var searchView:android.widget.SearchView
+    private lateinit var searchView: android.widget.SearchView
     private var _binding: FragmentSecondSearchBinding? = null
     private val binding get() = _binding!!
 
@@ -50,7 +48,7 @@ class SecondSearchFragment : Fragment() {
     private val searchViewModel: SearchViewModel by activityViewModels()
 
 
-    private lateinit var viewpagerAdapter :ViewPagerAdapter
+    private lateinit var viewpagerAdapter: ViewPagerAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -77,8 +75,11 @@ class SecondSearchFragment : Fragment() {
 
 
 
-        if (searchViewText.isNotEmpty())
+        if (searchViewText.isNotEmpty()) {
+
             searchView.setQuery(searchViewText, false)
+            setupFoundInfoDisplay()
+        }
 
         binding.backButton.setOnClickListener {
             activity?.supportFragmentManager?.popBackStack()

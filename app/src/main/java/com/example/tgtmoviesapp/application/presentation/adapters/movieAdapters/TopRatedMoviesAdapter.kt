@@ -84,6 +84,7 @@ class TopRatedMoviesAdapter : RecyclerView.Adapter<TopRatedMoviesAdapter.TopView
                     holder.binding.ratingBar.stepSize = 0.2f
                     holder.binding.ratingBar.rating = (item.voteAverage.toFloat()/2)
                 }
+                holder.binding.ratingText.text ="(${item.voteCount.toString()})"
                 holder.binding.imageView.minimumHeight = 280
                 holder.binding.imageView.minimumWidth = 200
 
