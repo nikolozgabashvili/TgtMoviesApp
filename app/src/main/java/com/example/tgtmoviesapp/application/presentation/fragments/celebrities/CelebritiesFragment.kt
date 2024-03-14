@@ -86,7 +86,7 @@ class CelebritiesFragment : Fragment() {
     }
 
     private fun setUpObservers() {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             celebViewModel.popularPeople.collect{
                 it?.let {
                     it.data?.let {
@@ -97,7 +97,7 @@ class CelebritiesFragment : Fragment() {
             }
         }
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             celebViewModel.trendingPeople.collect{
                 it?.let {
                     it.data?.let {

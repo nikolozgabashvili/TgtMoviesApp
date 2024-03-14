@@ -85,7 +85,6 @@ class SearchViewModel @Inject constructor(
         debounceJob = viewModelScope.launch {
             textFlow.debounce(0).collect {
                 getAllItemInfo(it)
-                println("hehehehe")
             }
 
         }
@@ -97,7 +96,6 @@ class SearchViewModel @Inject constructor(
             val localLst = mutableListOf<String>()
             searchAllItemsUseCase.execute(query).collect {
                 it.data?.let {
-                    println(it)
                     it.results?.let {
                         it.map {
                             it?.let {

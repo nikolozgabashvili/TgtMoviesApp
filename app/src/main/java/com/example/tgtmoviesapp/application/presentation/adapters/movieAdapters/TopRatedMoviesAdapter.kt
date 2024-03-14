@@ -14,9 +14,10 @@ import com.example.tgtmoviesapp.databinding.MovieItemLongBinding
 
 class TopRatedMoviesAdapter : RecyclerView.Adapter<TopRatedMoviesAdapter.TopViewHolder>() {
 
-    var gridItemList: List<Movies.Result?> = emptyList()
-    var movieGenreList: List<Genre.Genre?> = mutableListOf()
-    var typeIndicator: DisplayIndicator = DisplayIndicator.NONE
+    private var gridItemList: List<Movies.Result?> = emptyList()
+    private var movieGenreList: List<Genre?> = mutableListOf()
+    private var typeIndicator: DisplayIndicator = DisplayIndicator.NONE
+    var onItemClick: ((Int?) -> Unit)? = null
     fun setMovieList(
         topRatedClass: List<Movies.Result?>,
         typeIndicator: DisplayIndicator = DisplayIndicator.NONE
@@ -30,7 +31,7 @@ class TopRatedMoviesAdapter : RecyclerView.Adapter<TopRatedMoviesAdapter.TopView
 
     }
 
-    fun setMovieGenres(movieGenreList: List<Genre.Genre?> = mutableListOf()) {
+    fun setMovieGenres(movieGenreList: List<Genre?> = mutableListOf()) {
         this.movieGenreList = movieGenreList
         notifyDataSetChanged()
     }
@@ -80,8 +81,8 @@ class TopRatedMoviesAdapter : RecyclerView.Adapter<TopRatedMoviesAdapter.TopView
                 }
                 holder.binding.ratingLayout.visibility = View.VISIBLE
                 item.voteAverage?.let {
-                    holder.binding.ratingBar.stepSize = 2f
-                    holder.binding.ratingBar.rating = item.voteAverage.toFloat()
+                    holder.binding.ratingBar.stepSize = 0.2f
+                    holder.binding.ratingBar.rating = (item.voteAverage.toFloat()/2)
                 }
                 holder.binding.imageView.minimumHeight = 280
                 holder.binding.imageView.minimumWidth = 200
@@ -104,7 +105,9 @@ class TopRatedMoviesAdapter : RecyclerView.Adapter<TopRatedMoviesAdapter.TopView
         }
 
         holder.binding.movieGenre.text = genreList.joinToString(separator = ",")
-
+        holder.binding.root.setOnClickListener {
+            onItemClick?.invoke(item?.id)
+        }
 
     }
 

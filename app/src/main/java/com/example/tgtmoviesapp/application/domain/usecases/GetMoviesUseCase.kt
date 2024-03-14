@@ -1,9 +1,13 @@
 package com.example.tgtmoviesapp.application.domain.usecases
 
+import android.graphics.Movie
 import com.example.tgtmoviesapp.application.commons.constants.Constants.API_KEY
 import com.example.tgtmoviesapp.application.commons.resource.Resource
 import com.example.tgtmoviesapp.application.domain.models.AllItemModel
 import com.example.tgtmoviesapp.application.domain.models.Genre
+import com.example.tgtmoviesapp.application.domain.models.MovieDetails
+import com.example.tgtmoviesapp.application.domain.models.MovieGenre
+import com.example.tgtmoviesapp.application.domain.models.MovieVideo
 import com.example.tgtmoviesapp.application.domain.models.Movies
 import com.example.tgtmoviesapp.application.domain.repository.Repository
 import kotlinx.coroutines.flow.Flow
@@ -51,7 +55,7 @@ class GetTrendingMoviesUseCase @Inject constructor(private val repository: Repos
 }
 
 class GetMoveGenresUseCase @Inject constructor(private val repository: Repository){
-    suspend fun execute():Flow<Resource<Genre>>{
+    suspend fun execute():Flow<Resource<MovieGenre>>{
         return repository.getMovieGenres(API_KEY)
     }
 }
@@ -65,5 +69,25 @@ class GetSearchMoviesUseCase @Inject constructor(private val repository: Reposit
 class SearchAllItemsUseCase @Inject constructor(private val repository: Repository){
     suspend fun execute(query:String):Flow<Resource<AllItemModel>>{
         return repository.getSearchResults(query)
+    }
+}
+class GetDetailsUseCase @Inject constructor(private val repository: Repository){
+    suspend fun execute(id:Int):Flow<Resource<MovieDetails>>{
+        return repository.getMovieById(id)
+    }
+}
+class GetSimilarMoviesUseCase @Inject constructor(private val repository: Repository){
+    suspend fun execute(id:Int,page: Int = 1):Flow<Resource<Movies>>{
+        return repository.getSimilarMovies(id,page)
+    }
+}
+class GetRecommendedMoviesUseCase @Inject constructor(private val repository: Repository){
+    suspend fun execute(id:Int,page: Int = 1):Flow<Resource<Movies>>{
+        return repository.getRecommendedMovies(id,page)
+    }
+}
+class GetMovieVideosUseCase @Inject constructor(private val repository: Repository){
+    suspend fun execute(id:Int):Flow<Resource<MovieVideo>>{
+        return repository.getMovieVideos(id)
     }
 }

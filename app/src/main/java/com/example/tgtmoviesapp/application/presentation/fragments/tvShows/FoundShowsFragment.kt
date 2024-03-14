@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tgtmoviesapp.R
 import com.example.tgtmoviesapp.application.domain.models.DisplayIndicator
+import com.example.tgtmoviesapp.application.domain.models.Genre
 import com.example.tgtmoviesapp.application.domain.models.TvGenre
 import com.example.tgtmoviesapp.application.domain.models.TvShows
 import com.example.tgtmoviesapp.application.presentation.adapters.tvshowAdapters.TopRatedShowsAdapter
@@ -68,7 +69,7 @@ class FoundShowsFragment : Fragment() {
     private fun setupObserver() {
         if (movieType=="NONE") {
             binding.header.visibility = View.GONE
-            lifecycleScope.launch {
+            viewLifecycleOwner.lifecycleScope.launch {
                 searchViewModel.tvShowsPaged.collect {
                     it?.let {
                         it.data?.let { movies ->
@@ -94,7 +95,7 @@ class FoundShowsFragment : Fragment() {
             }
         }else{
             binding.header.visibility = View.VISIBLE
-            lifecycleScope.launch {
+            viewLifecycleOwner.lifecycleScope.launch {
                 tvSearchViewModel.tvPaging.collect {
                     it?.let {
                         it.data?.let { movies ->
@@ -119,7 +120,7 @@ class FoundShowsFragment : Fragment() {
                 }
             }
         }
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             tvSearchViewModel.tvGenres.collect{
                 it?.let {
                     it.data?.let {  genre->
@@ -156,7 +157,6 @@ class FoundShowsFragment : Fragment() {
                         "NONE" -> {
                             val txt = requireActivity().findViewById<SearchView>(R.id.searchView)
                             searchViewModel.searchTvShowsByPage(txt.query.toString(), ++currentPage)
-                            println("page:$currentPage")
                         }
 
                         "Popular" -> {
@@ -195,7 +195,7 @@ class FoundShowsFragment : Fragment() {
 
     }
 
-    private fun updateGenreAdapters(lst: List<TvGenre.Genre?>) {
+    private fun updateGenreAdapters(lst: List<Genre?>) {
         tvShowsAdapter.setMovieGenres(lst)
     }
 

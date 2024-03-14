@@ -101,7 +101,7 @@ class MoviesFragment : Fragment() {
 
 
     private fun setupObservers() {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             mainViewModel.movies.collect {
                 it?.let {
                     it.data?.let { data ->
@@ -113,7 +113,7 @@ class MoviesFragment : Fragment() {
             }
         }
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             mainViewModel.trendingMovies.collect {
                 it?.let {
                     it.data?.let { data ->
@@ -124,7 +124,7 @@ class MoviesFragment : Fragment() {
             }
         }
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             mainViewModel.upcomingMovies.collect {
                 it?.let {
                     it.data?.let {
@@ -135,7 +135,7 @@ class MoviesFragment : Fragment() {
             }
         }
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             mainViewModel.topRatedMovies.collect {
                 it?.let {
                     it.data?.let {
@@ -146,7 +146,7 @@ class MoviesFragment : Fragment() {
             }
         }
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             mainViewModel.pITMovies.collect {
                 it?.let {
                     it.data?.let {
@@ -156,7 +156,7 @@ class MoviesFragment : Fragment() {
 
             }
         }
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             mainViewModel.moviesGenres.collect {
 
                 it?.let {resource->
@@ -176,7 +176,7 @@ class MoviesFragment : Fragment() {
 
     }
 
-    private fun updateGenreAdapters(lst: List<Genre.Genre?>) {
+    private fun updateGenreAdapters(lst: List<Genre?>) {
         trendingAdapter.setMovieGenres(lst)
         popularAdapter.setMovieGenres(lst)
         topRatedAdapter.setMovieGenres(lst)
@@ -236,6 +236,12 @@ class MoviesFragment : Fragment() {
         trendingRecyclerView.adapter = trendingAdapter
         trendingRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        trendingAdapter.onItemClick = {
+            if (it!=null){
+                val action = MoviesFragmentDirections.actionMoviesFragmentToMovieDetailsFragment(it)
+                findNavController().navigate(action)
+            }
+        }
     }
 
     private fun initPITAdapter() {
@@ -244,6 +250,12 @@ class MoviesFragment : Fragment() {
         pITRecyclerView.adapter = pITAdapter
         pITRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        pITAdapter.onItemClick = {
+            if (it!=null){
+                val action = MoviesFragmentDirections.actionMoviesFragmentToMovieDetailsFragment(it)
+                findNavController().navigate(action)
+            }
+        }
     }
 
     private fun initTopRatedAdapter() {
@@ -252,6 +264,12 @@ class MoviesFragment : Fragment() {
         topRatedRecyclerView.adapter = topRatedAdapter
         topRatedRecyclerView.layoutManager =
             GridLayoutManager(requireContext(), 4, GridLayoutManager.HORIZONTAL, false)
+        topRatedAdapter.onItemClick = {
+            if (it!=null){
+                val action = MoviesFragmentDirections.actionMoviesFragmentToMovieDetailsFragment(it)
+                findNavController().navigate(action)
+            }
+        }
     }
 
     private fun initUpcomingAdapter() {
@@ -260,6 +278,12 @@ class MoviesFragment : Fragment() {
         upcomingRecyclerView.adapter = upcomingAdapter
         upcomingRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        upcomingAdapter.onItemClick = {
+            if (it!=null){
+                val action = MoviesFragmentDirections.actionMoviesFragmentToMovieDetailsFragment(it)
+                findNavController().navigate(action)
+            }
+        }
     }
 
     private fun initPopularAdapter() {
@@ -268,6 +292,12 @@ class MoviesFragment : Fragment() {
         popularRecyclerView.adapter = popularAdapter
         popularRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        popularAdapter.onItemClick = {
+            if (it!=null){
+                val action = MoviesFragmentDirections.actionMoviesFragmentToMovieDetailsFragment(it)
+                findNavController().navigate(action)
+            }
+        }
     }
 
     override fun onDestroyView() {

@@ -16,12 +16,14 @@ import com.example.tgtmoviesapp.application.domain.models.DisplayIndicator
 import com.example.tgtmoviesapp.application.domain.models.Genre
 import com.example.tgtmoviesapp.application.domain.models.Movies
 import com.example.tgtmoviesapp.application.presentation.adapters.movieAdapters.TopRatedMoviesAdapter
+import com.example.tgtmoviesapp.application.presentation.fragments.search.SecondSearchFragment
+import com.example.tgtmoviesapp.application.presentation.fragments.search.SecondSearchFragmentDirections
 import com.example.tgtmoviesapp.application.presentation.viewModels.MoviesViewModel
 import com.example.tgtmoviesapp.application.presentation.viewModels.SearchViewModel
 import com.example.tgtmoviesapp.databinding.FragmentFoundMoviesBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.Locale
+
 
 class FoundMoviesFragment : Fragment() {
 
@@ -50,7 +52,7 @@ class FoundMoviesFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        //TODO clear paging or not? --------
+
 //        moviesViewModel.setMoviePagingNull()
         _binding = null
     }
@@ -72,7 +74,7 @@ class FoundMoviesFragment : Fragment() {
 
         if (movieType == "NONE") {
             binding.header.visibility=View.GONE
-            lifecycleScope.launch {
+            viewLifecycleOwner.lifecycleScope.launch {
 
                 searchViewModel.moviesPaged.collect {
                     it?.let {
@@ -102,12 +104,11 @@ class FoundMoviesFragment : Fragment() {
         } else {
             binding.header.visibility=View.VISIBLE
 
-            lifecycleScope.launch {
+            viewLifecycleOwner.lifecycleScope.launch {
                 moviesViewModel.moviePaging.collect {
                     it?.let {
                         it.data?.let { movies ->
                             //TODO may cause bug dd temp solve
-                            println("moviepagingggg")
                             if (movies.page == 1) {
                                 currentMovieList = emptyList()
                                 currentPage = 1
@@ -129,7 +130,7 @@ class FoundMoviesFragment : Fragment() {
                 }
             }
         }
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             moviesViewModel.moviesGenres.collect {
                 it?.let {
                     it.data?.let { genre ->
@@ -195,6 +196,24 @@ class FoundMoviesFragment : Fragment() {
             }
         })
 
+        moviesAdapter.onItemClick = {
+            if (it!=null){
+                try {
+                    val action =
+                        FoundMoviesFragmentDirections.actionFoundMoviesFragmentToMovieDetailsFragment(
+                            it
+                        )
+                    findNavController().navigate(action)
+                }catch (e:Exception){
+                    val action =
+                        SecondSearchFragmentDirections.actionSecondSearchFragmentToMovieDetailsFragment(
+                            it
+                        )
+                    findNavController().navigate(action)
+                }
+            }
+        }
+
 
     }
 
@@ -205,7 +224,7 @@ class FoundMoviesFragment : Fragment() {
 
     }
 
-    private fun updateGenreAdapters(lst: List<Genre.Genre?>) {
+    private fun updateGenreAdapters(lst: List<Genre?>) {
         moviesAdapter.setMovieGenres(lst)
     }
 

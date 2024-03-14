@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/mainColor"
     android:orientation="vertical"
-    tools:context=".application.presentation.fragments.MovieDetailsFragment">
+    tools:context=".application.presentation.fragments.movies.MovieDetailsFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,13 +17,18 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+            android:id="@+id/backButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:clickable="true"
             android:contentDescription="@string/back_button"
+            android:focusable="true"
+            android:foreground="@drawable/ripple_animation"
             android:padding="10dp"
             android:src="@drawable/baseline_arrow_back_24" />
 
         <TextView
+            android:id="@+id/headTitle"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginStart="10dp"
@@ -36,7 +41,10 @@
             android:id="@+id/favourites"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:clickable="true"
             android:contentDescription="@string/back_button"
+            android:focusable="true"
+            android:foreground="@drawable/ripple_animation"
             android:padding="10dp"
             android:src="@drawable/favourite_empty" />
 
@@ -44,7 +52,10 @@
             android:id="@+id/rateMovie"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:clickable="true"
             android:contentDescription="@string/back_button"
+            android:focusable="true"
+            android:foreground="@drawable/ripple_animation"
             android:padding="10dp"
             android:src="@drawable/star_border" />
 
@@ -52,7 +63,10 @@
             android:id="@+id/bookmark"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:clickable="true"
             android:contentDescription="@string/back_button"
+            android:focusable="true"
+            android:foreground="@drawable/ripple_animation"
             android:padding="10dp"
             android:src="@drawable/bookmark_border" />
     </LinearLayout>
@@ -61,7 +75,8 @@
         android:id="@+id/detailsScroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:scrollbars="none">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -102,12 +117,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/backgroundImage" />
 
             <RatingBar
+
                 android:id="@+id/ratingBar"
                 style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_width="wrap_content"
-                android:rating="5"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:rating="5"
+                android:theme="@style/customRatingBar"
                 app:layout_constraintStart_toEndOf="@+id/posterImage"
                 app:layout_constraintTop_toBottomOf="@+id/movieTitle" />
 
@@ -124,7 +141,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/movieTitle" />
 
             <ImageView
-                android:id="@+id/imageView4"
+                android:id="@+id/star"
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:layout_marginStart="30dp"
@@ -142,7 +159,7 @@
                 android:text="8.0"
                 android:textColor="@color/green"
                 android:textSize="14sp"
-                app:layout_constraintStart_toEndOf="@+id/imageView4"
+                app:layout_constraintStart_toEndOf="@+id/star"
                 app:layout_constraintTop_toBottomOf="@+id/movieTitle" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -165,7 +182,7 @@
                 android:layout_marginTop="10dp"
                 android:text="movieAbout info"
                 android:textColor="@color/gray"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/posterImage"
                 app:layout_constraintTop_toBottomOf="@+id/genreRecycler" />
@@ -210,8 +227,8 @@
                 android:id="@+id/seeCastAndCrew"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="See All>"
                 android:layout_marginTop="4dp"
+                android:text="See All>"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -251,6 +268,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/videos"
                 tools:itemCount="1"
                 tools:listitem="@layout/movie_item_default" />
+
             <TextView
                 android:id="@+id/information"
                 android:layout_width="wrap_content"
@@ -272,6 +290,7 @@
                 android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/information" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recommendedRecycler"
                 android:layout_width="match_parent"
@@ -305,6 +324,7 @@
                 android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/recommendedRecycler" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/similarRecycler"
                 android:layout_width="match_parent"

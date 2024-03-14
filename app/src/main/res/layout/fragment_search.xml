@@ -9,34 +9,38 @@
     tools:context=".application.presentation.fragments.search.SearchFragment">
 
     <LinearLayout
-        android:background="@color/headLineColor"
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:gravity="center"
         android:layout_height="50dp"
+        android:background="@color/headLineColor"
+        android:gravity="center"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:layout_weight="1"
             android:id="@+id/textView2"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_gravity="end"
+            android:layout_weight="1"
             android:text="Search"
             android:textColor="@color/white"
             android:textSize="28sp"
 
             />
 
-        <androidx.appcompat.widget.AppCompatImageButton
+        <ImageView
             android:id="@+id/searchButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="@drawable/ripple_animation"
+            android:padding="12dp"
+            android:scaleType="centerCrop"
             android:src="@drawable/search_item"
-            android:backgroundTint="@color/headLineColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </LinearLayout>
@@ -72,6 +76,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="@drawable/ripple_animation"
                 android:text="Trending"
                 android:textColor="@color/green"
                 android:textSize="18sp" />
@@ -81,6 +88,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="@drawable/ripple_animation"
                 android:text="Trending"
                 android:textColor="@color/green"
                 android:textSize="18sp" />
@@ -90,6 +100,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="@drawable/ripple_animation"
                 android:text="Trending"
                 android:textColor="@color/green"
                 android:textSize="18sp" />
@@ -99,6 +112,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="@drawable/ripple_animation"
                 android:text="Trending"
                 android:textColor="@color/green"
                 android:textSize="18sp" />
@@ -108,6 +124,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="@drawable/ripple_animation"
                 android:text="Trending"
                 android:textColor="@color/green"
                 android:textSize="18sp" />
@@ -117,6 +136,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="@drawable/ripple_animation"
                 android:text="Trending"
                 android:textColor="@color/green"
                 android:textSize="18sp" />
@@ -126,6 +148,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="@drawable/ripple_animation"
                 android:text="Trending"
                 android:textColor="@color/green"
                 android:textSize="18sp" />
@@ -135,6 +160,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="@drawable/ripple_animation"
                 android:text="Trending"
                 android:textColor="@color/green"
                 android:textSize="18sp" />

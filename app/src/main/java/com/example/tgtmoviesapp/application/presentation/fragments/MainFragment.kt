@@ -72,7 +72,7 @@ class MainFragment : Fragment() {
         bottomNavView.setOnItemSelectedListener { menuItem ->
             try {
                 if (menuItem.itemId ==R.id.searchFragment){
-                    navController.navigate(R.id.search_navigation)
+                    navController.navigate(R.id.searchFragment)
                 }else {
 
                     navController.navigate(menuItem.itemId)
@@ -107,7 +107,7 @@ class MainFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             moviesViewModel.movies.collect{ resource->
                 resource?.let {
                     if (it.loading !=true){
@@ -117,7 +117,7 @@ class MainFragment : Fragment() {
                 }
             }
         }
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             moviesViewModel.upcomingMovies.collect{resource->
                 resource?.let {
                     if (it.loading !=true){
@@ -127,7 +127,7 @@ class MainFragment : Fragment() {
                 }
             }
         }
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             moviesViewModel.topRatedMovies.collect{resource->
                 resource?.let {
                     if (it.loading !=true){
@@ -137,7 +137,7 @@ class MainFragment : Fragment() {
                 }
             }
         }
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             moviesViewModel.trendingMovies.collect{resource->
                 resource?.let {
                     if (it.loading !=true){
@@ -147,7 +147,7 @@ class MainFragment : Fragment() {
                 }
             }
         }
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             moviesViewModel.pITMovies.collect{resource->
                 resource?.let {
                     if (it.loading !=true){
@@ -157,7 +157,7 @@ class MainFragment : Fragment() {
                 }
             }
         }
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             tvShowsViewModel.trendingTvShows.collect{resource->
                 resource?.let {
                     if (it.loading !=true){
@@ -167,7 +167,7 @@ class MainFragment : Fragment() {
                 }
             }
         }
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             tvShowsViewModel.upcomingTvShows.collect{resource->
                 resource?.let {
                     if (it.loading !=true){
@@ -177,7 +177,7 @@ class MainFragment : Fragment() {
                 }
             }
         }
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             tvShowsViewModel.popularTvShows.collect{resource->
                 resource?.let {
                     if (it.loading !=true){
@@ -187,7 +187,7 @@ class MainFragment : Fragment() {
                 }
             }
         }
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             tvShowsViewModel.topRatedTvShows.collect{resource->
                 resource?.let {
                     if (it.loading !=true){
@@ -197,7 +197,7 @@ class MainFragment : Fragment() {
                 }
             }
         }
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             celebritiesViewModel.popularPeople.collect{resource->
                 resource?.let {
                     if (it.loading !=true){
@@ -207,21 +207,19 @@ class MainFragment : Fragment() {
                 }
             }
         }
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             celebritiesViewModel.trendingPeople.collect{resource->
                 resource?.let {
                     if (it.loading !=true){
-                        println(false)
                         _loadingList.value[10] = false
                         _loadingList.value = _loadingList.value.copyOf()
                     }
                 }
             }
         }
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             _loadingList.collect{
                 it.map {
-                    println(it)
                 }
                 if (!it.contains(true)) {
                     binding.bottomNavigationView.visibility = VISIBLE

@@ -77,7 +77,7 @@ class FoundThingsFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             searchViewModel.movies.collect {
                 it?.let {
                     it.data?.let { movies ->
@@ -89,7 +89,7 @@ class FoundThingsFragment : Fragment() {
             }
         }
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             searchViewModel.tvShows.collect {
                 it?.let {
                     it.data?.let { movies ->
@@ -99,7 +99,7 @@ class FoundThingsFragment : Fragment() {
             }
         }
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             searchViewModel.people.collect {
                 it?.let {
                     it.data?.let { movies ->
@@ -109,7 +109,7 @@ class FoundThingsFragment : Fragment() {
                 }
             }
         }
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             moviesViewModel.moviesGenres.collect {
 
                 it?.let {resource->
@@ -125,7 +125,7 @@ class FoundThingsFragment : Fragment() {
             }
 
         }
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             tvSearchViewModel.tvGenres.collect {
 
                 it?.let { resource ->
@@ -142,11 +142,11 @@ class FoundThingsFragment : Fragment() {
         }
     }
 
-    private fun updateTvGenre(lst: List<TvGenre.Genre?>) {
+    private fun updateTvGenre(lst: List<Genre?>) {
         tvShowsAdapter.setMovieGenres(lst)
     }
 
-    private fun updateGenreAdapters(lst: List<Genre.Genre?>) {
+    private fun updateGenreAdapters(lst: List<Genre?>) {
         moviesAdapter.setMovieGenres(lst)
     }
 

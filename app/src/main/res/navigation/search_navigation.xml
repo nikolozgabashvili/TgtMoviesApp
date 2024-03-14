@@ -2,30 +2,4 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/search_navigation"
-    app:startDestination="@id/searchFragment2">
-
-    <fragment
-        android:id="@+id/searchFragment2"
-        android:name="com.example.tgtmoviesapp.application.presentation.fragments.search.SearchFragment"
-        android:label="fragment_search"
-        tools:layout="@layout/fragment_search" >
-        <action
-            android:id="@+id/action_searchFragment2_to_secondSearchFragment"
-            app:destination="@id/secondSearchFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/secondSearchFragment"
-        android:name="com.example.tgtmoviesapp.application.presentation.fragments.search.SecondSearchFragment"
-        android:label="fragment_second_search"
-        tools:layout="@layout/fragment_second_search" >
-        <argument
-            android:name="movieType"
-            app:argType="string"
-            android:defaultValue="NONE" />
-        <argument
-            android:name="searchviewText"
-            app:argType="string"
-            app:nullable="true" />
-    </fragment>
-</navigation>
+    android:id="@+id/search_navigation" />

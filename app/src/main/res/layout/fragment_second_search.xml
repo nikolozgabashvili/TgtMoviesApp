@@ -18,8 +18,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <Button
+        <ImageView
             android:id="@+id/backButton"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="@drawable/ripple_animation"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/baseline_arrow_back_24" />
@@ -36,9 +39,11 @@
             android:theme="@style/Base.Theme.TgtMoviesApp"
             android:visibility="visible"
             app:closeIcon="@null"
-
             app:hideNavigationIcon="true"
-            app:iconifiedByDefault="false" />
+            app:iconifiedByDefault="false" >
+            <requestFocus/>
+        </SearchView>
+
 
 <!--        <Button-->
 
@@ -63,6 +68,7 @@
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewpager"
+
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:visibility="invisible"

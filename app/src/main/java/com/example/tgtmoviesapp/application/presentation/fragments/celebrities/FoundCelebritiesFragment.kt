@@ -68,7 +68,7 @@ class FoundCelebritiesFragment : Fragment() {
     private fun setupObserver() {
         if (dataType == "NONE") {
             binding.header.visibility = View.GONE
-            lifecycleScope.launch {
+            viewLifecycleOwner.lifecycleScope.launch {
                 searchViewModel.peoplePaged.collect {
                     it?.let {
                         it.data?.let { movies ->
@@ -93,7 +93,7 @@ class FoundCelebritiesFragment : Fragment() {
                 }
             }
         } else {
-            lifecycleScope.launch {
+            viewLifecycleOwner.lifecycleScope.launch {
                 binding.header.visibility = View.VISIBLE
                 celebritiesViewModel.peoplePaging.collect {
                     it?.let {

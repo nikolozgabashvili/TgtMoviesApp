@@ -1,5 +1,8 @@
 package com.example.tgtmoviesapp.application.di
 
+import android.content.Context
+import android.content.SharedPreferences
+import com.example.tgtmoviesapp.application.commons.MySharedPreferences
 import com.example.tgtmoviesapp.application.commons.constants.Constants.AUTHENTICATION_URL
 import com.example.tgtmoviesapp.application.commons.constants.Constants.BASE_URL
 import com.example.tgtmoviesapp.application.data.remote.Api
@@ -15,7 +18,10 @@ import com.example.tgtmoviesapp.application.domain.repository.UserRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Named
@@ -34,7 +40,7 @@ object MainModule {
         return Retrofit
             .Builder()
             .baseUrl(BASE_URL)
-
+            .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
@@ -71,7 +77,7 @@ object MainModule {
         return Retrofit
             .Builder()
             .baseUrl(AUTHENTICATION_URL)
-
+            .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
@@ -84,9 +90,25 @@ object MainModule {
 
     @Provides
     @Singleton
+    fun provideSharedPreferences(@ApplicationContext context: Context): MySharedPreferences {
+        return MySharedPreferences(context)
+    }
+
+    @Provides
+    @Singleton
     fun provideUserRepository(userService: UserServices): UserRepository {
         return UserRepositoryImpl(userService)
     }
+
+    private val loggingInterceptor = HttpLoggingInterceptor().apply {
+        level = HttpLoggingInterceptor.Level.BODY
+    }
+    private val client = OkHttpClient.Builder()
+        .addInterceptor(loggingInterceptor)
+        .build()
+
+
+
 
 
 }

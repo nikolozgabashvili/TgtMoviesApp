@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_marginStart="10dp"
@@ -41,17 +41,33 @@
         android:text="Sign In / Sign Up"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/username" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/signOutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:background="@drawable/oval_button"
+        android:padding="10dp"
+        android:text="Sign Out"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appearanceLayout" />
 
     <LinearLayout
-
         android:id="@+id/favouritesLayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:gravity="start|center"
-        android:orientation="horizontal"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="@drawable/ripple_animation"
+        android:gravity="start|center"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/authButton">
@@ -85,10 +101,13 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_marginTop="20dp"
         android:id="@+id/watchListLayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="@drawable/ripple_animation"
         android:gravity="start|center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -124,11 +143,16 @@
 
 
     </LinearLayout>
+
     <LinearLayout
-        android:layout_marginTop="20dp"
         android:id="@+id/ratingsLayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+        android:clickable="true"
+        android:focusable="true"
+
+        android:foreground="@drawable/ripple_animation"
         android:gravity="start|center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -164,11 +188,15 @@
 
 
     </LinearLayout>
+
     <LinearLayout
-        android:layout_marginTop="20dp"
         android:id="@+id/appearanceLayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="@drawable/ripple_animation"
         android:gravity="start|center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"

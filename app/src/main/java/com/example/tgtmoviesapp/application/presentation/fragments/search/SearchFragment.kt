@@ -58,7 +58,7 @@ class SearchFragment : Fragment(), View.OnClickListener {
     }
 
     private fun collectTrendingNames() {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             val movieNameList = mutableListOf<String?>()
             movieVieModel.trendingMovies.collect{resource->
                 resource?.let {

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tgtmoviesapp.application.domain.models.DisplayIndicator
+import com.example.tgtmoviesapp.application.domain.models.Genre
 import com.example.tgtmoviesapp.application.domain.models.TvGenre
 import com.example.tgtmoviesapp.application.domain.models.TvShows
 import com.example.tgtmoviesapp.application.presentation.adapters.tvshowAdapters.TopRatedShowsAdapter
@@ -95,7 +96,7 @@ class TvShowFragment : Fragment() {
 
     private fun setupObservers() {
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             tvShowsViewModel.tvGenres.collect {
                 it?.let {resource->
                     resource.data?.let {genre->
@@ -110,7 +111,7 @@ class TvShowFragment : Fragment() {
             }
         }
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             tvShowsViewModel.popularTvShows.collect {
                 it?.let {
                     it.data?.let { data ->
@@ -121,7 +122,7 @@ class TvShowFragment : Fragment() {
             }
         }
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             tvShowsViewModel.trendingTvShows.collect {
                 it?.let {
                     it.data?.let { data ->
@@ -139,7 +140,7 @@ class TvShowFragment : Fragment() {
 
 
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             tvShowsViewModel.topRatedTvShows.collect {
                 it?.let {
                     it.data?.let {
@@ -150,7 +151,7 @@ class TvShowFragment : Fragment() {
             }
         }
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             tvShowsViewModel.upcomingTvShows.collect {
                 it?.let {
                     it.data?.let {
@@ -162,7 +163,7 @@ class TvShowFragment : Fragment() {
         }
     }
 
-    private fun updateAdapters(data: List<TvGenre.Genre?>) {
+    private fun updateAdapters(data: List<Genre?>) {
         trendingAdapter.setMovieGenres(data)
         topRatedAdapter.setMovieGenres(data)
         popularAdapter.setMovieGenres(data)

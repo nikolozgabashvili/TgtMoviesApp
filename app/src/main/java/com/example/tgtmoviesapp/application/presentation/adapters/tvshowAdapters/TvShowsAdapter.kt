@@ -8,6 +8,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.tgtmoviesapp.R
 import com.example.tgtmoviesapp.application.commons.constants.Constants
 import com.example.tgtmoviesapp.application.domain.models.DisplayIndicator
+import com.example.tgtmoviesapp.application.domain.models.Genre
 import com.example.tgtmoviesapp.application.domain.models.TvGenre
 import com.example.tgtmoviesapp.application.domain.models.TvShows
 import com.example.tgtmoviesapp.databinding.MovieItemDefaultBinding
@@ -22,7 +23,7 @@ class TvShowsAdapter() : RecyclerView.Adapter<TvShowsAdapter.TvShowViewHolder>()
 
     private var showList: List<TvShows.Result?> = emptyList()
     private var showType: DisplayIndicator = DisplayIndicator.NONE
-    private var movieGenreList: List<TvGenre.Genre?> = mutableListOf()
+    private var movieGenreList: List<Genre?> = mutableListOf()
 
 
     fun setShowList(lstModel: TvShows, movieType: DisplayIndicator = DisplayIndicator.NONE) {
@@ -38,7 +39,7 @@ class TvShowsAdapter() : RecyclerView.Adapter<TvShowsAdapter.TvShowViewHolder>()
 
 
 
-    fun setMovieGenres(movieGenreList: List<TvGenre.Genre?> = mutableListOf()){
+    fun setMovieGenres(movieGenreList: List<Genre?> = mutableListOf()){
         this.movieGenreList = movieGenreList
         notifyDataSetChanged()
 

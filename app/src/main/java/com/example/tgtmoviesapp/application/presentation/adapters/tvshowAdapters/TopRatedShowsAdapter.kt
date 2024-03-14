@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide
 import com.example.tgtmoviesapp.R
 import com.example.tgtmoviesapp.application.commons.constants.Constants
 import com.example.tgtmoviesapp.application.domain.models.DisplayIndicator
+import com.example.tgtmoviesapp.application.domain.models.Genre
 import com.example.tgtmoviesapp.application.domain.models.TvGenre
 import com.example.tgtmoviesapp.application.domain.models.TvShows
 import com.example.tgtmoviesapp.databinding.MovieItemLongBinding
@@ -15,7 +16,7 @@ import com.example.tgtmoviesapp.databinding.MovieItemLongBinding
 class TopRatedShowsAdapter : RecyclerView.Adapter<TopRatedShowsAdapter.TopViewHolder>() {
 
     var gridItemList: List<TvShows.Result?> = emptyList()
-    private var movieGenreList: List<TvGenre.Genre?> = mutableListOf()
+    private var movieGenreList: List<Genre?> = mutableListOf()
     private var typeIndicator :DisplayIndicator = DisplayIndicator.NONE
 
 
@@ -28,7 +29,7 @@ class TopRatedShowsAdapter : RecyclerView.Adapter<TopRatedShowsAdapter.TopViewHo
 
     }
 
-    fun setMovieGenres(movieGenreList: List<TvGenre.Genre?> = mutableListOf()){
+    fun setMovieGenres(movieGenreList: List<Genre?> = mutableListOf()){
         this.movieGenreList = movieGenreList
         notifyDataSetChanged()
 
@@ -80,14 +81,15 @@ class TopRatedShowsAdapter : RecyclerView.Adapter<TopRatedShowsAdapter.TopViewHo
 
 
                 item.voteAverage?.let {
-                    holder.binding.ratingBar.stepSize = 2f
-                    holder.binding.ratingBar.rating = item.voteAverage.toFloat()
+                    holder.binding.ratingBar.stepSize = 0.2f
+                    holder.binding.ratingBar.rating = (item.voteAverage.toFloat()/2)
                 }
 
 
 
             }
         }
+
         val genreIds = item?.genreIds
         val genreList = mutableListOf<String>()
         genreIds?.map { int->

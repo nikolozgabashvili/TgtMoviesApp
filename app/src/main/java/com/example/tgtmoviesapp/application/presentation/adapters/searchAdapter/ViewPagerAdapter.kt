@@ -2,116 +2,41 @@ package com.example.tgtmoviesapp.application.presentation.adapters.searchAdapter
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.tgtmoviesapp.application.presentation.fragments.celebrities.FoundCelebritiesFragment
 import com.example.tgtmoviesapp.application.presentation.fragments.movies.FoundMoviesFragment
-import com.example.tgtmoviesapp.application.presentation.fragments.tvShows.FoundShowsFragment
 import com.example.tgtmoviesapp.application.presentation.fragments.search.FoundThingsFragment
 
 class ViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
+    private var movieSuccess : List<Fragment> = emptyList()
+    private var headers:List<String> = emptyList()
     private var itemCount = 0
-    private var movieSuccess = false
-    private var tvSuccess = false
-    private var celebritySuccess = false
 
-    fun updateAdapter(movieSuccess: Boolean, tvSuccess: Boolean, celebritySuccess: Boolean) {
+    fun updateAdapter(movieSuccess: List<Fragment>, sortedHeaderList: List<String>) {
 
         this.movieSuccess = movieSuccess
-        this.tvSuccess = tvSuccess
-        this.celebritySuccess = celebritySuccess
-
+        this.headers = sortedHeaderList
 
         notifyDataSetChanged()
 
     }
 
     override fun getItemCount(): Int {
-        itemCount = if (tvSuccess && movieSuccess && celebritySuccess) {
-            4
-        } else if (tvSuccess && movieSuccess) {
-            2
-        } else if (tvSuccess && celebritySuccess) {
-            2
-        } else if (movieSuccess && celebritySuccess) {
-            2
-        } else if (!tvSuccess && !movieSuccess && !celebritySuccess) {
-            0
-        } else {
-            1
-        }
-
+        itemCount = if (movieSuccess.size ==3) 4 else movieSuccess.size
         return itemCount
     }
 
 
 
     override fun createFragment(position: Int): Fragment {
+        return when(position in 0..itemCount){
+            true ->movieSuccess[position]
+            false -> FoundThingsFragment()
+        }
 
-        val fragment = if (itemCount == 4) {
-             when (position) {
-                0 -> FoundThingsFragment()
-                1 -> FoundMoviesFragment()
-                2 -> FoundShowsFragment()
-                else -> FoundCelebritiesFragment()
-            }
-        } else if (itemCount == 2 && !celebritySuccess) {
-             when (position) {
-                0 -> FoundMoviesFragment()
-                else -> FoundShowsFragment()
-            }
-        } else if (itemCount == 2 && !tvSuccess) {
-             when (position) {
-                0 -> FoundMoviesFragment()
-                else -> FoundCelebritiesFragment()
-            }
-        } else if (itemCount == 2 && !movieSuccess) {
-             when (position) {
-                0 -> FoundShowsFragment()
-                else -> FoundCelebritiesFragment()
-            }
-        } else if (movieSuccess)
-             FoundMoviesFragment()
-        else if (tvSuccess)
-             FoundShowsFragment()
-        else if (celebritySuccess)
-             FoundCelebritiesFragment()
-        else
-             FoundCelebritiesFragment()
-
-        return fragment
 
     }
 
     fun getPageTitle(position: Int): String {
-        if (itemCount == 4) {
-            return when (position) {
-                0 -> "all"
-                1 -> "movies"
-                2 -> "tv Shows"
-                else -> "celebrities"
-            }
-        } else if (itemCount == 2 && !celebritySuccess) {
-            return when (position) {
-                0 -> "movies"
-                else -> "tv Shows"
-            }
-        } else if (itemCount == 2 && !tvSuccess) {
-            return when (position) {
-                0 -> "movies"
-                else -> "celebrities"
-            }
-        } else if (itemCount == 2 && !movieSuccess) {
-            return when (position) {
-                0 -> "tv Shows"
-                else ->"celebrities"
-            }
-        } else if (movieSuccess)
-            return ""
-        else if (tvSuccess)
-            return ""
-        else if (celebritySuccess)
-            return ""
-        else
-            return ""
+        return headers[position]
     }
 }

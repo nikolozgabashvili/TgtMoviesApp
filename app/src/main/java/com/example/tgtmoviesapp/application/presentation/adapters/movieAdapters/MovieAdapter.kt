@@ -13,7 +13,7 @@ import com.example.tgtmoviesapp.databinding.MovieItemDefaultBinding
 
 class MovieAdapter() : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
-
+    var onItemClick: ((Int?) -> Unit)? = null
     class MovieViewHolder(val binding: MovieItemDefaultBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -21,7 +21,7 @@ class MovieAdapter() : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
     private var movieList: List<Movies.Result?> = emptyList()
     private var movieType: DisplayIndicator = DisplayIndicator.NONE
-    private var movieGenreList: List<Genre.Genre?> = mutableListOf()
+    private var movieGenreList: List<Genre?> = mutableListOf()
 
 
     fun setMovieList(lstModel: List<Movies.Result?>,  movieType: DisplayIndicator = DisplayIndicator.NONE) {
@@ -34,7 +34,7 @@ class MovieAdapter() : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
         notifyDataSetChanged()
     }
-    fun setMovieGenres(movieGenreList: List<Genre.Genre?> = mutableListOf()){
+    fun setMovieGenres(movieGenreList: List<Genre?> = mutableListOf()){
         this.movieGenreList = movieGenreList
         notifyDataSetChanged()
 
@@ -98,7 +98,9 @@ class MovieAdapter() : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
         holder.binding.movieTitle.maxWidth = holder.binding.imageView.width
         holder.binding.movieGenre.maxWidth = holder.binding.imageView.width
         holder.binding.movieTitle.text = currentItem?.title
-
+        holder.binding.imageView.setOnClickListener {
+            onItemClick?.invoke(currentItem?.id)
+        }
 
     }
 
