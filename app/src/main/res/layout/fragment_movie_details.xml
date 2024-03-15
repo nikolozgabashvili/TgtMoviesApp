@@ -223,16 +223,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/collectionRecyclerView" />
 
-            <TextView
-                android:id="@+id/seeCastAndCrew"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="See All>"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/cast" />
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/castRecycler"

@@ -14,6 +14,9 @@ class MySharedPreferences(context: Context) {
     fun getString(key: String, defaultValue: String?): String? {
         return sharedPreferences.getString(key, defaultValue)
     }
+    fun clearPrefs(){
+        sharedPreferences.edit().clear().apply()
+    }
 
 
 }

@@ -9,6 +9,7 @@ import com.example.tgtmoviesapp.application.domain.models.MovieDetails
 import com.example.tgtmoviesapp.application.domain.models.MovieGenre
 import com.example.tgtmoviesapp.application.domain.models.MovieVideo
 import com.example.tgtmoviesapp.application.domain.models.Movies
+import com.example.tgtmoviesapp.application.domain.models.Person
 import com.example.tgtmoviesapp.application.domain.repository.Repository
 import kotlinx.coroutines.flow.Flow
 import org.jetbrains.annotations.Async.Execute
@@ -89,5 +90,11 @@ class GetRecommendedMoviesUseCase @Inject constructor(private val repository: Re
 class GetMovieVideosUseCase @Inject constructor(private val repository: Repository){
     suspend fun execute(id:Int):Flow<Resource<MovieVideo>>{
         return repository.getMovieVideos(id)
+    }
+}
+
+class GetMovieCastUseCase @Inject constructor(private val repository: Repository){
+    suspend fun execute(id:Int):Flow<Resource<Person>>{
+        return repository.getMovieCast(id)
     }
 }

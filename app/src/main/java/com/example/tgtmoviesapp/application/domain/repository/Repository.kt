@@ -9,6 +9,7 @@ import com.example.tgtmoviesapp.application.domain.models.MovieDetails
 import com.example.tgtmoviesapp.application.domain.models.MovieGenre
 import com.example.tgtmoviesapp.application.domain.models.MovieVideo
 import com.example.tgtmoviesapp.application.domain.models.Movies
+import com.example.tgtmoviesapp.application.domain.models.Person
 import com.example.tgtmoviesapp.application.domain.models.TvShows
 import com.example.tgtmoviesapp.application.presentation.viewModels.SearchViewModel
 import kotlinx.coroutines.flow.Flow
@@ -35,4 +36,6 @@ interface Repository {
     suspend fun getRecommendedMovies(id:Int,page: Int = 1):Flow<Resource<Movies>>
 
     suspend fun getMovieVideos(id:Int):Flow<Resource<MovieVideo>>
+
+    suspend fun getMovieCast(id:Int):Flow<Resource<Person>>
 }

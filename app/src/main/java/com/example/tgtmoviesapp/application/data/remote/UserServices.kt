@@ -1,11 +1,14 @@
 package com.example.tgtmoviesapp.application.data.remote
 
 
+import com.example.tgtmoviesapp.application.data.modelsDto.CheckFavouritesDto
 import com.example.tgtmoviesapp.application.data.modelsDto.FavouriteMoviesDto
 import com.example.tgtmoviesapp.application.data.modelsDto.GetCurrentUserDto
 import com.example.tgtmoviesapp.application.data.modelsDto.LoginClass
 import com.example.tgtmoviesapp.application.data.modelsDto.RegisterClass
 import com.example.tgtmoviesapp.application.data.modelsDto.RegisterResponseDto
+import com.example.tgtmoviesapp.application.domain.models.FavMovieId
+import com.example.tgtmoviesapp.application.domain.models.MovieAdd
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -48,7 +51,15 @@ interface UserServices {
     @Headers("accept: application/json")
     suspend fun addFavourite(
         @Header("Authorization") bearer:String,
-        @Body id:Int
-    ): Response<Int>
+        @Body movieId:MovieAdd
+    ): Response<MovieAdd>
+
+
+    @GET("api/Favorites/CheckFavoriteMovie/{movie_id}")
+    @Headers("accept: application/json")
+    suspend fun isFavourite(
+        @Header("Authorization") bearer:String,
+        @Path("movie_id") id:Int
+    ): Response<CheckFavouritesDto>
 
 }

@@ -2,6 +2,7 @@ package com.example.tgtmoviesapp.application.data.remote.mappers
 
 
 import com.example.tgtmoviesapp.application.data.modelsDto.AllItemModelDto
+import com.example.tgtmoviesapp.application.data.modelsDto.CastAndCrewDto
 import com.example.tgtmoviesapp.application.data.modelsDto.GenreDto
 import com.example.tgtmoviesapp.application.data.modelsDto.GetCurrentUserDto
 import com.example.tgtmoviesapp.application.data.modelsDto.MovieDetailsDto
@@ -15,7 +16,9 @@ import com.example.tgtmoviesapp.application.data.modelsDto.TvShowsDto
 import com.example.tgtmoviesapp.application.data.modelsDto.UserFavoriteMovies
 import com.example.tgtmoviesapp.application.domain.models.AllItemModel
 import com.example.tgtmoviesapp.application.domain.models.CurrentUserModel
+import com.example.tgtmoviesapp.application.domain.models.FavMovieId
 import com.example.tgtmoviesapp.application.domain.models.Genre
+import com.example.tgtmoviesapp.application.domain.models.MovieAdd
 import com.example.tgtmoviesapp.application.domain.models.MovieDetails
 import com.example.tgtmoviesapp.application.domain.models.MovieGenre
 import com.example.tgtmoviesapp.application.domain.models.MovieVideo
@@ -24,6 +27,7 @@ import com.example.tgtmoviesapp.application.domain.models.Person
 import com.example.tgtmoviesapp.application.domain.models.RegisterResponse
 import com.example.tgtmoviesapp.application.domain.models.TvGenre
 import com.example.tgtmoviesapp.application.domain.models.TvShows
+import java.util.concurrent.RecursiveTask
 
 fun MoviesDto.toMovies(): Movies {
     return Movies(
@@ -303,4 +307,50 @@ fun List<MovieVideoDto.Result?>?.toMovieResultList(): List<MovieVideo.Result?> {
 
 fun MovieVideoDto.Result.toMovIeVideoResult(): MovieVideo.Result {
     return MovieVideo.Result(key)
+}
+
+
+fun CastAndCrewDto.toPerson(): Person {
+    return Person(page = null, results = this.toPersonResultList(), totalPages = null, totalResults = null)
+}
+
+private fun CastAndCrewDto.toPersonResultList(): List<Person.Result> {
+    val cast = this.cast
+    val crew = this.crew
+    val personResultList = mutableListOf<Person.Result>()
+    cast?.map {
+        personResultList.add(Person.Result(
+            adult = it?.adult,
+            gender = it?.gender,
+            id,
+            knownFor = null,
+            knownForDepartment = it?.knownForDepartment,
+            mediaType = it?.character,
+            name = it?.name,
+            originalName = it?.originalName,
+            profilePath = it?.profilePath,
+            popularity = it?.popularity
+
+        ))
+    }
+//    crew?.map {
+//        personResultList.add(Person.Result(
+//            adult = it?.adult,
+//            gender = it?.gender,
+//            id,
+//            knownFor = null,
+//            knownForDepartment = it?.knownForDepartment,
+//            mediaType = it?.department,
+//            name = it?.name,
+//            originalName = it?.originalName,
+//            profilePath = it?.profilePath,
+//            popularity = it?.popularity
+//
+//        ))
+//    }
+    return personResultList
+}
+
+fun MovieAdd.toMovieId():FavMovieId{
+    return FavMovieId(movieId = movieId)
 }

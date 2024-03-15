@@ -7,7 +7,9 @@ import com.example.tgtmoviesapp.application.commons.resource.Resource
 import com.example.tgtmoviesapp.application.domain.models.MovieDetails
 import com.example.tgtmoviesapp.application.domain.models.MovieVideo
 import com.example.tgtmoviesapp.application.domain.models.Movies
+import com.example.tgtmoviesapp.application.domain.models.Person
 import com.example.tgtmoviesapp.application.domain.usecases.GetDetailsUseCase
+import com.example.tgtmoviesapp.application.domain.usecases.GetMovieCastUseCase
 import com.example.tgtmoviesapp.application.domain.usecases.GetMovieVideosUseCase
 import com.example.tgtmoviesapp.application.domain.usecases.GetRecommendedMoviesUseCase
 import com.example.tgtmoviesapp.application.domain.usecases.GetSimilarMoviesUseCase
@@ -22,7 +24,8 @@ class DetailsViewModel @Inject constructor(
     private val detailsUseCase: GetDetailsUseCase,
     private val similarMoviesUseCase: GetSimilarMoviesUseCase,
     private val recommendedMoviesUseCase: GetRecommendedMoviesUseCase,
-    private val getMovieVideosUseCase: GetMovieVideosUseCase
+    private val getMovieVideosUseCase: GetMovieVideosUseCase,
+    private val getMovieCastUseCase: GetMovieCastUseCase
 ) :
     ViewModel() {
 
@@ -38,6 +41,10 @@ class DetailsViewModel @Inject constructor(
 
     private val _videos = MutableStateFlow<Resource<MovieVideo>?>(null)
     val videos: MutableStateFlow<Resource<MovieVideo>?> = _videos
+
+    private val _cast = MutableStateFlow<Resource<Person>?>(null)
+    val cast: MutableStateFlow<Resource<Person>?> = _cast
+
 
 
 
@@ -83,6 +90,19 @@ class DetailsViewModel @Inject constructor(
             getMovieVideosUseCase.execute(id).collect{
                 _videos.value  = it
                 println(it)
+            }
+        }
+    }
+    fun  getCast(id:Int){
+        viewModelScope.launch {
+            getMovieCastUseCase.execute(id).collect{
+                _cast.value = it
+                println("cast-------------------------------------------" +
+                        "-------------------------------------------------" +
+                        "${it.data}")
+                println("cast-------------------------------------------" +
+                        "-------------------------------------------------" +
+                        "${it.message}")
             }
         }
     }

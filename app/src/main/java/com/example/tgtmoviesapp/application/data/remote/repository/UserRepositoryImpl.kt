@@ -5,9 +5,12 @@ import com.example.tgtmoviesapp.application.data.modelsDto.LoginClass
 import com.example.tgtmoviesapp.application.data.modelsDto.RegisterClass
 import com.example.tgtmoviesapp.application.data.remote.UserServices
 import com.example.tgtmoviesapp.application.data.remote.mappers.toCurrentUserModel
+import com.example.tgtmoviesapp.application.data.remote.mappers.toMovieId
 import com.example.tgtmoviesapp.application.data.remote.mappers.toRegisterResponse
 import com.example.tgtmoviesapp.application.data.remote.mappers.toStringList
 import com.example.tgtmoviesapp.application.domain.models.CurrentUserModel
+import com.example.tgtmoviesapp.application.domain.models.FavMovieId
+import com.example.tgtmoviesapp.application.domain.models.MovieAdd
 import com.example.tgtmoviesapp.application.domain.models.RegisterError
 import com.example.tgtmoviesapp.application.domain.models.RegisterResponse
 import com.example.tgtmoviesapp.application.domain.repository.UserRepository
@@ -75,10 +78,14 @@ class UserRepositoryImpl @Inject constructor(private val userApi: UserServices) 
             if (response.isSuccessful) {
                 emit(Resource.Success(response.body()?.toCurrentUserModel()))
             } else {
-                val gson = Gson()
-                val errorResponse: RegisterError =
-                    gson.fromJson(response.errorBody()?.charStream(), RegisterError::class.java)
-                emit(Resource.Error(errorResponse.message.toString().toStringList()))
+                if (response.code() == 401) {
+                    emit(Resource.Error("session ended".toStringList()))
+                } else {
+                    val gson = Gson()
+                    val errorResponse: RegisterError =
+                        gson.fromJson(response.errorBody()?.charStream(), RegisterError::class.java)
+                    emit(Resource.Error(errorResponse.message.toString().toStringList()))
+                }
 
 
             }
@@ -88,13 +95,37 @@ class UserRepositoryImpl @Inject constructor(private val userApi: UserServices) 
         }
     }
 
-    override suspend fun addFavouriteMovie(bearer: String, id: Int): Flow<Resource<Int>> = flow {
+    override suspend fun addFavouriteMovie(bearer: String, id: Int): Flow<Resource<FavMovieId>> = flow {
         try {
 
             emit(Resource.Loading(loading = true))
-            val response = userApi.addFavourite("bearer $bearer", id)
+            val response = userApi.addFavourite("bearer $bearer", MovieAdd(id))
             if (response.isSuccessful) {
-                emit(Resource.Success(response.body()))
+                emit(Resource.Success(response.body()?.toMovieId()))
+            } else {
+                if (response.code() == 401) {
+                    emit(Resource.Error("session ended".toStringList()))
+                } else {
+                    val gson = Gson()
+                    val errorResponse: RegisterError =
+                        gson.fromJson(response.errorBody()?.charStream(), RegisterError::class.java)
+                    emit(Resource.Error(errorResponse.message.toString().toStringList()))
+                }
+
+            }
+        } catch (e: Exception) {
+            emit(Resource.Error(e.toString().toStringList()))
+
+        }
+    }
+
+    override suspend fun isFavourite(bearer: String,id:Int): Flow<Resource<Boolean>> = flow {
+        try {
+
+            emit(Resource.Loading(loading = true))
+            val response = userApi.isFavourite("bearer $bearer", id)
+            if (response.isSuccessful) {
+                emit(Resource.Success(response.body()?.isAdded))
             } else {
                 if (response.code() == 401) {
                     emit(Resource.Error("session ended".toStringList()))

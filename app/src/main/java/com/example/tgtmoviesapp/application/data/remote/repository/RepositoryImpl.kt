@@ -8,6 +8,7 @@ import com.example.tgtmoviesapp.application.data.remote.mappers.toGenre
 import com.example.tgtmoviesapp.application.data.remote.mappers.toMovieDetails
 import com.example.tgtmoviesapp.application.data.remote.mappers.toMovieVideo
 import com.example.tgtmoviesapp.application.data.remote.mappers.toMovies
+import com.example.tgtmoviesapp.application.data.remote.mappers.toPerson
 import com.example.tgtmoviesapp.application.data.remote.mappers.toStringList
 import com.example.tgtmoviesapp.application.domain.models.AllItemModel
 import com.example.tgtmoviesapp.application.domain.models.Genre
@@ -15,6 +16,7 @@ import com.example.tgtmoviesapp.application.domain.models.MovieDetails
 import com.example.tgtmoviesapp.application.domain.models.MovieGenre
 import com.example.tgtmoviesapp.application.domain.models.MovieVideo
 import com.example.tgtmoviesapp.application.domain.models.Movies
+import com.example.tgtmoviesapp.application.domain.models.Person
 import com.example.tgtmoviesapp.application.domain.repository.Repository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -214,6 +216,24 @@ class RepositoryImpl @Inject constructor(
             val response = api.getMovieVideos(movieId = id)
             if (response.isSuccessful) {
                 emit(Resource.Success(response.body()?.toMovieVideo()))
+            } else {
+                emit(Resource.Error("error".toStringList(), null))
+
+            }
+        }
+
+        catch (e:Exception){
+            emit(Resource.Error("$e".toStringList(), null))
+
+        }
+    }
+
+    override suspend fun getMovieCast(id: Int): Flow<Resource<Person>> =flow{
+        try {
+            emit(Resource.Loading(loading = true))
+            val response = api.getMovieCast(movieId = id)
+            if (response.isSuccessful) {
+                emit(Resource.Success(response.body()?.toPerson()))
             } else {
                 emit(Resource.Error("error".toStringList(), null))
 

@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.example.tgtmoviesapp.application.domain.models.DisplayIndicator
 import com.example.tgtmoviesapp.application.presentation.adapters.searchAdapter.SearchAdapter
 import com.example.tgtmoviesapp.application.presentation.adapters.searchAdapter.ViewPagerAdapter
 import com.example.tgtmoviesapp.application.presentation.fragments.celebrities.FoundCelebritiesFragment
@@ -115,7 +116,7 @@ class SecondSearchFragment : Fragment() {
 
 
     private fun updateSearchAdapter(data: List<String>) {
-        searchAdapter.setMovieList(data)
+        searchAdapter.setMovieList(data, DisplayIndicator.NONE)
     }
 
     private fun initAdapters() {

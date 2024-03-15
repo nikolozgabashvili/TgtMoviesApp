@@ -57,37 +57,63 @@ class CelebritiesAdapter : RecyclerView.Adapter<CelebritiesAdapter.CelebViewHold
 
 
         val currentItem = personList[position]
+        if (imageType != DisplayIndicator.DETAILS) {
+            Glide.with(holder.binding.root.context)
 
-        Glide.with(holder.binding.root.context)
+                .load(Constants.IMAGE_BASE_URL + currentItem?.profilePath)
+                .override(270, 300)
 
-            .load(Constants.IMAGE_BASE_URL + currentItem?.profilePath)
-            .override(270, 300)
+                .error(
+                    Glide.with(holder.binding.root.context)
+                        .load(R.drawable.person_item)
+                        .override(400, 400)
+                        .centerCrop()
+                        .transform(RoundedCorners(30))
 
-            .error(
-                Glide.with(holder.binding.root.context)
-                    .load(R.drawable.person_item)
-                    .override(400,400)
-                    .centerCrop()
-                    .transform(RoundedCorners(30))
+                )
+                .transform(RoundedCorners(30))
+                .into(holder.binding.imageView)
 
-            )
-            .transform(RoundedCorners(30))
-            .into(holder.binding.imageView)
+            holder.binding.imageView.minimumHeight = minh
+            holder.binding.imageView.minimumWidth = minw
 
-        holder.binding.imageView.minimumHeight = minh
-        holder.binding.imageView.minimumWidth = minw
-
-        holder.binding.movieTitle.textSize = 14F
-        holder.binding.movieGenre.maxWidth = holder.binding.imageView.width
-        holder.binding.movieTitle.maxWidth = holder.binding.imageView.width
-        holder.binding.movieTitle.maxLines = 2
-        holder.binding.imageView.scaleType= ImageView.ScaleType.FIT_CENTER
-        holder.binding.imageView.setBackgroundResource(R.drawable.person_item_stroke)
+            holder.binding.movieTitle.textSize = 14F
+            holder.binding.movieGenre.maxWidth = holder.binding.imageView.width
+            holder.binding.movieTitle.maxWidth = holder.binding.imageView.width
+            holder.binding.movieTitle.maxLines = 2
+            holder.binding.imageView.scaleType = ImageView.ScaleType.FIT_CENTER
+            holder.binding.imageView.setBackgroundResource(R.drawable.person_item_stroke)
 
 
-        holder.binding.movieGenre.text = currentItem?.knownForDepartment
-        holder.binding.movieTitle.text = currentItem?.name
+            holder.binding.movieGenre.text = currentItem?.knownForDepartment
+            holder.binding.movieTitle.text = currentItem?.name
+        }else{
 
+
+            holder.binding.movieGenre.maxWidth = 200
+            holder.binding.movieTitle.maxWidth = 200
+            holder.binding.movieGenre.textSize = 10f
+            holder.binding.movieTitle.textSize = 10f
+            Glide.with(holder.binding.root.context)
+                .load(Constants.PROFILE_IMAGE_URL + currentItem?.profilePath)
+                .override(200, 200)
+                .circleCrop()
+                .error(
+                    Glide.with(holder.binding.root.context)
+                        .load(R.drawable.person_item)
+                        .override(200, 200)
+                        .circleCrop()
+
+                )
+
+                .into(holder.binding.imageView)
+            holder.binding.imageView.scaleType = ImageView.ScaleType.FIT_CENTER
+            holder.binding.imageView.setBackgroundResource(R.drawable.circle_stroke)
+
+
+            holder.binding.movieGenre.text = currentItem?.mediaType
+            holder.binding.movieTitle.text = currentItem?.name
+        }
 
 
     }
