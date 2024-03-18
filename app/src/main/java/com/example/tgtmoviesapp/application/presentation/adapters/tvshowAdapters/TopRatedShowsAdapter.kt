@@ -18,7 +18,7 @@ class TopRatedShowsAdapter : RecyclerView.Adapter<TopRatedShowsAdapter.TopViewHo
     var gridItemList: List<TvShows.Result?> = emptyList()
     private var movieGenreList: List<Genre?> = mutableListOf()
     private var typeIndicator :DisplayIndicator = DisplayIndicator.NONE
-
+    var onItemClick: ((Int?) -> Unit)? = null
 
     fun setShowList(topRatedClass: List<TvShows.Result?>,typeIndicator:DisplayIndicator = DisplayIndicator.NONE) {
         topRatedClass.let {
@@ -106,6 +106,9 @@ class TopRatedShowsAdapter : RecyclerView.Adapter<TopRatedShowsAdapter.TopViewHo
         holder.binding.movieTitle.text = item?.name
         holder.binding.movieGenre.text = genreList.joinToString(separator = ",")
         holder.binding.movieGenre.maxLines = 1
+        holder.binding.root.setOnClickListener {
+            onItemClick?.invoke(item?.id)
+        }
 
     }
 

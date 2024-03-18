@@ -17,14 +17,16 @@ import com.example.tgtmoviesapp.application.domain.models.Genre
 import com.example.tgtmoviesapp.application.domain.models.TvGenre
 import com.example.tgtmoviesapp.application.domain.models.TvShows
 import com.example.tgtmoviesapp.application.presentation.adapters.tvshowAdapters.TopRatedShowsAdapter
+import com.example.tgtmoviesapp.application.presentation.fragments.search.SecondSearchFragmentDirections
 import com.example.tgtmoviesapp.application.presentation.viewModels.SearchViewModel
 import com.example.tgtmoviesapp.application.presentation.viewModels.TvShowsViewModel
 import com.example.tgtmoviesapp.databinding.FragmentFoundShowsBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.Locale
 
-
+@AndroidEntryPoint
 class FoundShowsFragment : Fragment() {
 
 
@@ -42,6 +44,8 @@ class FoundShowsFragment : Fragment() {
     private var currentPage = 1
     private var currentMovieList :List<TvShows.Result?>  = mutableListOf()
     private var requestNextPage = true
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -140,6 +144,16 @@ class FoundShowsFragment : Fragment() {
         tvShowsRecyclerView.adapter = tvShowsAdapter
         tvShowsRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        tvShowsAdapter.onItemClick={
+            try {
+
+                val action = TvShowFragmentDirections.actionTvShowFragmentToTvDetailsFragment(it?:-1)
+                findNavController().navigate(action)
+            }catch (_:Exception){
+                val action = SecondSearchFragmentDirections.actionSecondSearchFragmentToTvDetailsFragment(it?:-1)
+                findNavController().navigate(action)
+            }
+        }
         tvShowsRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)

@@ -3,31 +3,36 @@ package com.example.tgtmoviesapp.application.data.remote.mappers
 
 import com.example.tgtmoviesapp.application.data.modelsDto.AllItemModelDto
 import com.example.tgtmoviesapp.application.data.modelsDto.CastAndCrewDto
+import com.example.tgtmoviesapp.application.data.modelsDto.CreatorsDto
 import com.example.tgtmoviesapp.application.data.modelsDto.GenreDto
 import com.example.tgtmoviesapp.application.data.modelsDto.GetCurrentUserDto
+import com.example.tgtmoviesapp.application.data.modelsDto.LanguagesDto
 import com.example.tgtmoviesapp.application.data.modelsDto.MovieDetailsDto
 import com.example.tgtmoviesapp.application.data.modelsDto.MovieGenreDto
 import com.example.tgtmoviesapp.application.data.modelsDto.MovieVideoDto
 import com.example.tgtmoviesapp.application.data.modelsDto.MoviesDto
+import com.example.tgtmoviesapp.application.data.modelsDto.NetworkDto
 import com.example.tgtmoviesapp.application.data.modelsDto.PersonDto
 import com.example.tgtmoviesapp.application.data.modelsDto.RegisterResponseDto
 import com.example.tgtmoviesapp.application.data.modelsDto.TvGenreDto
 import com.example.tgtmoviesapp.application.data.modelsDto.TvShowsDto
 import com.example.tgtmoviesapp.application.data.modelsDto.UserFavoriteMovies
 import com.example.tgtmoviesapp.application.domain.models.AllItemModel
+import com.example.tgtmoviesapp.application.domain.models.Creators
 import com.example.tgtmoviesapp.application.domain.models.CurrentUserModel
 import com.example.tgtmoviesapp.application.domain.models.FavMovieId
 import com.example.tgtmoviesapp.application.domain.models.Genre
+import com.example.tgtmoviesapp.application.domain.models.Languages
 import com.example.tgtmoviesapp.application.domain.models.MovieAdd
 import com.example.tgtmoviesapp.application.domain.models.MovieDetails
 import com.example.tgtmoviesapp.application.domain.models.MovieGenre
 import com.example.tgtmoviesapp.application.domain.models.MovieVideo
 import com.example.tgtmoviesapp.application.domain.models.Movies
 import com.example.tgtmoviesapp.application.domain.models.Person
+import com.example.tgtmoviesapp.application.domain.models.ProductionCompanies
 import com.example.tgtmoviesapp.application.domain.models.RegisterResponse
 import com.example.tgtmoviesapp.application.domain.models.TvGenre
 import com.example.tgtmoviesapp.application.domain.models.TvShows
-import java.util.concurrent.RecursiveTask
 
 fun MoviesDto.toMovies(): Movies {
     return Movies(
@@ -46,6 +51,21 @@ fun MoviesDto.ResultDto.toResult(): Movies.Result {
         overview, popularity, posterPath, releaseDate,
         title, video, voteAverage, voteCount
     )
+}
+
+private fun List<MovieDetailsDto.ProductionCompany?>?.toProductCompsList(): List<ProductionCompanies> {
+    val tempList = mutableListOf<ProductionCompanies>()
+    this?.map {
+        it?.let {
+
+            tempList.add(it.toProductComps())
+        }
+    }
+    return tempList
+}
+
+private fun MovieDetailsDto.ProductionCompany?.toProductComps(): ProductionCompanies {
+    return ProductionCompanies(this?.id, this?.logoPath, this?.name ?: "", this?.originCountry)
 }
 
 fun List<MoviesDto.ResultDto?>.toResult(): List<Movies.Result> {
@@ -120,7 +140,8 @@ fun PersonDto.Result.toPersonResult(): Person.Result {
         name,
         originalName,
         popularity,
-        profilePath
+        profilePath,
+        role = null
     )
 }
 
@@ -264,31 +285,86 @@ fun List<UserFavoriteMovies?>?.toUserFavouriteList(): List<CurrentUserModel.User
     return tempList
 }
 
-fun MovieDetailsDto.toMovieDetails(): MovieDetails {
-    return MovieDetails(
-        adult,
-        backdropPath,
-        budget,
-        genres?.toTvGenreList(),
-        homepage,
-        id,
-        imdbId,
-        originalLanguage,
-        originalTitle,
-        overview,
-        popularity,
-        posterPath,
-        releaseDate,
-        revenue,
-        runtime,
-        status,
-        tagline,
-        title,
-        video,
-        voteAverage,
-        voteCount
-    )
+private fun List<MovieDetailsDto.SpokenLanguage?>?.toLang(): String {
+    this?.map {
+        it?.englishName?.let {
+            return it
+        }
+    }
+    return ""
+
 }
+
+private fun List<CreatorsDto>.toTvCreatorsList(): List<Creators> {
+    val tempList = mutableListOf<Creators>()
+    this.map {
+        tempList.add(
+            Creators(
+            id = it.id,
+                creditId = it.creditId,
+                name = it.name,
+                gender = it.gender?.toGender(),
+                profilePath = it.profilePath
+        )
+        )
+    }
+    return tempList
+}
+
+private fun Int.toGender(): String {
+    return when (this){
+        0-> "Not specified"
+        1->"Female"
+        2->"Male"
+        else -> {"Non-binary"}
+    }
+}
+
+fun MovieDetailsDto.toMovieDetails(): MovieDetails {
+    println(backdropPath)
+    println("-----------")
+    return MovieDetails(
+        adult =adult,
+        network=network?.nameList(),
+        backdropPath=backdropPath,
+        createdBy=createdBy?.toTvCreatorsList(),
+        budget=budget,
+        genres=genres?.toTvGenreList(),
+        homepage=homepage,
+        id=id,
+        imdbId=imdbId,
+        originalLanguage=originalLanguage,
+        originalTitle=originalTitle,
+        overview=overview,
+        popularity = popularity,
+        posterPath = posterPath,
+        spokenLanguage = spokenLanguages.toLang(),
+        releaseDate = releaseDate,
+        revenue = revenue,
+        runtime = runtime,
+        status = status,
+        tagline = tagline,
+        title = title,
+        video = video,
+        voteAverage = voteAverage,
+        voteCount = voteCount,
+        productionCompanies = productionCompanies.toProductCompsList(),
+
+        )
+}
+
+private fun List<NetworkDto>.nameList(): List<String> {
+    val temp = mutableListOf<String>()
+    this.map {
+        it.name?.let {
+
+            temp.add(it)
+        }
+    }
+    return temp
+
+}
+
 
 fun MovieVideoDto.toMovieVideo(): MovieVideo {
     return MovieVideo(id, results.toMovieResultList())
@@ -311,27 +387,35 @@ fun MovieVideoDto.Result.toMovIeVideoResult(): MovieVideo.Result {
 
 
 fun CastAndCrewDto.toPerson(): Person {
-    return Person(page = null, results = this.toPersonResultList(), totalPages = null, totalResults = null)
+    return Person(
+        page = null,
+        results = this.toPersonResultList(),
+        totalPages = null,
+        totalResults = null
+    )
 }
 
 private fun CastAndCrewDto.toPersonResultList(): List<Person.Result> {
     val cast = this.cast
-    val crew = this.crew
+//    val crew = this.crew
     val personResultList = mutableListOf<Person.Result>()
     cast?.map {
-        personResultList.add(Person.Result(
-            adult = it?.adult,
-            gender = it?.gender,
-            id,
-            knownFor = null,
-            knownForDepartment = it?.knownForDepartment,
-            mediaType = it?.character,
-            name = it?.name,
-            originalName = it?.originalName,
-            profilePath = it?.profilePath,
-            popularity = it?.popularity
+        personResultList.add(
+            Person.Result(
+                adult = it?.adult,
+                gender = it?.gender,
+                id,
+                knownFor = null,
+                knownForDepartment = it?.knownForDepartment,
+                mediaType = null,
+                name = it?.name,
+                originalName = it?.originalName,
+                profilePath = it?.profilePath,
+                popularity = it?.popularity,
+                role = it?.character
 
-        ))
+            )
+        )
     }
 //    crew?.map {
 //        personResultList.add(Person.Result(
@@ -351,6 +435,24 @@ private fun CastAndCrewDto.toPersonResultList(): List<Person.Result> {
     return personResultList
 }
 
-fun MovieAdd.toMovieId():FavMovieId{
+fun MovieAdd.toMovieId(): FavMovieId {
     return FavMovieId(movieId = movieId)
+}
+
+fun LanguagesDto.toLanguage(): Languages {
+    return Languages(languages.toLanguageList())
+}
+
+private fun LanguagesDto.LanguagesDtoItem.toLanguageItem(): Languages.LanguagesDtoItem {
+    return Languages.LanguagesDtoItem(
+        englishName, langCode, name
+    )
+}
+
+private fun List<LanguagesDto.LanguagesDtoItem>.toLanguageList(): List<Languages.LanguagesDtoItem> {
+    val tempList = mutableListOf<Languages.LanguagesDtoItem>()
+    this.map {
+        tempList.add(it.toLanguageItem())
+    }
+    return tempList
 }

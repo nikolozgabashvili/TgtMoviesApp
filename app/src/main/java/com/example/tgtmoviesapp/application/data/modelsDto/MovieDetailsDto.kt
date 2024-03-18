@@ -1,12 +1,23 @@
 package com.example.tgtmoviesapp.application.data.modelsDto
 
-import com.example.tgtmoviesapp.application.domain.models.MovieGenre
 import com.google.gson.annotations.SerializedName
+
+data class CreatorsDto(
+    val id: Int?,
+    @SerializedName("credit_id")
+    val creditId: String?,
+    val name: String?,
+    val gender: Int?,
+    val profilePath: String?
+)
 
 data class MovieDetailsDto(
     val adult: Boolean?,
+
     @SerializedName("backdrop_path")
     val backdropPath: String?,
+    @SerializedName("created_by")
+    val createdBy: List<CreatorsDto>?,
     @SerializedName("belongs_to_collection")
     val belongsToCollection: BelongsToCollection?,
     val budget: Int?,
@@ -40,7 +51,8 @@ data class MovieDetailsDto(
     @SerializedName("vote_average")
     val voteAverage: Double?,
     @SerializedName("vote_count")
-    val voteCount: Int?
+    val voteCount: Int?,
+    val network: List<NetworkDto>?
 ) {
     data class BelongsToCollection(
         @SerializedName("backdrop_path")
@@ -50,7 +62,6 @@ data class MovieDetailsDto(
         @SerializedName("poster_path")
         val posterPath: String?
     )
-
 
 
     data class ProductionCompany(
@@ -76,3 +87,12 @@ data class MovieDetailsDto(
         val name: String?
     )
 }
+
+data class NetworkDto(
+    val id: Int?,
+    @SerializedName("logo_path")
+    val logoPath: String?,
+    val name: String?,
+    @SerializedName("origin_country")
+    val originCountry: String?
+)

@@ -34,3 +34,10 @@ class CheckIsFavourite @Inject constructor(private val repository: UserRepositor
         return repository.isFavourite(bearer,id)
     }
 }
+
+class DeleteFavouriteUseCase @Inject constructor(private val repository: UserRepository){
+
+    suspend fun execute(bearer: String,id: Int):Flow<Resource<Boolean>>{
+        return repository.deleteFavourite(bearer,id)
+    }
+}

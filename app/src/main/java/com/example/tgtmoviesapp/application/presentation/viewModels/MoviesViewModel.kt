@@ -4,8 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tgtmoviesapp.application.commons.resource.Resource
 import com.example.tgtmoviesapp.application.domain.models.Genre
+import com.example.tgtmoviesapp.application.domain.models.Languages
 import com.example.tgtmoviesapp.application.domain.models.MovieGenre
 import com.example.tgtmoviesapp.application.domain.models.Movies
+import com.example.tgtmoviesapp.application.domain.usecases.GetLanguagesUseCase
 import com.example.tgtmoviesapp.application.domain.usecases.GetMoveGenresUseCase
 import com.example.tgtmoviesapp.application.domain.usecases.GetPITMoviesUseCase
 import com.example.tgtmoviesapp.application.domain.usecases.GetPopularMoviesUseCase
@@ -14,6 +16,7 @@ import com.example.tgtmoviesapp.application.domain.usecases.GetTrendingMoviesUse
 import com.example.tgtmoviesapp.application.domain.usecases.GetUpcomingMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,7 +27,8 @@ class MoviesViewModel @Inject constructor(
     private val topRatedMoviesUseCase: GetTopRatedMoviesUseCase,
     private val pITMoviesUseCase: GetPITMoviesUseCase,
     private val trendingMoviesUseCase: GetTrendingMoviesUseCase,
-    private val moveGenresUseCase: GetMoveGenresUseCase
+    private val moveGenresUseCase: GetMoveGenresUseCase,
+    private val languagesUseCase: GetLanguagesUseCase
 
     ) : ViewModel() {
 
@@ -52,6 +56,9 @@ class MoviesViewModel @Inject constructor(
     private val _moviePaging = MutableStateFlow<Resource<Movies>?>(null)
     val moviePaging: MutableStateFlow<Resource<Movies>?> = _moviePaging
 
+    private val _languages  = MutableStateFlow<Resource<Languages>?>(null)
+    val languages :MutableStateFlow<Resource<Languages>?> = _languages
+
     init {
         getMovieGenres()
         getPopularMovies()
@@ -59,8 +66,19 @@ class MoviesViewModel @Inject constructor(
         getTopRatedMovies()
         getPITMovies()
         getTrendingMovies()
+        getLanguages()
 
     }
+
+    private fun getLanguages() {
+        viewModelScope.launch {
+            languagesUseCase.execute().collect{
+                _languages.value = it
+            }
+
+        }
+    }
+
     fun activate(){
 
     }

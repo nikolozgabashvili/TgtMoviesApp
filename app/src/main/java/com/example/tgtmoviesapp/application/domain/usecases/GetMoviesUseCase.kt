@@ -5,6 +5,7 @@ import com.example.tgtmoviesapp.application.commons.constants.Constants.API_KEY
 import com.example.tgtmoviesapp.application.commons.resource.Resource
 import com.example.tgtmoviesapp.application.domain.models.AllItemModel
 import com.example.tgtmoviesapp.application.domain.models.Genre
+import com.example.tgtmoviesapp.application.domain.models.Languages
 import com.example.tgtmoviesapp.application.domain.models.MovieDetails
 import com.example.tgtmoviesapp.application.domain.models.MovieGenre
 import com.example.tgtmoviesapp.application.domain.models.MovieVideo
@@ -96,5 +97,11 @@ class GetMovieVideosUseCase @Inject constructor(private val repository: Reposito
 class GetMovieCastUseCase @Inject constructor(private val repository: Repository){
     suspend fun execute(id:Int):Flow<Resource<Person>>{
         return repository.getMovieCast(id)
+    }
+}
+
+class GetLanguagesUseCase @Inject constructor( private val repository: Repository){
+    suspend fun execute():Flow<Resource<Languages>>{
+        return repository.getLanguages()
     }
 }

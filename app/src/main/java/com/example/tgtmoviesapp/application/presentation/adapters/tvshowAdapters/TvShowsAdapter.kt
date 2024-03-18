@@ -37,7 +37,7 @@ class TvShowsAdapter() : RecyclerView.Adapter<TvShowsAdapter.TvShowViewHolder>()
         notifyDataSetChanged()
     }
 
-
+    var onItemClick: ((Int?) -> Unit)? = null
 
     fun setMovieGenres(movieGenreList: List<Genre?> = mutableListOf()){
         this.movieGenreList = movieGenreList
@@ -64,12 +64,12 @@ class TvShowsAdapter() : RecyclerView.Adapter<TvShowsAdapter.TvShowViewHolder>()
         val currentItem = showList[position]
         if (showType != DisplayIndicator.WIDE_IMAGE) {
             holder.binding.imageView.minimumWidth = 300
-            holder.binding.imageView.minimumHeight=350
+            holder.binding.imageView.minimumHeight=440
             path = Constants.IMAGE_BASE_URL + (currentItem?.posterPath?:"jbdjadhjbadadsb")
             Glide.with(holder.binding.root.context)
 
                 .load(path)
-                .apply(RequestOptions().override(340, 440))
+                .apply(RequestOptions().override(300, 440))
                 .placeholder(R.drawable.movies_item)
                 .into(holder.binding.imageView)
         } else {
@@ -79,7 +79,7 @@ class TvShowsAdapter() : RecyclerView.Adapter<TvShowsAdapter.TvShowViewHolder>()
             Glide.with(holder.binding.root.context)
 
                 .load(path)
-                .apply(RequestOptions().override(600, 440))
+                .apply(RequestOptions().override(600, 340))
                 .placeholder(R.drawable.movies_item)
 
                 .into(holder.binding.imageView)
@@ -101,6 +101,9 @@ class TvShowsAdapter() : RecyclerView.Adapter<TvShowsAdapter.TvShowViewHolder>()
         holder.binding.movieTitle.maxWidth = holder.binding.imageView.width
         holder.binding.movieGenre.maxWidth = holder.binding.imageView.width
         holder.binding.movieTitle.text = currentItem?.name
+        holder.binding.root.setOnClickListener {
+            onItemClick?.invoke(currentItem?.id)
+        }
     }
 
 }

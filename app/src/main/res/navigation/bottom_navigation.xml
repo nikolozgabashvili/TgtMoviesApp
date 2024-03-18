@@ -31,6 +31,9 @@
         <action
             android:id="@+id/action_tvShowFragment_to_foundShowsFragment"
             app:destination="@id/foundShowsFragment" />
+        <action
+            android:id="@+id/action_tvShowFragment_to_tvDetailsFragment"
+            app:destination="@id/tvDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/celebritiesFragment"
@@ -62,6 +65,9 @@
         <action
             android:id="@+id/action_secondSearchFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment" />
+        <action
+            android:id="@+id/action_secondSearchFragment_to_tvDetailsFragment"
+            app:destination="@id/tvDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -104,6 +110,9 @@
             android:name="movieType"
             app:argType="string"
             android:defaultValue="NONE" />
+        <action
+            android:id="@+id/action_foundShowsFragment_to_tvDetailsFragment"
+            app:destination="@id/tvDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -136,5 +145,17 @@
         <action
             android:id="@+id/action_movieDetailsFragment_self"
             app:destination="@id/movieDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tvDetailsFragment"
+        android:name="com.example.tgtmoviesapp.application.presentation.fragments.tvShows.TvDetailsFragment"
+        android:label="TvDetailsFragment" >
+        <action
+            android:id="@+id/action_tvDetailsFragment_self"
+            app:destination="@id/tvDetailsFragment" />
+        <argument
+            android:name="movieId"
+            app:argType="integer"
+            android:defaultValue="-1" />
     </fragment>
 </navigation>

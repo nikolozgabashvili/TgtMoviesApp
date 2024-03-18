@@ -1,5 +1,6 @@
 package com.example.tgtmoviesapp.application.presentation.adapters.celebritiesAdapter
 
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -94,6 +95,8 @@ class CelebritiesAdapter : RecyclerView.Adapter<CelebritiesAdapter.CelebViewHold
             holder.binding.movieTitle.maxWidth = 200
             holder.binding.movieGenre.textSize = 10f
             holder.binding.movieTitle.textSize = 10f
+            holder.binding.movieTitle.gravity = Gravity.CENTER
+            holder.binding.movieGenre.gravity = Gravity.CENTER
             Glide.with(holder.binding.root.context)
                 .load(Constants.PROFILE_IMAGE_URL + currentItem?.profilePath)
                 .override(200, 200)
@@ -111,7 +114,7 @@ class CelebritiesAdapter : RecyclerView.Adapter<CelebritiesAdapter.CelebViewHold
             holder.binding.imageView.setBackgroundResource(R.drawable.circle_stroke)
 
 
-            holder.binding.movieGenre.text = currentItem?.mediaType
+            holder.binding.movieGenre.text = currentItem?.role
             holder.binding.movieTitle.text = currentItem?.name
         }
 

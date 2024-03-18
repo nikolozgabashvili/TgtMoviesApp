@@ -97,12 +97,7 @@ class DetailsViewModel @Inject constructor(
         viewModelScope.launch {
             getMovieCastUseCase.execute(id).collect{
                 _cast.value = it
-                println("cast-------------------------------------------" +
-                        "-------------------------------------------------" +
-                        "${it.data}")
-                println("cast-------------------------------------------" +
-                        "-------------------------------------------------" +
-                        "${it.message}")
+
             }
         }
     }

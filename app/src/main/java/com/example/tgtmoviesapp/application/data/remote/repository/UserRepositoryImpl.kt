@@ -143,4 +143,29 @@ class UserRepositoryImpl @Inject constructor(private val userApi: UserServices) 
         }
     }
 
+    override suspend fun deleteFavourite(bearer: String, id: Int): Flow<Resource<Boolean>> =flow {
+        try {
+
+            emit(Resource.Loading(loading = true))
+            val response = userApi.deleteFavourite("bearer $bearer", id)
+            if (response.isSuccessful) {
+                if (response.code()==204)
+                    emit(Resource.Success(true))
+            } else {
+                if (response.code() == 401) {
+                    emit(Resource.Error("session ended".toStringList()))
+                } else {
+                    val gson = Gson()
+                    val errorResponse: RegisterError =
+                        gson.fromJson(response.errorBody()?.charStream(), RegisterError::class.java)
+                    emit(Resource.Error(errorResponse.message.toString().toStringList()))
+                }
+
+            }
+        } catch (e: Exception) {
+            emit(Resource.Error(e.toString().toStringList()))
+
+        }
+    }
+
 }

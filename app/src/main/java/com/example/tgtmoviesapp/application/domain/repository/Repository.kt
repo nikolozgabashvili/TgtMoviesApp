@@ -5,6 +5,7 @@ import com.example.tgtmoviesapp.application.commons.resource.Resource
 import com.example.tgtmoviesapp.application.data.modelsDto.AllItemModelDto
 import com.example.tgtmoviesapp.application.domain.models.AllItemModel
 import com.example.tgtmoviesapp.application.domain.models.Genre
+import com.example.tgtmoviesapp.application.domain.models.Languages
 import com.example.tgtmoviesapp.application.domain.models.MovieDetails
 import com.example.tgtmoviesapp.application.domain.models.MovieGenre
 import com.example.tgtmoviesapp.application.domain.models.MovieVideo
@@ -38,4 +39,6 @@ interface Repository {
     suspend fun getMovieVideos(id:Int):Flow<Resource<MovieVideo>>
 
     suspend fun getMovieCast(id:Int):Flow<Resource<Person>>
+
+    suspend fun getLanguages():Flow<Resource<Languages>>
 }

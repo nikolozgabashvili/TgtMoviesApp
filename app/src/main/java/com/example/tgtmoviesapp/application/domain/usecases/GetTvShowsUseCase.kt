@@ -3,11 +3,15 @@ package com.example.tgtmoviesapp.application.domain.usecases
 import com.example.tgtmoviesapp.application.commons.constants.Constants
 import com.example.tgtmoviesapp.application.commons.constants.Constants.API_KEY
 import com.example.tgtmoviesapp.application.commons.resource.Resource
+import com.example.tgtmoviesapp.application.domain.models.MovieDetails
+import com.example.tgtmoviesapp.application.domain.models.MovieVideo
 import com.example.tgtmoviesapp.application.domain.models.Movies
+import com.example.tgtmoviesapp.application.domain.models.Person
 import com.example.tgtmoviesapp.application.domain.models.TvGenre
 import com.example.tgtmoviesapp.application.domain.models.TvShows
 import com.example.tgtmoviesapp.application.domain.repository.TvShowsRepository
 import kotlinx.coroutines.flow.Flow
+import java.text.ParseException
 import javax.inject.Inject
 
 class GetPopularTvShowsUseCase @Inject constructor(private val repository: TvShowsRepository) {
@@ -40,5 +44,35 @@ class SearchTvShowsUseCase @Inject constructor(private val repository: TvShowsRe
 class GetTvGenresUseCase @Inject constructor(private val repository: TvShowsRepository){
     suspend fun execute():Flow<Resource<TvGenre>>{
         return repository.getTvGenres(API_KEY)
+    }
+}
+
+class GetTvDetailsUseCase @Inject constructor(private val repository: TvShowsRepository){
+    suspend fun execute(id:Int):Flow<Resource<MovieDetails>>{
+        return repository.getTvDetails(id)
+    }
+}
+
+class GetSimilarShowsUseCase @Inject constructor(private val repository: TvShowsRepository){
+    suspend fun execute(id:Int,page:Int):Flow<Resource<TvShows>>{
+        return repository.getSimilarShows(id,page)
+    }
+}
+
+class GetRecommendedTvUseCase @Inject constructor(private val repository: TvShowsRepository){
+    suspend fun execute(id:Int,page:Int):Flow<Resource<TvShows>>{
+        return repository.getRecommendedShows(id,page)
+    }
+}
+
+class GetTvVideosUseCase @Inject constructor(private val repository: TvShowsRepository){
+    suspend fun execute(id:Int):Flow<Resource<MovieVideo>>{
+        return repository.getTvVideos(id)
+    }
+}
+
+class GetTvCastUseCase @Inject constructor(private val repository: TvShowsRepository){
+    suspend fun execute(id:Int):Flow<Resource<Person>>{
+        return repository.getTvCast(id)
     }
 }

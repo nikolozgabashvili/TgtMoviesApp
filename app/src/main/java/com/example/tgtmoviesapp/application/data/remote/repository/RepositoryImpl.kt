@@ -5,6 +5,7 @@ import com.example.tgtmoviesapp.application.commons.resource.Resource
 import com.example.tgtmoviesapp.application.data.remote.Api
 import com.example.tgtmoviesapp.application.data.remote.mappers.toAllItemModel
 import com.example.tgtmoviesapp.application.data.remote.mappers.toGenre
+import com.example.tgtmoviesapp.application.data.remote.mappers.toLanguage
 import com.example.tgtmoviesapp.application.data.remote.mappers.toMovieDetails
 import com.example.tgtmoviesapp.application.data.remote.mappers.toMovieVideo
 import com.example.tgtmoviesapp.application.data.remote.mappers.toMovies
@@ -12,6 +13,7 @@ import com.example.tgtmoviesapp.application.data.remote.mappers.toPerson
 import com.example.tgtmoviesapp.application.data.remote.mappers.toStringList
 import com.example.tgtmoviesapp.application.domain.models.AllItemModel
 import com.example.tgtmoviesapp.application.domain.models.Genre
+import com.example.tgtmoviesapp.application.domain.models.Languages
 import com.example.tgtmoviesapp.application.domain.models.MovieDetails
 import com.example.tgtmoviesapp.application.domain.models.MovieGenre
 import com.example.tgtmoviesapp.application.domain.models.MovieVideo
@@ -236,6 +238,24 @@ class RepositoryImpl @Inject constructor(
                 emit(Resource.Success(response.body()?.toPerson()))
             } else {
                 emit(Resource.Error("error".toStringList(), null))
+
+            }
+        }
+
+        catch (e:Exception){
+            emit(Resource.Error("$e".toStringList(), null))
+
+        }
+    }
+
+    override suspend fun getLanguages(): Flow<Resource<Languages>> = flow {
+        try {
+            emit(Resource.Loading(loading = true))
+            val response = api.getLanguages()
+            if (response.isSuccessful) {
+                emit(Resource.Success(response.body()?.toLanguage()))
+            } else {
+                emit(Resource.Error(response.message().toStringList(), null))
 
             }
         }

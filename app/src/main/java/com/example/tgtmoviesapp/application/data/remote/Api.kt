@@ -3,6 +3,7 @@ package com.example.tgtmoviesapp.application.data.remote
 import com.example.tgtmoviesapp.application.commons.constants.Constants.API_KEY
 import com.example.tgtmoviesapp.application.data.modelsDto.AllItemModelDto
 import com.example.tgtmoviesapp.application.data.modelsDto.CastAndCrewDto
+import com.example.tgtmoviesapp.application.data.modelsDto.LanguagesDto
 import com.example.tgtmoviesapp.application.data.modelsDto.MovieDetailsDto
 import com.example.tgtmoviesapp.application.data.modelsDto.MovieGenreDto
 import com.example.tgtmoviesapp.application.data.modelsDto.MovieVideoDto
@@ -171,6 +172,36 @@ interface Api {
         @Path("movie_id") movieId:Int,
     ):Response<CastAndCrewDto>
 
+    @GET("movie/configuration/languages?api_key=$API_KEY")
+    suspend fun getLanguages(
+    ):Response<LanguagesDto>
 
+
+    @GET("tv/{movie_id}?language=en-US&api_key=$API_KEY")
+    suspend fun getTvDetails(
+        @Path("movie_id") movieId:Int
+    ):Response<MovieDetailsDto>
+
+    @GET("tv/{movie_id}/similar?language=en-US&api_key=$API_KEY")
+    suspend fun getSimilarShows(
+        @Path("movie_id") movieId:Int,
+        @Query("page") page:Int = 1
+    ):Response<TvShowsDto>
+
+    @GET("tv/{movie_id}/recommendations?language=en-US&api_key=$API_KEY")
+    suspend fun getRecommendedShows(
+        @Path("movie_id") movieId:Int,
+        @Query("page") page:Int = 1
+    ):Response<TvShowsDto>
+
+    @GET("tv/{movie_id}/videos?language=en-US&api_key=$API_KEY")
+    suspend fun getTvVideos(
+        @Path("movie_id") movieId:Int,
+    ):Response<MovieVideoDto>
+
+    @GET("tv/{movie_id}/credits?language=en-US&api_key=$API_KEY")
+    suspend fun getTvCast(
+        @Path("movie_id") movieId:Int,
+    ):Response<CastAndCrewDto>
 
 }

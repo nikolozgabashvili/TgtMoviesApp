@@ -12,6 +12,7 @@ interface UserRepository {
     suspend fun getCurrentUser(bearer:String): Flow<Resource<CurrentUserModel>>
     suspend fun addFavouriteMovie(bearer:String,id:Int): Flow<Resource<FavMovieId>>
     suspend fun isFavourite(bearer:String,id:Int): Flow<Resource<Boolean>>
+    suspend fun deleteFavourite(bearer:String,id:Int): Flow<Resource<Boolean>>
 
 
 }

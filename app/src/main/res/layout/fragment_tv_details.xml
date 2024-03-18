@@ -190,40 +190,16 @@
                 app:layout_constraintTop_toBottomOf="@+id/genreRecycler" />
 
             <TextView
-                android:id="@+id/collection"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_marginStart="6dp"
                 android:layout_marginTop="30dp"
-                android:text="Collection"
-                android:textColor="@color/white"
-                android:textSize="24sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/movieAboutInfo" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/collectionRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/collection"
-                tools:itemCount="1"
-                tools:listitem="@layout/movie_item_long" />
-
-            <TextView
                 android:id="@+id/cast"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
-                android:layout_marginTop="18dp"
                 android:text="@string/cast_and_crew"
                 android:textColor="@color/white"
                 android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/collectionRecyclerView" />
+                app:layout_constraintTop_toBottomOf="@+id/movieAboutInfo" />
 
 
 
@@ -288,17 +264,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <TextView
-                        android:id="@+id/releaseDate"
+                        android:id="@+id/createdBy"
                         android:layout_marginEnd="6dp"
                         android:gravity="end"
                         android:layout_weight="1"
-                        android:text="ReleaseDate"
+                        android:text="CreatedBy"
                         android:textSize="18sp"
                         android:textColor="@color/white"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"/>
                     <TextView
-                        android:id="@+id/releaseDateTxt"
+                        android:id="@+id/createdByTxt"
                         android:layout_marginStart="6dp"
                         android:layout_gravity="end"
                         android:text="infoooooo"
@@ -307,6 +283,35 @@
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+                <LinearLayout
+
+                    android:layout_margin="4dp"
+                    android:layout_gravity="top"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/firstAirDate"
+                        android:layout_marginEnd="6dp"
+                        android:gravity="end"
+                        android:layout_weight="1"
+                        android:text="First Air Date"
+                        android:textSize="18sp"
+                        android:textColor="@color/white"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/firstAirDateTxt"
+                        android:layout_marginStart="6dp"
+                        android:layout_gravity="end"
+                        android:text="infoooooo"
+                        android:textSize="16sp"
+                        android:textColor="@color/gray"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+
 
                 </LinearLayout>
                 <LinearLayout
@@ -336,6 +341,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"/>
 
+
                 </LinearLayout>
                 <LinearLayout
                     android:layout_margin="4dp"
@@ -343,17 +349,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <TextView
-                        android:id="@+id/budget"
+                        android:id="@+id/countryOfOrigin"
                         android:layout_marginEnd="6dp"
                         android:gravity="end"
                         android:layout_weight="1"
-                        android:text="Budget"
+                        android:text="Country Of Origin"
                         android:textSize="18sp"
                         android:textColor="@color/white"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"/>
                     <TextView
-                        android:id="@+id/budgetTxt"
+                        android:id="@+id/countryOfOriginTxt"
                         android:layout_marginStart="6dp"
                         android:layout_gravity="end"
                         android:text="infoooooo"
@@ -370,17 +376,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <TextView
-                        android:id="@+id/revenue"
+                        android:id="@+id/networks"
                         android:layout_marginEnd="6dp"
                         android:gravity="end"
                         android:layout_weight="1"
-                        android:text="Revenue"
+                        android:text="Networks"
                         android:textSize="18sp"
                         android:textColor="@color/white"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"/>
                     <TextView
-                        android:id="@+id/revenueTxt"
+                        android:id="@+id/networksTxt"
                         android:layout_marginStart="6dp"
                         android:layout_gravity="end"
                         android:text="infoooooo"
@@ -401,7 +407,7 @@
                         android:layout_marginEnd="6dp"
                         android:gravity="end"
                         android:layout_weight="1"
-                        android:text="Production Company"
+                        android:text="Production Companies"
                         android:textSize="18sp"
                         android:textColor="@color/white"
                         android:layout_width="0dp"
@@ -461,7 +467,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
-                android:text="Recommended"
+                android:text="similar"
                 android:textColor="@color/white"
                 android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"

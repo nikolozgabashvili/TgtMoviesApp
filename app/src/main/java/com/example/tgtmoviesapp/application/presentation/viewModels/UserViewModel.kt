@@ -7,11 +7,13 @@ import com.example.tgtmoviesapp.application.commons.resource.Resource
 import com.example.tgtmoviesapp.application.domain.models.RegisterResponse
 import com.example.tgtmoviesapp.application.domain.usecases.AddFavouritesUseCase
 import com.example.tgtmoviesapp.application.domain.usecases.CheckIsFavourite
+import com.example.tgtmoviesapp.application.domain.usecases.DeleteFavouriteUseCase
 import com.example.tgtmoviesapp.application.domain.usecases.GetCurrentUserUseCase
 import com.example.tgtmoviesapp.application.domain.usecases.LoginUserUseCase
 import com.example.tgtmoviesapp.application.domain.usecases.RegisterUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,7 +24,8 @@ class UserViewModel @Inject constructor(
     private val getCurrentUserUseCase: GetCurrentUserUseCase,
     private val sharedPreferences: MySharedPreferences,
     private val checkIsFavourite: CheckIsFavourite,
-    private val addFavouritesUseCase: AddFavouritesUseCase
+    private val addFavouritesUseCase: AddFavouritesUseCase,
+    private val deleteFavouriteUseCase: DeleteFavouriteUseCase
 ) : ViewModel() {
 
     private val _registerResource = MutableStateFlow<Resource<RegisterResponse>?>(null)
@@ -31,11 +34,14 @@ class UserViewModel @Inject constructor(
     private val _loginResource = MutableStateFlow<Resource<String>?>(null)
     val loginResource: MutableStateFlow<Resource<String>?> = _loginResource
 
-    private val _isFavourite = MutableStateFlow(false)
-    val isFavourite: MutableStateFlow<Boolean> = _isFavourite
+    private val _isFavourite = MutableStateFlow<Resource<Boolean>?>(null)
+    val isFavourite: MutableStateFlow<Resource<Boolean>?> = _isFavourite
 
     private val _favouriteSuccess = MutableStateFlow(false)
     val favouriteSuccess: MutableStateFlow<Boolean> = _favouriteSuccess
+
+    private val _deleteSuccess = MutableStateFlow<Resource<Boolean>?>(null)
+    val deleteSuccess: MutableStateFlow<Resource<Boolean>?> = _deleteSuccess
 
     var currentUserToken = MutableStateFlow<String?>(null)
     var currentUserName = MutableStateFlow<String?>(null)
@@ -67,9 +73,24 @@ class UserViewModel @Inject constructor(
             addFavouritesUseCase.execute(currentUserToken.value!!, id).collect {
                 if (it.data != null) {
                     _favouriteSuccess.value = true
+                    isFavourite.value = Resource.Success(true)
                 } else if (it.message != null) {
                     _favouriteSuccess.value = false
                 }
+            }
+        }
+    }
+
+    fun deleteFav(id:Int){
+        viewModelScope.launch {
+            currentUserToken.value?.let {
+                deleteFavouriteUseCase.execute(it,id).collect{
+                    _deleteSuccess.value = it
+                    if (it.data==true){
+                        isFavourite.value = Resource.Success(false)
+                    }
+                }
+
             }
         }
     }
@@ -78,7 +99,7 @@ class UserViewModel @Inject constructor(
         viewModelScope.launch {
             currentUserToken.value?.let {
                 checkIsFavourite.execute(it, id).collect {
-                    it.data?.let {
+                    it?.let {
                         _isFavourite.emit(it)
                     }
                 }

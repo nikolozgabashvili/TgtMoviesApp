@@ -80,7 +80,7 @@ class FoundMoviesFragment : Fragment() {
                 searchViewModel.moviesPaged.collect {
                     it?.let {
                         it.data?.let { movies ->
-                            //TODO may cause bug dd temp solve
+
                             if (movies.page == 1) {
                                 currentMovieList = emptyList()
                                 currentPage = 1
@@ -109,7 +109,7 @@ class FoundMoviesFragment : Fragment() {
                 moviesViewModel.moviePaging.collect {
                     it?.let {
                         it.data?.let { movies ->
-                            //TODO may cause bug dd temp solve
+
                             if (movies.page == 1) {
                                 currentMovieList = emptyList()
                                 currentPage = 1

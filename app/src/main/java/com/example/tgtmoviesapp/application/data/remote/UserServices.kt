@@ -11,6 +11,7 @@ import com.example.tgtmoviesapp.application.domain.models.FavMovieId
 import com.example.tgtmoviesapp.application.domain.models.MovieAdd
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Headers
@@ -53,6 +54,13 @@ interface UserServices {
         @Header("Authorization") bearer:String,
         @Body movieId:MovieAdd
     ): Response<MovieAdd>
+
+    @DELETE("api/Favorites/{id}")
+    @Headers("accept: application/json")
+    suspend fun deleteFavourite(
+        @Header("Authorization") bearer:String,
+        @Path("id") id:Int
+    ): Response<Unit>
 
 
     @GET("api/Favorites/CheckFavoriteMovie/{movie_id}")

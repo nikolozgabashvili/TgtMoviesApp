@@ -1,4 +1,4 @@
-package com.example.tgtmoviesapp.application.presentation.fragments.movies
+package com.example.tgtmoviesapp.application.presentation.fragments.tvShows
 
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -16,56 +16,65 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.tgtmoviesapp.R
-import com.example.tgtmoviesapp.application.commons.constants.Constants.PROFILE_IMAGE_URL
+import com.example.tgtmoviesapp.application.commons.constants.Constants
 import com.example.tgtmoviesapp.application.commons.ext.convert
 import com.example.tgtmoviesapp.application.commons.ext.toCompanyList
+import com.example.tgtmoviesapp.application.commons.ext.toCreatorList
 import com.example.tgtmoviesapp.application.commons.ext.toDate
 import com.example.tgtmoviesapp.application.domain.models.DisplayIndicator
 import com.example.tgtmoviesapp.application.domain.models.Genre
 import com.example.tgtmoviesapp.application.domain.models.MovieDetails
 import com.example.tgtmoviesapp.application.domain.models.Movies
+import com.example.tgtmoviesapp.application.domain.models.TvShows
 import com.example.tgtmoviesapp.application.presentation.adapters.celebritiesAdapter.CelebritiesAdapter
 import com.example.tgtmoviesapp.application.presentation.adapters.movieAdapters.MovieAdapter
 import com.example.tgtmoviesapp.application.presentation.adapters.searchAdapter.SearchAdapter
+import com.example.tgtmoviesapp.application.presentation.adapters.tvshowAdapters.TvShowsAdapter
 import com.example.tgtmoviesapp.application.presentation.adapters.tvshowAdapters.VideoAdapter
+import com.example.tgtmoviesapp.application.presentation.fragments.movies.MovieDetailsFragmentDirections
 import com.example.tgtmoviesapp.application.presentation.viewModels.DetailsViewModel
 import com.example.tgtmoviesapp.application.presentation.viewModels.MoviesViewModel
+import com.example.tgtmoviesapp.application.presentation.viewModels.ShowDetailsViewModel
+import com.example.tgtmoviesapp.application.presentation.viewModels.TvShowsViewModel
 import com.example.tgtmoviesapp.application.presentation.viewModels.UserViewModel
-import com.example.tgtmoviesapp.databinding.FragmentMovieDetailsBinding
+import com.example.tgtmoviesapp.databinding.FragmentTvDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MovieDetailsFragment : Fragment() {
+class TvDetailsFragment : Fragment() {
+
+    private var _binding: FragmentTvDetailsBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var genreRecyclerView: RecyclerView
     private lateinit var genreAdapter: SearchAdapter
 
     private lateinit var castRecyclerView: RecyclerView
     private lateinit var castAdapter: CelebritiesAdapter
     private lateinit var similarRecyclerView: RecyclerView
-    private lateinit var similarAdapter: MovieAdapter
+    private lateinit var similarAdapter: TvShowsAdapter
     private lateinit var recommendedRecyclerView: RecyclerView
-    private lateinit var recommendedAdapter: MovieAdapter
+    private lateinit var recommendedAdapter: TvShowsAdapter
 
     private lateinit var videoRecycler: RecyclerView
     private lateinit var videoAdapter: VideoAdapter
 
-    private val detailsViewModel: DetailsViewModel by viewModels()
-    private val moviesViewModel: MoviesViewModel by viewModels()
+    private val detailsViewModel: ShowDetailsViewModel by viewModels()
+    private val tvShowsViewModel: TvShowsViewModel by viewModels()
     // user id moaqvs shared preferencebidan ......
     private val userViewModel: UserViewModel by viewModels()
 
-    private var _binding: FragmentMovieDetailsBinding? = null
-    private val binding get() = _binding!!
+    private var args :Int = -1
 
-    private var args: Int? = -1
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentMovieDetailsBinding.inflate(inflater, container, false)
+        _binding = FragmentTvDetailsBinding.inflate(inflater,container,false)
         return binding.root
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -74,6 +83,7 @@ class MovieDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         initAdapters()
         args = arguments?.getInt("movieId", -1) ?: -1
         setupObservers()
@@ -154,7 +164,7 @@ class MovieDetailsFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
 
-            detailsViewModel.movieDetails.collect {
+            detailsViewModel.tvDetails.collect {
                 println(it)
                 println(it?.message)
                 println("0102032132113123")
@@ -196,7 +206,7 @@ class MovieDetailsFragment : Fragment() {
         }
         viewLifecycleOwner.lifecycleScope.launch {
 
-            detailsViewModel.similarMovies.collect {
+            detailsViewModel.similarShows.collect {
                 if (it==null)
                     detailsViewModel.getSimilarMovies(args!!, 1)
 
@@ -245,7 +255,7 @@ class MovieDetailsFragment : Fragment() {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            moviesViewModel.moviesGenres.collect {
+            tvShowsViewModel.tvGenres.collect {
                 it?.data?.let {
                     it.genres?.let {
                         similarAdapter.setMovieGenres(it)
@@ -292,20 +302,20 @@ class MovieDetailsFragment : Fragment() {
         genreAdapter.setMovieList(tempList, DisplayIndicator.DETAILS)
     }
 
-    private fun setupRecommendedMoviesRecycler(moviesModel: Movies) {
-        moviesModel.results?.let {
-            recommendedAdapter.setMovieList(it)
+    private fun setupRecommendedMoviesRecycler(moviesModel: TvShows) {
+        moviesModel.let {
+            recommendedAdapter.setShowList(it)
         }
     }
 
     private fun setupPage(curMovie: MovieDetails, id: Int?) {
         binding.ratingBar.stepSize = 0.2f
 
-        Glide.with(requireContext()).load(PROFILE_IMAGE_URL + curMovie.backdropPath)
+        Glide.with(requireContext()).load(Constants.PROFILE_IMAGE_URL + curMovie.backdropPath)
             .placeholder(R.drawable.movies_item)
 
             .into(binding.backgroundImage)
-        Glide.with(requireContext()).load(PROFILE_IMAGE_URL + curMovie.posterPath)
+        Glide.with(requireContext()).load(Constants.PROFILE_IMAGE_URL + curMovie.posterPath)
             .placeholder(R.drawable.movies_item)
 
             .centerCrop()
@@ -314,8 +324,6 @@ class MovieDetailsFragment : Fragment() {
         binding.movieTitle.text = curMovie.title
         binding.headTitle.text = curMovie.title
         binding.movieAboutInfo.text = curMovie.overview
-        binding.collection.visibility = View.GONE
-        binding.collectionRecyclerView.visibility = View.GONE
         binding.ratingBar.rating = curMovie.voteAverage?.toFloat()?.div(2) ?: 0f
 
         curMovie.voteAverage?.let {
@@ -323,34 +331,29 @@ class MovieDetailsFragment : Fragment() {
         }
         binding.ratingCount.text = "(${curMovie.voteCount})"
 
-        binding.releaseDateTxt.text = curMovie.releaseDate.toDate()
+        binding.networksTxt.text = curMovie.network.toString()
         binding.languageTxt.text = curMovie.originalLanguage
-        if (curMovie.budget == null || curMovie.budget == 0) {
-            binding.budgetTxt.visibility = View.GONE
-            binding.budget.visibility = View.GONE
-        } else {
-            binding.budgetTxt.visibility = View.VISIBLE
-            binding.budget.visibility = View.VISIBLE
-            binding.budgetTxt.text = curMovie.budget.convert()
 
-        }
-        if (curMovie.revenue == null || curMovie.revenue == 0) {
-            binding.revenueTxt.visibility = View.GONE
-            binding.revenue.visibility = View.GONE
-        } else {
-            binding.revenueTxt.visibility = View.VISIBLE
-            binding.revenue.visibility = View.VISIBLE
-            binding.revenueTxt.text = curMovie.revenue.convert()
-        }
         curMovie.productionCompanies?.let {
             if (curMovie.productionCompanies.isNotEmpty()) {
-            binding.productionCompTxt.visibility = View.VISIBLE
-            binding.productionComp.visibility = View.VISIBLE
-            binding.productionCompTxt.text = curMovie.productionCompanies.toCompanyList()
-        } else {
-            binding.productionCompTxt.visibility = View.GONE
-            binding.productionComp.visibility = View.GONE
-        } }
+                binding.productionCompTxt.visibility = View.VISIBLE
+                binding.productionComp.visibility = View.VISIBLE
+                binding.productionCompTxt.text = curMovie.productionCompanies.toCompanyList()
+            } else {
+                binding.productionCompTxt.visibility = View.GONE
+                binding.productionComp.visibility = View.GONE
+            }
+        }
+        curMovie.createdBy?.let {
+            if (curMovie.createdBy.isNotEmpty()) {
+                binding.createdByTxt.visibility = View.VISIBLE
+                binding.createdBy.visibility = View.VISIBLE
+                binding.createdByTxt.text = curMovie.createdBy.toCreatorList()
+            } else {
+                binding.createdBy.visibility = View.GONE
+                binding.createdBy.visibility = View.GONE
+            }
+        }
 
 
     }
@@ -364,10 +367,10 @@ class MovieDetailsFragment : Fragment() {
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
     }
 
-    private fun setupSimilarMoviesRecycler(moviesModel: Movies) {
+    private fun setupSimilarMoviesRecycler(moviesModel: TvShows) {
 
-        moviesModel.results?.let {
-            similarAdapter.setMovieList(it)
+        moviesModel.let {
+            similarAdapter.setShowList(it)
         }
 
 
@@ -414,7 +417,7 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun initRecommendedAdapter() {
-        recommendedAdapter = MovieAdapter()
+        recommendedAdapter = TvShowsAdapter()
         recommendedRecyclerView = binding.recommendedRecycler
         recommendedRecyclerView.adapter = recommendedAdapter
         recommendedRecyclerView.layoutManager =
@@ -422,7 +425,7 @@ class MovieDetailsFragment : Fragment() {
 
         recommendedAdapter.onItemClick = {
             it?.let {
-                val action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentSelf(it)
+                val action = TvDetailsFragmentDirections.actionTvDetailsFragmentSelf(it)
                 findNavController().navigate(action)
             }
         }
@@ -430,7 +433,7 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun initSimilarAdapter() {
-        similarAdapter = MovieAdapter()
+        similarAdapter = TvShowsAdapter()
         similarRecyclerView = binding.similarRecycler
         similarRecyclerView.adapter = similarAdapter
         similarRecyclerView.layoutManager =
@@ -438,7 +441,7 @@ class MovieDetailsFragment : Fragment() {
 
         similarAdapter.onItemClick = {
             it?.let {
-                val action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentSelf(it)
+                val action = TvDetailsFragmentDirections.actionTvDetailsFragmentSelf(it)
                 findNavController().navigate(action)
             }
         }
@@ -453,6 +456,5 @@ class MovieDetailsFragment : Fragment() {
 
 
     }
-
 
 }
