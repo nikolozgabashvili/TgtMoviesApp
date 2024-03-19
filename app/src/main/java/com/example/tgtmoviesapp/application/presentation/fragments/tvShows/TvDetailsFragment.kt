@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide
 import com.example.tgtmoviesapp.R
 import com.example.tgtmoviesapp.application.commons.constants.Constants
 import com.example.tgtmoviesapp.application.commons.ext.convert
+import com.example.tgtmoviesapp.application.commons.ext.listToString
 import com.example.tgtmoviesapp.application.commons.ext.toCompanyList
 import com.example.tgtmoviesapp.application.commons.ext.toCreatorList
 import com.example.tgtmoviesapp.application.commons.ext.toDate
@@ -89,48 +90,10 @@ class TvDetailsFragment : Fragment() {
         setupObservers()
 
 
-
-
         binding.backButton.setOnClickListener {
             findNavController().popBackStack()
         }
 
-        binding.favourites.setOnClickListener {
-            if (userViewModel.currentUserToken.value == null) {
-                Toast.makeText(requireContext(), "please log in", Toast.LENGTH_SHORT).show()
-            } else if (userViewModel.isFavourite.value?.data == true) {
-
-                userViewModel.deleteFav(args!!)
-
-                viewLifecycleOwner.lifecycleScope.launch {
-
-                    userViewModel.deleteSuccess.collect {
-                        if (it?.data == true) {
-                            binding.favourites.setImageResource(R.drawable.favourite_empty)
-                        } else if (it?.data == false) {
-                            if (!it.message.isNullOrEmpty() && it.message[0] == "session ended") {
-                                Toast.makeText(
-                                    requireContext(),
-                                    "session ended please sign in",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                userViewModel.removeTokenValue()
-                            }
-                        }
-                    }
-                }
-            } else if (userViewModel.isFavourite.value?.data == false) {
-                userViewModel.addFavourite(args!!)
-                viewLifecycleOwner.lifecycleScope.launch {
-                    userViewModel.favouriteSuccess.collect {
-                        if (it) {
-                            binding.favourites.setImageResource(R.drawable.favourite_filled)
-
-                        }
-                    }
-                }
-            }
-        }
 
 
     }
@@ -165,9 +128,11 @@ class TvDetailsFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
 
             detailsViewModel.tvDetails.collect {
-                println(it)
-                println(it?.message)
-                println("0102032132113123")
+                if(it?.loading!=null){
+                   binding.detailsScroll.visibility = View.INVISIBLE
+                }else{
+                    binding.detailsScroll.visibility = View.VISIBLE
+                }
                 if (it==null)
                     detailsViewModel.getMovieDetails(args!!)
 
@@ -178,6 +143,7 @@ class TvDetailsFragment : Fragment() {
                         updateGenreList(it.genres)
                     }
                 }
+
             }
 
         }
@@ -254,19 +220,7 @@ class TvDetailsFragment : Fragment() {
 
         }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            tvShowsViewModel.tvGenres.collect {
-                it?.data?.let {
-                    it.genres?.let {
-                        similarAdapter.setMovieGenres(it)
-                        recommendedAdapter.setMovieGenres(it)
 
-                    }
-
-                }
-
-            }
-        }
         viewLifecycleOwner.lifecycleScope.launch {
             detailsViewModel.cast.collect {
                 if (it==null){
@@ -303,7 +257,7 @@ class TvDetailsFragment : Fragment() {
     }
 
     private fun setupRecommendedMoviesRecycler(moviesModel: TvShows) {
-        moviesModel.let {
+        moviesModel.results?.let {
             recommendedAdapter.setShowList(it)
         }
     }
@@ -317,12 +271,11 @@ class TvDetailsFragment : Fragment() {
             .into(binding.backgroundImage)
         Glide.with(requireContext()).load(Constants.PROFILE_IMAGE_URL + curMovie.posterPath)
             .placeholder(R.drawable.movies_item)
-
             .centerCrop()
             .into(binding.posterImage)
         binding.headTitle.maxLines = 1
-        binding.movieTitle.text = curMovie.title
-        binding.headTitle.text = curMovie.title
+        binding.movieTitle.text = curMovie.name
+        binding.headTitle.text = curMovie.name
         binding.movieAboutInfo.text = curMovie.overview
         binding.ratingBar.rating = curMovie.voteAverage?.toFloat()?.div(2) ?: 0f
 
@@ -331,8 +284,10 @@ class TvDetailsFragment : Fragment() {
         }
         binding.ratingCount.text = "(${curMovie.voteCount})"
 
-        binding.networksTxt.text = curMovie.network.toString()
+        binding.networksTxt.text = curMovie.network?.listToString()
         binding.languageTxt.text = curMovie.originalLanguage
+        binding.firstAirDateTxt.text = curMovie.firstAirDate.toDate()
+        binding.countryOfOriginTxt.text = curMovie.originCountry?.listToString()
 
         curMovie.productionCompanies?.let {
             if (curMovie.productionCompanies.isNotEmpty()) {
@@ -369,7 +324,7 @@ class TvDetailsFragment : Fragment() {
 
     private fun setupSimilarMoviesRecycler(moviesModel: TvShows) {
 
-        moviesModel.let {
+        moviesModel.results?.let {
             similarAdapter.setShowList(it)
         }
 
@@ -453,7 +408,12 @@ class TvDetailsFragment : Fragment() {
         castRecyclerView.adapter = castAdapter
         castRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-
+        castAdapter.onClick={
+            it?.let {
+                val action = TvDetailsFragmentDirections.actionTvDetailsFragmentToCelebrityDetailsFragment(it)
+                findNavController().navigate(action)
+            }
+        }
 
     }
 

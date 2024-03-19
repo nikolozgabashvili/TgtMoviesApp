@@ -21,6 +21,7 @@ class CelebritiesAdapter : RecyclerView.Adapter<CelebritiesAdapter.CelebViewHold
 
     }
 
+    var onClick:((Int?)->Unit)? = null
     private var personList: List<Person.Result?> = emptyList()
     private var imageType: DisplayIndicator = DisplayIndicator.NONE
     private var minh = 410
@@ -58,7 +59,10 @@ class CelebritiesAdapter : RecyclerView.Adapter<CelebritiesAdapter.CelebViewHold
 
 
         val currentItem = personList[position]
+
+
         if (imageType != DisplayIndicator.DETAILS) {
+            println(currentItem?.id)
             Glide.with(holder.binding.root.context)
 
                 .load(Constants.IMAGE_BASE_URL + currentItem?.profilePath)
@@ -88,8 +92,12 @@ class CelebritiesAdapter : RecyclerView.Adapter<CelebritiesAdapter.CelebViewHold
 
             holder.binding.movieGenre.text = currentItem?.knownForDepartment
             holder.binding.movieTitle.text = currentItem?.name
-        }else{
 
+            holder.binding.root.setOnClickListener {
+                onClick?.invoke(currentItem?.id)
+            }
+        }else{
+            println(currentItem?.id)
 
             holder.binding.movieGenre.maxWidth = 200
             holder.binding.movieTitle.maxWidth = 200
@@ -113,10 +121,15 @@ class CelebritiesAdapter : RecyclerView.Adapter<CelebritiesAdapter.CelebViewHold
             holder.binding.imageView.scaleType = ImageView.ScaleType.FIT_CENTER
             holder.binding.imageView.setBackgroundResource(R.drawable.circle_stroke)
 
+            holder.binding.root.setOnClickListener {
+                onClick?.invoke(currentItem?.id)
+            }
 
             holder.binding.movieGenre.text = currentItem?.role
             holder.binding.movieTitle.text = currentItem?.name
+
         }
+
 
 
     }

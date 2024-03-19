@@ -153,11 +153,9 @@ class MovieDetailsFragment : Fragment() {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-
+            binding.detailsScroll.visibility = View.INVISIBLE
             detailsViewModel.movieDetails.collect {
-                println(it)
-                println(it?.message)
-                println("0102032132113123")
+
                 if (it==null)
                     detailsViewModel.getMovieDetails(args!!)
 
@@ -167,6 +165,9 @@ class MovieDetailsFragment : Fragment() {
                         setupPage(it, args)
                         updateGenreList(it.genres)
                     }
+                }
+                if (it?.loading==null){
+                    binding.detailsScroll.visibility = View.VISIBLE
                 }
             }
 
@@ -248,8 +249,7 @@ class MovieDetailsFragment : Fragment() {
             moviesViewModel.moviesGenres.collect {
                 it?.data?.let {
                     it.genres?.let {
-                        similarAdapter.setMovieGenres(it)
-                        recommendedAdapter.setMovieGenres(it)
+
 
                     }
 
@@ -450,7 +450,13 @@ class MovieDetailsFragment : Fragment() {
         castRecyclerView.adapter = castAdapter
         castRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-
+        castAdapter.onClick={
+            it?.let {
+                println(it)
+                val action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToCelebrityDetailsFragment(it)
+                findNavController().navigate(action)
+            }
+        }
 
     }
 

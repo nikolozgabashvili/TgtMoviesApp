@@ -30,9 +30,8 @@ class TopRatedPeopleAdapter() :
             this.typeIndicator = typeIndicator
         }
         notifyDataSetChanged()
-
-
     }
+    var onClick:((Int?)->Unit)?= null
 
     class TopViewHolder(val binding: MovieItemLongBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -98,6 +97,10 @@ class TopRatedPeopleAdapter() :
 
 
             }
+
+        }
+        holder.binding.root.setOnClickListener {
+            onClick?.invoke(item?.id)
         }
 
     }

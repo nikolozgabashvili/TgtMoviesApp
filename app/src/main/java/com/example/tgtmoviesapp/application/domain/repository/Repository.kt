@@ -41,4 +41,6 @@ interface Repository {
     suspend fun getMovieCast(id:Int):Flow<Resource<Person>>
 
     suspend fun getLanguages():Flow<Resource<Languages>>
+
+    suspend fun getMovieByPersonId(id:Int):Flow<Resource<Movies>>
 }

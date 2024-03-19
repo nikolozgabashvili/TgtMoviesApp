@@ -17,7 +17,7 @@ data class TvShows(
         @SerializedName("first_air_date")
         val firstAirDate: String?,
         @SerializedName("genre_ids")
-        val genreIds: List<Int?>?,
+        val genre: List<String?>?,
         val id: Int?,
         val name: String?,
         @SerializedName("origin_country")

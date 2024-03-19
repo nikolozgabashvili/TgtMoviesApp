@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,12 +19,14 @@ import com.example.tgtmoviesapp.application.domain.models.Movies
 import com.example.tgtmoviesapp.application.presentation.adapters.movieAdapters.TopRatedMoviesAdapter
 import com.example.tgtmoviesapp.application.presentation.fragments.search.SecondSearchFragment
 import com.example.tgtmoviesapp.application.presentation.fragments.search.SecondSearchFragmentDirections
+import com.example.tgtmoviesapp.application.presentation.viewModels.CelebrityDetailsViewModel
 import com.example.tgtmoviesapp.application.presentation.viewModels.MoviesViewModel
 import com.example.tgtmoviesapp.application.presentation.viewModels.SearchViewModel
 import com.example.tgtmoviesapp.databinding.FragmentFoundMoviesBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.IllegalFormatCodePointException
 
 @AndroidEntryPoint
 class FoundMoviesFragment : Fragment() {
@@ -35,7 +38,9 @@ class FoundMoviesFragment : Fragment() {
     private lateinit var movieRecyclerView: RecyclerView
 
     private var movieType: String? = "NONE"
+    private val detailsViewModel: CelebrityDetailsViewModel by viewModels ()
 
+    private var personId: Int = -1
     private val searchViewModel: SearchViewModel by activityViewModels()
     private val moviesViewModel: MoviesViewModel by activityViewModels()
     private var currentPage = 1
@@ -63,6 +68,7 @@ class FoundMoviesFragment : Fragment() {
 
 
         movieType = arguments?.getString("movieType", "NONE")?:"NONE"
+        personId = arguments?.getInt("id", -1)?:-1
         binding.movieType.text = movieType
         binding.backButton.setOnClickListener{findNavController().popBackStack()}
         initAdapter()
@@ -102,7 +108,7 @@ class FoundMoviesFragment : Fragment() {
                     }
                 }
             }
-        } else {
+        } else if (movieType != "Movies") {
             binding.header.visibility=View.VISIBLE
 
             viewLifecycleOwner.lifecycleScope.launch {
@@ -130,18 +136,20 @@ class FoundMoviesFragment : Fragment() {
                     }
                 }
             }
-        }
-        viewLifecycleOwner.lifecycleScope.launch {
-            moviesViewModel.moviesGenres.collect {
-                it?.let {
-                    it.data?.let { genre ->
-                        genre.genres?.let { updateGenreAdapters(genre.genres) }
-
-
+        }else{
+            binding.header.visibility=View.VISIBLE
+            viewLifecycleOwner.lifecycleScope.launch {
+                detailsViewModel.movies.collect{
+                    if (it==null){
+                        detailsViewModel.getMovies(personId)
+                    }
+                    it?.data?.let {
+                        updateMoviesAdapter(it.results)
                     }
                 }
             }
         }
+
 
     }
 

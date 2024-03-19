@@ -52,7 +52,13 @@ data class MovieDetailsDto(
     val voteAverage: Double?,
     @SerializedName("vote_count")
     val voteCount: Int?,
-    val network: List<NetworkDto>?
+    @SerializedName("networks")
+    val network: List<NetworkDto>?,
+    @SerializedName("first_air_date")
+    val firstAirDate:String?,
+    @SerializedName("origin_country")
+    val originCountry: List<String>?,
+    val name:String?
 ) {
     data class BelongsToCollection(
         @SerializedName("backdrop_path")
@@ -60,7 +66,8 @@ data class MovieDetailsDto(
         val id: Int?,
         val name: String?,
         @SerializedName("poster_path")
-        val posterPath: String?
+        val posterPath: String?,
+
     )
 
 

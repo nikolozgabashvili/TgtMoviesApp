@@ -22,7 +22,10 @@ fun Int?.convert(): String {
 fun List<ProductionCompanies>.toCompanyList():String{
     var tempString = ""
     this.map {
-        tempString+=it.name+"\n"
+        tempString += if (this.indexOf(it)!=this.size-1)
+            it.name+"\n"
+        else
+            it.name
     }
     return tempString
 }
@@ -36,6 +39,17 @@ fun List<Creators>.toCreatorList():String{
             it.name
     }
     return tempString
+}
+
+fun List<String>.listToString():String{
+    var temp = ""
+    this.map {
+         temp+= if (this.indexOf(it)!=this.size-1)
+            it+"\n"
+        else
+            it
+    }
+    return temp
 }
 
 fun String?.toDate(): String {

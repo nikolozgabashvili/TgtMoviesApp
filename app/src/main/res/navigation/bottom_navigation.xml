@@ -45,6 +45,9 @@
         <action
             android:id="@+id/action_celebritiesFragment_to_searchFragment2"
             app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_celebritiesFragment_to_celebrityDetailsFragment"
+            app:destination="@id/celebrityDetailsFragment" />
     </fragment>
     <action
         android:id="@+id/action_searchFragment2_to_secondSearchFragment"
@@ -68,6 +71,9 @@
         <action
             android:id="@+id/action_secondSearchFragment_to_tvDetailsFragment"
             app:destination="@id/tvDetailsFragment" />
+        <action
+            android:id="@+id/action_secondSearchFragment_to_celebrityDetailsFragment"
+            app:destination="@id/celebrityDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -90,6 +96,10 @@
         <action
             android:id="@+id/action_foundMoviesFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment" />
+        <argument
+            android:name="id"
+            app:argType="integer"
+            android:defaultValue="-1" />
     </fragment>
     <fragment
         android:id="@+id/foundCelebritiesFragment"
@@ -100,6 +110,9 @@
             android:name="dataType"
             app:argType="string"
             android:defaultValue="NONE" />
+        <action
+            android:id="@+id/action_foundCelebritiesFragment_to_celebrityDetailsFragment"
+            app:destination="@id/celebrityDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/foundShowsFragment"
@@ -113,6 +126,10 @@
         <action
             android:id="@+id/action_foundShowsFragment_to_tvDetailsFragment"
             app:destination="@id/tvDetailsFragment" />
+        <argument
+            android:name="id"
+            app:argType="integer"
+            android:defaultValue="-1" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -145,6 +162,9 @@
         <action
             android:id="@+id/action_movieDetailsFragment_self"
             app:destination="@id/movieDetailsFragment" />
+        <action
+            android:id="@+id/action_movieDetailsFragment_to_celebrityDetailsFragment"
+            app:destination="@id/celebrityDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/tvDetailsFragment"
@@ -157,5 +177,29 @@
             android:name="movieId"
             app:argType="integer"
             android:defaultValue="-1" />
+        <action
+            android:id="@+id/action_tvDetailsFragment_to_celebrityDetailsFragment"
+            app:destination="@id/celebrityDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/celebrityDetailsFragment"
+        android:name="com.example.tgtmoviesapp.application.presentation.fragments.celebrities.CelebrityDetailsFragment"
+        android:label="CelebrityDetailsFragment" >
+        <argument
+            android:name="id"
+            app:argType="integer"
+            android:defaultValue="-1" />
+        <action
+            android:id="@+id/action_celebrityDetailsFragment_to_foundMoviesFragment"
+            app:destination="@id/foundMoviesFragment" />
+        <action
+            android:id="@+id/action_celebrityDetailsFragment_to_foundShowsFragment"
+            app:destination="@id/foundShowsFragment" />
+        <action
+            android:id="@+id/action_celebrityDetailsFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment" />
+        <action
+            android:id="@+id/action_celebrityDetailsFragment_to_tvDetailsFragment"
+            app:destination="@id/tvDetailsFragment" />
     </fragment>
 </navigation>

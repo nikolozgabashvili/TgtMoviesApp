@@ -40,16 +40,15 @@ class VideoAdapter : RecyclerView.Adapter<VideoAdapter.VideosViewHolder>() {
 
     override fun onBindViewHolder(holder: VideosViewHolder, position: Int) {
         val item = videoList[position]
+        holder.binding.imageView.minimumHeight=270
+        holder.binding.imageView.minimumWidth=410
         Glide.with(holder.binding.root.context)
             .load("https://img.youtube.com/vi/${item?.key.toString()}/0.jpg")
+            .placeholder(R.drawable.movies_item)
             .override(400, 260)
             .centerCrop()
-            .placeholder(R.drawable.movies_item)
-
             .into(holder.binding.imageView)
 
-        holder.binding.imageView.minimumWidth = 100
-        holder.binding.imageView.minimumHeight = 200
         holder.binding.movieTitle.visibility = View.GONE
         holder.binding.movieGenre.visibility = View.GONE
         holder.binding.imageView.scaleType = ImageView.ScaleType.FIT_CENTER

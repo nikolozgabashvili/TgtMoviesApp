@@ -27,4 +27,7 @@ interface TvShowsRepository {
     suspend fun getTvVideos(id:Int):Flow<Resource<MovieVideo>>
     suspend fun getTvCast(id:Int):Flow<Resource<Person>>
 
+    suspend fun getShowByPersonId(id:Int):Flow<Resource<TvShows>>
+
+
 }

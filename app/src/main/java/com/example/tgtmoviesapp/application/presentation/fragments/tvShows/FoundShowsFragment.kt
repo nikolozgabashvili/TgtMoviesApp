@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +19,7 @@ import com.example.tgtmoviesapp.application.domain.models.TvGenre
 import com.example.tgtmoviesapp.application.domain.models.TvShows
 import com.example.tgtmoviesapp.application.presentation.adapters.tvshowAdapters.TopRatedShowsAdapter
 import com.example.tgtmoviesapp.application.presentation.fragments.search.SecondSearchFragmentDirections
+import com.example.tgtmoviesapp.application.presentation.viewModels.CelebrityDetailsViewModel
 import com.example.tgtmoviesapp.application.presentation.viewModels.SearchViewModel
 import com.example.tgtmoviesapp.application.presentation.viewModels.TvShowsViewModel
 import com.example.tgtmoviesapp.databinding.FragmentFoundShowsBinding
@@ -38,7 +40,9 @@ class FoundShowsFragment : Fragment() {
 
     private val searchViewModel: SearchViewModel by activityViewModels()
     private val tvSearchViewModel: TvShowsViewModel by activityViewModels()
+    private val detailsViewModel: CelebrityDetailsViewModel by viewModels ()
 
+    private var personId: Int = -1
     private var movieType: String? = "NONE"
 
     private var currentPage = 1
@@ -63,6 +67,7 @@ class FoundShowsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         movieType = arguments?.getString("movieType", "NONE")?:"NONE"
+        personId = arguments?.getInt("id", -1)?:-1
         binding.movieType.text = movieType
         binding.backButton.setOnClickListener{findNavController().popBackStack()}
         initAdapter()
@@ -77,7 +82,33 @@ class FoundShowsFragment : Fragment() {
                 searchViewModel.tvShowsPaged.collect {
                     it?.let {
                         it.data?.let { movies ->
-                            //TODO may cause bug dd temp solve
+
+                            if (movies.page == 1)
+                                currentMovieList = emptyList()
+
+                            val lst = currentMovieList + movies.results as List<TvShows.Result?>
+                            currentMovieList = lst
+                            updateTvAdapter(lst)
+                            movies.page?.let {
+                                movies.totalPages?.let {
+                                    if (movies.page<movies.totalPages) {
+                                        delay(100)
+                                        requestNextPage = true
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+        }else if (movieType!="Shows"){
+            binding.header.visibility = View.VISIBLE
+            viewLifecycleOwner.lifecycleScope.launch {
+                tvSearchViewModel.tvPaging.collect {
+                    it?.let {
+                        it.data?.let { movies ->
+
                             if (movies.page == 1)
                                 currentMovieList = emptyList()
 
@@ -98,44 +129,19 @@ class FoundShowsFragment : Fragment() {
                 }
             }
         }else{
-            binding.header.visibility = View.VISIBLE
+            binding.header.visibility=View.VISIBLE
             viewLifecycleOwner.lifecycleScope.launch {
-                tvSearchViewModel.tvPaging.collect {
-                    it?.let {
-                        it.data?.let { movies ->
-                            //TODO may cause bug dd temp solve
-                            if (movies.page == 1)
-                                currentMovieList = emptyList()
-
-                            val lst = currentMovieList + movies.results as List<TvShows.Result?>
-                            currentMovieList = lst
-                            updateTvAdapter(lst)
-                            movies.page?.let {
-                                movies.totalPages?.let {
-                                    if (movies.page<movies.totalPages) {
-                                        delay(100)
-                                        requestNextPage = true
-                                    }
-                                }
-                            }
-
-                        }
+                detailsViewModel.tvShows.collect{
+                    if (it==null){
+                        detailsViewModel.getTvShows(personId)
+                    }
+                    it?.data?.let {
+                        updateTvAdapter(it.results)
                     }
                 }
             }
         }
-        viewLifecycleOwner.lifecycleScope.launch {
-            tvSearchViewModel.tvGenres.collect{
-                it?.let {
-                    it.data?.let {  genre->
-                        genre.genres?.let {updateGenreAdapters(genre.genres)  }
 
-
-
-                    }
-                }
-            }
-        }
     }
 
     private fun initAdapter(){

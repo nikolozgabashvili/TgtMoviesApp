@@ -23,12 +23,10 @@ class TvShowsAdapter() : RecyclerView.Adapter<TvShowsAdapter.TvShowViewHolder>()
 
     private var showList: List<TvShows.Result?> = emptyList()
     private var showType: DisplayIndicator = DisplayIndicator.NONE
-    private var movieGenreList: List<Genre?> = mutableListOf()
 
+    fun setShowList(lstModel: List<TvShows.Result?>, movieType: DisplayIndicator = DisplayIndicator.NONE) {
 
-    fun setShowList(lstModel: TvShows, movieType: DisplayIndicator = DisplayIndicator.NONE) {
-
-        lstModel.results?.let {
+        lstModel.let {
             showList = it
         }
 
@@ -39,11 +37,6 @@ class TvShowsAdapter() : RecyclerView.Adapter<TvShowsAdapter.TvShowViewHolder>()
 
     var onItemClick: ((Int?) -> Unit)? = null
 
-    fun setMovieGenres(movieGenreList: List<Genre?> = mutableListOf()){
-        this.movieGenreList = movieGenreList
-        notifyDataSetChanged()
-
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TvShowViewHolder {
 
@@ -84,18 +77,9 @@ class TvShowsAdapter() : RecyclerView.Adapter<TvShowsAdapter.TvShowViewHolder>()
 
                 .into(holder.binding.imageView)
         }
-        val genreIds = currentItem?.genreIds
-        val genreList = mutableListOf<String>()
-        genreIds?.map { int->
-            movieGenreList.map {genre->
-                if (int ==genre?.id)
-                    genre?.name?.let {
-                        genreList.add(it)
 
-                    }
-            }
-        }
-        holder.binding.movieGenre.text = genreList.joinToString(separator = ",")
+        val genreList = currentItem?.genre
+        holder.binding.movieGenre.text = genreList?.joinToString(separator = ",")
 
 
         holder.binding.movieTitle.maxWidth = holder.binding.imageView.width

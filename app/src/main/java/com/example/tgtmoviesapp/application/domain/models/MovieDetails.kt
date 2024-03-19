@@ -1,5 +1,7 @@
 package com.example.tgtmoviesapp.application.domain.models
 
+import com.google.gson.annotations.SerializedName
+
 data class Creators(
     val id: Int?,
 
@@ -36,6 +38,9 @@ data class MovieDetails(
     val video: Boolean?,
     val voteAverage: Double?,
     val voteCount: Int?,
-    val productionCompanies: List<ProductionCompanies>?
+    val productionCompanies: List<ProductionCompanies>?,
+    val firstAirDate:String?,
+    val originCountry: List<String>?,
+    val name:String?
 )
 

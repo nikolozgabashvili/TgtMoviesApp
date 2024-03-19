@@ -6,6 +6,7 @@ import com.example.tgtmoviesapp.application.data.remote.Api
 import com.example.tgtmoviesapp.application.data.remote.mappers.toAllItemModel
 import com.example.tgtmoviesapp.application.data.remote.mappers.toGenre
 import com.example.tgtmoviesapp.application.data.remote.mappers.toLanguage
+import com.example.tgtmoviesapp.application.data.remote.mappers.toMovie
 import com.example.tgtmoviesapp.application.data.remote.mappers.toMovieDetails
 import com.example.tgtmoviesapp.application.data.remote.mappers.toMovieVideo
 import com.example.tgtmoviesapp.application.data.remote.mappers.toMovies
@@ -254,6 +255,24 @@ class RepositoryImpl @Inject constructor(
             val response = api.getLanguages()
             if (response.isSuccessful) {
                 emit(Resource.Success(response.body()?.toLanguage()))
+            } else {
+                emit(Resource.Error(response.message().toStringList(), null))
+
+            }
+        }
+
+        catch (e:Exception){
+            emit(Resource.Error("$e".toStringList(), null))
+
+        }
+    }
+
+    override suspend fun getMovieByPersonId(id: Int): Flow<Resource<Movies>> =flow{
+        try {
+            emit(Resource.Loading(loading = true))
+            val response = api.getMovieByPersonId(id=id)
+            if (response.isSuccessful) {
+                emit(Resource.Success(response.body()?.toMovie()))
             } else {
                 emit(Resource.Error(response.message().toStringList(), null))
 

@@ -163,7 +163,6 @@ class MoviesFragment : Fragment() {
                     resource.data?.let {genre->
                         genre.genres?.let {lst->
 
-                            updateGenreAdapters(lst)
                         }
                     }
                 }
@@ -176,13 +175,7 @@ class MoviesFragment : Fragment() {
 
     }
 
-    private fun updateGenreAdapters(lst: List<Genre?>) {
-        trendingAdapter.setMovieGenres(lst)
-        popularAdapter.setMovieGenres(lst)
-        topRatedAdapter.setMovieGenres(lst)
-        upcomingAdapter.setMovieGenres(lst)
-        pITAdapter.setMovieGenres(lst)
-    }
+
 
     private fun updateTrendingAdapter(data: Movies) {
         data.results?.let {

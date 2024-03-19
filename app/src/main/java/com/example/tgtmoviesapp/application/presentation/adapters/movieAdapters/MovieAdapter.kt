@@ -34,11 +34,7 @@ class MovieAdapter() : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
         notifyDataSetChanged()
     }
-    fun setMovieGenres(movieGenreList: List<Genre?> = mutableListOf()){
-        this.movieGenreList = movieGenreList
-        notifyDataSetChanged()
 
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
 
@@ -81,19 +77,9 @@ class MovieAdapter() : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
                 .into(holder.binding.imageView)
         }
 
-        val genreIds = currentItem?.genreIds
-        val genreList = mutableListOf<String>()
-        genreIds?.map { int->
-            movieGenreList.map {genre->
-                if (int ==genre?.id)
-                    genre?.name?.let {
-                        genreList.add(it)
 
-                    }
-            }
-        }
-
-        holder.binding.movieGenre.text = genreList.joinToString(separator = ",")
+        val genreList = currentItem?.genre
+        holder.binding.movieGenre.text = genreList?.joinToString(separator = ",")
 
         holder.binding.movieTitle.maxWidth = holder.binding.imageView.width
         holder.binding.movieGenre.maxWidth = holder.binding.imageView.width

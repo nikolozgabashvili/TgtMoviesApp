@@ -123,12 +123,35 @@ class CelebritiesFragment : Fragment() {
         popularRecycler2.adapter = popularPersonAdapter2
         popularRecycler1.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
         popularRecycler2.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
+        popularPersonAdapter1.onClick={
+            it?.let {
+                val action = CelebritiesFragmentDirections.actionCelebritiesFragmentToCelebrityDetailsFragment(it)
+                findNavController().navigate(action)
+
+            }
+        }
+        popularPersonAdapter2.onClick={
+            it?.let {
+                val action = CelebritiesFragmentDirections.actionCelebritiesFragmentToCelebrityDetailsFragment(it)
+                findNavController().navigate(action)
+
+            }
+        }
     }
     private fun initTrendingAdapters() {
         trendingAdapter = TopRatedPeopleAdapter()
         trendingRecycler = binding.trendingPeopleRecycler
         trendingRecycler.adapter = trendingAdapter
         trendingRecycler.layoutManager = GridLayoutManager(requireContext(),4,GridLayoutManager.HORIZONTAL,false)
+
+        trendingAdapter.onClick={
+
+            it?.let {
+                val action = CelebritiesFragmentDirections.actionCelebritiesFragmentToCelebrityDetailsFragment(it)
+                findNavController().navigate(action)
+
+            }
+        }
     }
 
     private fun updatePopularAdapters(data:Person){

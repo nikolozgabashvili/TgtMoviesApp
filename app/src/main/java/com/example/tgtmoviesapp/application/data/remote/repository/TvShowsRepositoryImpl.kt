@@ -1,12 +1,10 @@
 package com.example.tgtmoviesapp.application.data.remote.repository
 
-import com.example.tgtmoviesapp.application.commons.constants.Constants
 import com.example.tgtmoviesapp.application.commons.constants.Constants.API_KEY
 import com.example.tgtmoviesapp.application.commons.resource.Resource
 import com.example.tgtmoviesapp.application.data.remote.Api
 import com.example.tgtmoviesapp.application.data.remote.mappers.toMovieDetails
 import com.example.tgtmoviesapp.application.data.remote.mappers.toMovieVideo
-import com.example.tgtmoviesapp.application.data.remote.mappers.toMovies
 import com.example.tgtmoviesapp.application.data.remote.mappers.toPerson
 import com.example.tgtmoviesapp.application.data.remote.mappers.toStringList
 import com.example.tgtmoviesapp.application.data.remote.mappers.toTvGenre
@@ -228,6 +226,25 @@ class TvShowsRepositoryImpl @Inject constructor(
 
             if (response.isSuccessful) {
                 emit(Resource.Success(response.body()?.toPerson()))
+            } else {
+                emit(Resource.Error("error".toStringList(), null))
+
+            }
+
+        }
+        catch (e:Exception){
+            emit(Resource.Error("$e".toStringList(), null))
+
+        }
+    }
+
+    override suspend fun getShowByPersonId(id: Int): Flow<Resource<TvShows>> =flow{
+        try {
+            emit(Resource.Loading(null))
+            val response = api.getShowByPersonId(id)
+
+            if (response.isSuccessful) {
+                emit(Resource.Success(response.body()?.toTvShows()))
             } else {
                 emit(Resource.Error("error".toStringList(), null))
 

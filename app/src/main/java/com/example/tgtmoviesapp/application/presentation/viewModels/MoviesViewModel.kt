@@ -66,18 +66,11 @@ class MoviesViewModel @Inject constructor(
         getTopRatedMovies()
         getPITMovies()
         getTrendingMovies()
-        getLanguages()
+
 
     }
 
-    private fun getLanguages() {
-        viewModelScope.launch {
-            languagesUseCase.execute().collect{
-                _languages.value = it
-            }
 
-        }
-    }
 
     fun activate(){
 
@@ -88,8 +81,6 @@ class MoviesViewModel @Inject constructor(
             moveGenresUseCase.execute().collect { resource ->
 
                 _movieGenres.value = resource
-
-
             }
 
         }

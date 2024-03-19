@@ -4,12 +4,15 @@ import com.example.tgtmoviesapp.application.commons.constants.Constants.API_KEY
 import com.example.tgtmoviesapp.application.data.modelsDto.AllItemModelDto
 import com.example.tgtmoviesapp.application.data.modelsDto.CastAndCrewDto
 import com.example.tgtmoviesapp.application.data.modelsDto.LanguagesDto
+import com.example.tgtmoviesapp.application.data.modelsDto.MovieByPersonDto
 import com.example.tgtmoviesapp.application.data.modelsDto.MovieDetailsDto
 import com.example.tgtmoviesapp.application.data.modelsDto.MovieGenreDto
 import com.example.tgtmoviesapp.application.data.modelsDto.MovieVideoDto
 import com.example.tgtmoviesapp.application.data.modelsDto.MoviesDto
+import com.example.tgtmoviesapp.application.data.modelsDto.PersonDetailsDto
 import com.example.tgtmoviesapp.application.data.modelsDto.PersonDto
 import com.example.tgtmoviesapp.application.data.modelsDto.TvGenreDto
+import com.example.tgtmoviesapp.application.data.modelsDto.TvShowByPersonDto
 import com.example.tgtmoviesapp.application.data.modelsDto.TvShowsDto
 
 import retrofit2.Response
@@ -204,4 +207,18 @@ interface Api {
         @Path("movie_id") movieId:Int,
     ):Response<CastAndCrewDto>
 
+    @GET("person/{person_id}?language=en-US&api_key=$API_KEY")
+    suspend fun getPersonDetails(
+        @Path("person_id") id:Int
+    ):Response<PersonDetailsDto>
+
+    @GET("person/{person_id}/movie_credits?language=en-US&api_key=$API_KEY")
+    suspend fun getMovieByPersonId(
+        @Path("person_id") id:Int
+    ):Response<MovieByPersonDto>
+
+    @GET("person/{person_id}/tv_credits?language=en-US&api_key=$API_KEY")
+    suspend fun getShowByPersonId(
+        @Path("person_id") id:Int
+    ):Response<TvShowByPersonDto>
 }

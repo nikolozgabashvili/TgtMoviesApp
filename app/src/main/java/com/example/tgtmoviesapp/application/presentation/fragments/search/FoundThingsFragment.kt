@@ -117,7 +117,7 @@ class FoundThingsFragment : Fragment() {
                     resource.data?.let { genre ->
                         genre.genres?.let { lst ->
 
-                            updateGenreAdapters(lst)
+
                         }
                     }
                 }
@@ -133,7 +133,7 @@ class FoundThingsFragment : Fragment() {
                     resource.data?.let { genre ->
                         genre.genres?.let { lst ->
 
-                            updateTvGenre(lst)
+
                         }
                     }
                 }
@@ -143,13 +143,9 @@ class FoundThingsFragment : Fragment() {
         }
     }
 
-    private fun updateTvGenre(lst: List<Genre?>) {
-        tvShowsAdapter.setMovieGenres(lst)
-    }
 
-    private fun updateGenreAdapters(lst: List<Genre?>) {
-        moviesAdapter.setMovieGenres(lst)
-    }
+
+
 
     private fun updatePeopleAdapter(movies: Person) {
         movies.results?.let {
@@ -158,8 +154,11 @@ class FoundThingsFragment : Fragment() {
 
     }
 
-    private fun updateTvShowsAdapter(movies: TvShows) {
-        tvShowsAdapter.setShowList(movies, DisplayIndicator.WIDE_IMAGE)
+    private fun updateTvShowsAdapter(shows: TvShows) {
+        shows.results?.let {
+
+            tvShowsAdapter.setShowList(shows.results, DisplayIndicator.WIDE_IMAGE)
+        }
     }
 
     private fun updateMoviesAdapter(movies: Movies) {

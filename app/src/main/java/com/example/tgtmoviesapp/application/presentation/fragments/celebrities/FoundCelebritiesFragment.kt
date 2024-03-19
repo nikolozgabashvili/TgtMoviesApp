@@ -15,6 +15,7 @@ import com.example.tgtmoviesapp.R
 import com.example.tgtmoviesapp.application.domain.models.DisplayIndicator
 import com.example.tgtmoviesapp.application.domain.models.Person
 import com.example.tgtmoviesapp.application.presentation.adapters.celebritiesAdapter.TopRatedPeopleAdapter
+import com.example.tgtmoviesapp.application.presentation.fragments.search.SecondSearchFragmentDirections
 import com.example.tgtmoviesapp.application.presentation.viewModels.CelebritiesViewModel
 import com.example.tgtmoviesapp.application.presentation.viewModels.SearchViewModel
 import com.example.tgtmoviesapp.databinding.FragmentFoundCelebritiesBinding
@@ -72,7 +73,7 @@ class FoundCelebritiesFragment : Fragment() {
                 searchViewModel.peoplePaged.collect {
                     it?.let {
                         it.data?.let { movies ->
-                            //TODO may cause bug dd temp solve
+
                             if (movies.page == 1)
                                 currentMovieList = emptyList()
 
@@ -98,7 +99,7 @@ class FoundCelebritiesFragment : Fragment() {
                 celebritiesViewModel.peoplePaging.collect {
                     it?.let {
                         it.data?.let { movies ->
-                            //TODO ...????
+
                             if (movies.page == 1)
                                 currentMovieList = emptyList()
 
@@ -129,6 +130,19 @@ class FoundCelebritiesFragment : Fragment() {
         peopleRecyclerView.adapter = peopleAdapter
         peopleRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        peopleAdapter.onClick={
+            try {
+                it?.let {
+                    val action = FoundCelebritiesFragmentDirections.actionFoundCelebritiesFragmentToCelebrityDetailsFragment(it)
+                    findNavController().navigate(action)
+                }
+            }catch (_:Exception){
+                it?.let {
+                    val action = SecondSearchFragmentDirections.actionSecondSearchFragmentToCelebrityDetailsFragment(it)
+                    findNavController().navigate(action)
+                }
+            }
+        }
         peopleRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -147,12 +161,12 @@ class FoundCelebritiesFragment : Fragment() {
                             searchViewModel.searchPeopleByPage(txt.query.toString(), ++currentPage)
                         }
 
-                        "POPULAR" -> {
+                        "Popular" -> {
 
                             celebritiesViewModel.getPopularCelebrityByPage(++currentPage)
                         }
 
-                        "TRENDING" -> {
+                        "Trending" -> {
                             celebritiesViewModel.getTrendingCelebrityByPage(++currentPage)
                         }
                     }

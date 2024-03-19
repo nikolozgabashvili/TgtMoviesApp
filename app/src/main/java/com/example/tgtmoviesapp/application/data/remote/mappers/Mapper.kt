@@ -7,14 +7,17 @@ import com.example.tgtmoviesapp.application.data.modelsDto.CreatorsDto
 import com.example.tgtmoviesapp.application.data.modelsDto.GenreDto
 import com.example.tgtmoviesapp.application.data.modelsDto.GetCurrentUserDto
 import com.example.tgtmoviesapp.application.data.modelsDto.LanguagesDto
+import com.example.tgtmoviesapp.application.data.modelsDto.MovieByPersonDto
 import com.example.tgtmoviesapp.application.data.modelsDto.MovieDetailsDto
 import com.example.tgtmoviesapp.application.data.modelsDto.MovieGenreDto
 import com.example.tgtmoviesapp.application.data.modelsDto.MovieVideoDto
 import com.example.tgtmoviesapp.application.data.modelsDto.MoviesDto
 import com.example.tgtmoviesapp.application.data.modelsDto.NetworkDto
+import com.example.tgtmoviesapp.application.data.modelsDto.PersonDetailsDto
 import com.example.tgtmoviesapp.application.data.modelsDto.PersonDto
 import com.example.tgtmoviesapp.application.data.modelsDto.RegisterResponseDto
 import com.example.tgtmoviesapp.application.data.modelsDto.TvGenreDto
+import com.example.tgtmoviesapp.application.data.modelsDto.TvShowByPersonDto
 import com.example.tgtmoviesapp.application.data.modelsDto.TvShowsDto
 import com.example.tgtmoviesapp.application.data.modelsDto.UserFavoriteMovies
 import com.example.tgtmoviesapp.application.domain.models.AllItemModel
@@ -29,6 +32,7 @@ import com.example.tgtmoviesapp.application.domain.models.MovieGenre
 import com.example.tgtmoviesapp.application.domain.models.MovieVideo
 import com.example.tgtmoviesapp.application.domain.models.Movies
 import com.example.tgtmoviesapp.application.domain.models.Person
+import com.example.tgtmoviesapp.application.domain.models.PersonDetails
 import com.example.tgtmoviesapp.application.domain.models.ProductionCompanies
 import com.example.tgtmoviesapp.application.domain.models.RegisterResponse
 import com.example.tgtmoviesapp.application.domain.models.TvGenre
@@ -46,7 +50,7 @@ fun MoviesDto.toMovies(): Movies {
 
 fun MoviesDto.ResultDto.toResult(): Movies.Result {
     return Movies.Result(
-        adult, backdropPath, genreIds,
+        adult, backdropPath, genreIds.toMovieGenre(),
         id, originalLanguage, originalTitle,
         overview, popularity, posterPath, releaseDate,
         title, video, voteAverage, voteCount
@@ -92,7 +96,7 @@ fun TvShowsDto.toTvShows(): TvShows {
 fun TvShowsDto.ResultDto2.toResult2(): TvShows.Result {
     return TvShows.Result(
         adult, backdropPath, firstAirDate,
-        genreIds, id, name, originCountry,
+        genreIds.toTvGenre(), id, name, originCountry,
         originalLanguage, originalName, overview,
         popularity, posterPath, voteAverage, voteCount
 
@@ -300,42 +304,58 @@ private fun List<CreatorsDto>.toTvCreatorsList(): List<Creators> {
     this.map {
         tempList.add(
             Creators(
-            id = it.id,
+                id = it.id,
                 creditId = it.creditId,
                 name = it.name,
                 gender = it.gender?.toGender(),
                 profilePath = it.profilePath
-        )
+            )
         )
     }
     return tempList
 }
 
 private fun Int.toGender(): String {
-    return when (this){
-        0-> "Not specified"
-        1->"Female"
-        2->"Male"
-        else -> {"Non-binary"}
+    return when (this) {
+        0 -> "Not specified"
+        1 -> "Female"
+        2 -> "Male"
+        else -> {
+            "Non-binary"
+        }
     }
+}
+
+fun PersonDetailsDto.toPersonDetails(): PersonDetails {
+    return PersonDetails(
+        adult, biography,
+        birthday,
+        deathDay, gender,
+        homepage, id,
+        imdbId,
+        knownForDepartment,
+        name, placeOfBirth,
+        popularity, profilePath
+    )
 }
 
 fun MovieDetailsDto.toMovieDetails(): MovieDetails {
     println(backdropPath)
     println("-----------")
+    println(this.network)
     return MovieDetails(
-        adult =adult,
-        network=network?.nameList(),
-        backdropPath=backdropPath,
-        createdBy=createdBy?.toTvCreatorsList(),
-        budget=budget,
-        genres=genres?.toTvGenreList(),
-        homepage=homepage,
-        id=id,
-        imdbId=imdbId,
-        originalLanguage=originalLanguage,
-        originalTitle=originalTitle,
-        overview=overview,
+        adult = adult,
+        network = network?.nameList(),
+        backdropPath = backdropPath,
+        createdBy = createdBy?.toTvCreatorsList(),
+        budget = budget,
+        genres = genres?.toTvGenreList(),
+        homepage = homepage,
+        id = id,
+        imdbId = imdbId,
+        originalLanguage = originalLanguage,
+        originalTitle = originalTitle,
+        overview = overview,
         popularity = popularity,
         posterPath = posterPath,
         spokenLanguage = spokenLanguages.toLang(),
@@ -349,8 +369,177 @@ fun MovieDetailsDto.toMovieDetails(): MovieDetails {
         voteAverage = voteAverage,
         voteCount = voteCount,
         productionCompanies = productionCompanies.toProductCompsList(),
+        firstAirDate,
+        originCountry,
+        name
 
+    )
+}
+
+val movieGenreMap = listOf(
+    mapOf("id" to 28, "name" to "Action"),
+    mapOf("id" to 12, "name" to "Adventure"),
+    mapOf("id" to 16, "name" to "Animation"),
+    mapOf("id" to 35, "name" to "Comedy"),
+    mapOf("id" to 80, "name" to "Crime"),
+    mapOf("id" to 99, "name" to "Documentary"),
+    mapOf("id" to 18, "name" to "Drama"),
+    mapOf("id" to 10751, "name" to "Family"),
+    mapOf("id" to 14, "name" to "Fantasy"),
+    mapOf("id" to 36, "name" to "History"),
+    mapOf("id" to 27, "name" to "Horror"),
+    mapOf("id" to 10402, "name" to "Music"),
+    mapOf("id" to 9648, "name" to "Mystery"),
+    mapOf("id" to 10749, "name" to "Romance"),
+    mapOf("id" to 878, "name" to "Science Fiction"),
+    mapOf("id" to 10770, "name" to "TV Movie"),
+    mapOf("id" to 53, "name" to "Thriller"),
+    mapOf("id" to 10752, "name" to "War"),
+    mapOf("id" to 37, "name" to "Western")
+)
+val TvGenreMap = listOf(
+    mapOf("id" to 10759, "name" to "Action & Adventure"),
+    mapOf("id" to 16, "name" to "Animation"),
+    mapOf("id" to 35, "name" to "Comedy"),
+    mapOf("id" to 80, "name" to "Crime"),
+    mapOf("id" to 99, "name" to "Documentary"),
+    mapOf("id" to 18, "name" to "Drama"),
+    mapOf("id" to 10751, "name" to "Family"),
+    mapOf("id" to 10762, "name" to "Kids"),
+    mapOf("id" to 9648, "name" to "Mystery"),
+    mapOf("id" to 10763, "name" to "News"),
+    mapOf("id" to 10764, "name" to "Reality"),
+    mapOf("id" to 10765, "name" to "Sci-Fi & Fantasy"),
+    mapOf("id" to 10766, "name" to "Soap"),
+    mapOf("id" to 10767, "name" to "Talk"),
+    mapOf("id" to 10768, "name" to "War & Politics"),
+    mapOf("id" to 37, "name" to "Western")
+)
+
+fun List<Int?>?.toMovieGenre(): List<String> {
+    val tempList = mutableListOf<String>()
+    this?.map { value ->
+        movieGenreMap.map {
+            if (value == it["id"])
+                tempList.add(it["name"] as String)
+        }
+    }
+    return tempList
+}
+
+fun List<Int?>?.toTvGenre(): List<String> {
+    val tempList = mutableListOf<String>()
+    this?.map { value ->
+        TvGenreMap.map {
+            if (value == it["id"])
+                tempList.add(it["name"] as String)
+        }
+    }
+    return tempList
+}
+
+fun TvShowByPersonDto.toTvShows(): TvShows {
+    return TvShows(null, this.toShowsResult(), null, null)
+}
+
+private fun TvShowByPersonDto?.toShowsResult(): List<TvShows.Result?> {
+    val temp = mutableListOf<TvShows.Result?>()
+
+    this?.cast?.map {
+        temp.add(
+            TvShows.Result(
+                it?.adult,
+                it?.backdropPath,
+                it?.firstAirDate,
+                it?.genreIds.toTvGenre(),
+                it?.id,
+                it?.name,
+                it?.originCountry,
+                it?.originalLanguage,
+                it?.originalName,
+                it?.overview,
+                it?.popularity,
+                it?.posterPath,
+                it?.voteAverage,
+                it?.voteCount
+            )
         )
+    }
+    this?.crew?.map {
+        temp.add(
+            TvShows.Result(
+                it?.adult,
+                it?.backdropPath,
+                it?.firstAirDate,
+                it?.genreIds.toTvGenre(),
+                it?.id,
+                it?.name,
+                it?.originCountry,
+                it?.originalLanguage,
+                it?.originalName,
+                it?.overview,
+                it?.popularity,
+                it?.posterPath,
+                it?.voteAverage,
+                it?.voteCount
+            )
+        )
+
+
+    }
+    return temp
+
+}
+
+
+fun MovieByPersonDto.toMovie(): Movies {
+    return Movies(null, this.toMoviesResult(), null, null)
+}
+
+private fun MovieByPersonDto?.toMoviesResult(): List<Movies.Result?> {
+    val temp = mutableListOf<Movies.Result?>()
+    this?.cast?.map {
+        temp.add(
+            Movies.Result(
+                it?.adult,
+                it?.backdropPath,
+                it?.genreIds.toMovieGenre(),
+                it?.id,
+                it?.originalLanguage,
+                it?.originalTitle,
+                it?.overview,
+                it?.popularity,
+                it?.posterPath,
+                it?.releaseDate,
+                it?.title,
+                it?.video,
+                it?.voteAverage,
+                it?.voteCount
+            )
+        )
+    }
+    this?.crew?.map {
+        temp.add(
+            Movies.Result(
+                it?.adult,
+                it?.backdropPath,
+                it?.genreIds.toMovieGenre(),
+                it?.id,
+                it?.originalLanguage,
+                it?.originalTitle,
+                it?.overview,
+                it?.popularity,
+                it?.posterPath,
+                it?.releaseDate,
+                it?.title,
+                it?.video,
+                it?.voteAverage,
+                it?.voteCount
+            )
+        )
+    }
+    return temp
+
 }
 
 private fun List<NetworkDto>.nameList(): List<String> {
@@ -404,7 +593,7 @@ private fun CastAndCrewDto.toPersonResultList(): List<Person.Result> {
             Person.Result(
                 adult = it?.adult,
                 gender = it?.gender,
-                id,
+                id = it?.id,
                 knownFor = null,
                 knownForDepartment = it?.knownForDepartment,
                 mediaType = null,

@@ -11,11 +11,11 @@
     android:background="@color/mainColor">
 
     <ImageView
-        android:padding="1dp"
+        android:padding="2dp"
         android:background="@drawable/image_stroke"
         android:id="@+id/imageView"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +43,7 @@
     <TextView
         android:ellipsize="end"
         android:gravity="start"
-        android:layout_marginStart="2dp"
+        android:layout_marginStart="1.5dp"
         android:id="@+id/movieGenre"
         android:layout_height="wrap_content"
         android:layout_marginBottom="6dp"

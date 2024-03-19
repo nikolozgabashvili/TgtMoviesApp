@@ -9,6 +9,7 @@ import com.example.tgtmoviesapp.application.domain.models.Movies
 import com.example.tgtmoviesapp.application.domain.models.Person
 import com.example.tgtmoviesapp.application.domain.models.TvGenre
 import com.example.tgtmoviesapp.application.domain.models.TvShows
+import com.example.tgtmoviesapp.application.domain.repository.Repository
 import com.example.tgtmoviesapp.application.domain.repository.TvShowsRepository
 import kotlinx.coroutines.flow.Flow
 import java.text.ParseException
@@ -74,5 +75,10 @@ class GetTvVideosUseCase @Inject constructor(private val repository: TvShowsRepo
 class GetTvCastUseCase @Inject constructor(private val repository: TvShowsRepository){
     suspend fun execute(id:Int):Flow<Resource<Person>>{
         return repository.getTvCast(id)
+    }
+}
+class GetPersonTvShowCreditsUseCase @Inject constructor(private val repository: TvShowsRepository){
+    suspend fun execute(id:Int):Flow<Resource<TvShows>>{
+        return repository.getShowByPersonId(id)
     }
 }

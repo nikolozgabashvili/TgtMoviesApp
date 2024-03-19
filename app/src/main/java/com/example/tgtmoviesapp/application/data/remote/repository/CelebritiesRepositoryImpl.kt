@@ -6,8 +6,10 @@ import com.example.tgtmoviesapp.application.commons.resource.Resource
 import com.example.tgtmoviesapp.application.data.remote.Api
 import com.example.tgtmoviesapp.application.data.remote.mappers.toMovies
 import com.example.tgtmoviesapp.application.data.remote.mappers.toPerson
+import com.example.tgtmoviesapp.application.data.remote.mappers.toPersonDetails
 import com.example.tgtmoviesapp.application.data.remote.mappers.toStringList
 import com.example.tgtmoviesapp.application.domain.models.Person
+import com.example.tgtmoviesapp.application.domain.models.PersonDetails
 import com.example.tgtmoviesapp.application.domain.repository.CelebritiesRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -61,6 +63,24 @@ class CelebritiesRepositoryImpl @Inject constructor(val api: Api): CelebritiesRe
 
             if (response.isSuccessful) {
                 emit(Resource.Success(response.body()?.toPerson()))
+            } else {
+
+                emit(Resource.Error("error".toStringList(), null))
+
+            }
+        } catch (e: Exception) {
+            emit(Resource.Error("$e".toStringList(), null))
+
+        }
+    }
+
+    override suspend fun getPersonDetails(id: Int): Flow<Resource<PersonDetails>> =flow{
+        try {
+            emit(Resource.Loading(null))
+            val response = api.getPersonDetails(id)
+
+            if (response.isSuccessful) {
+                emit(Resource.Success(response.body()?.toPersonDetails()))
             } else {
 
                 emit(Resource.Error("error".toStringList(), null))

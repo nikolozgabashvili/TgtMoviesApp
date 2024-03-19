@@ -99,20 +99,6 @@ class TvShowFragment : Fragment() {
 
     private fun setupObservers() {
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            tvShowsViewModel.tvGenres.collect {
-                it?.let { resource ->
-                    resource.data?.let { genre ->
-                        genre.genres?.let { lst ->
-
-                            updateAdapters(lst)
-
-                        }
-                    }
-                }
-
-            }
-        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             tvShowsViewModel.popularTvShows.collect {
@@ -166,25 +152,27 @@ class TvShowFragment : Fragment() {
         }
     }
 
-    private fun updateAdapters(data: List<Genre?>) {
-        trendingAdapter.setMovieGenres(data)
-        topRatedAdapter.setMovieGenres(data)
-        popularAdapter.setMovieGenres(data)
-        upcomingAdapter.setMovieGenres(data)
 
-    }
 
     private fun updateTrendingAdapter(data: TvShows) {
-        trendingAdapter.setShowList(data)
+        data.results?.let {
+
+            trendingAdapter.setShowList(it)
+        }
     }
 
     private fun updatePopularAdapter(data: TvShows) {
-        popularAdapter.setShowList(data)
+        data.results?.let {
+            popularAdapter.setShowList(it)
+        }
 
     }
 
     private fun updateUpcomingAdapter(data: TvShows) {
-        upcomingAdapter.setShowList(data, DisplayIndicator.WIDE_IMAGE)
+        data.results?.let {
+
+            upcomingAdapter.setShowList(it, DisplayIndicator.WIDE_IMAGE)
+        }
 
     }
 

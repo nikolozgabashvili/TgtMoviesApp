@@ -4,6 +4,7 @@ import com.example.tgtmoviesapp.application.commons.constants.Constants
 import com.example.tgtmoviesapp.application.commons.resource.Resource
 import com.example.tgtmoviesapp.application.domain.models.Movies
 import com.example.tgtmoviesapp.application.domain.models.Person
+import com.example.tgtmoviesapp.application.domain.models.PersonDetails
 import com.example.tgtmoviesapp.application.domain.repository.CelebritiesRepository
 import com.example.tgtmoviesapp.application.domain.repository.Repository
 import kotlinx.coroutines.flow.Flow
@@ -34,6 +35,16 @@ class GetTrendingPeopleUseCase @Inject constructor(private val repository: Celeb
     }
 
 }
+class GetPeopleDetailsUseCase @Inject constructor(private val repository: CelebritiesRepository) {
+
+    suspend fun execute(id:Int): Flow<Resource<PersonDetails>> {
+        return repository.getPersonDetails(id)
+    }
+
+}
+
+
+
 
 
 

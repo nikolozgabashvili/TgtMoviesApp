@@ -11,6 +11,7 @@ import com.example.tgtmoviesapp.application.domain.models.MovieGenre
 import com.example.tgtmoviesapp.application.domain.models.MovieVideo
 import com.example.tgtmoviesapp.application.domain.models.Movies
 import com.example.tgtmoviesapp.application.domain.models.Person
+import com.example.tgtmoviesapp.application.domain.models.PersonDetails
 import com.example.tgtmoviesapp.application.domain.repository.Repository
 import kotlinx.coroutines.flow.Flow
 import org.jetbrains.annotations.Async.Execute
@@ -103,5 +104,11 @@ class GetMovieCastUseCase @Inject constructor(private val repository: Repository
 class GetLanguagesUseCase @Inject constructor( private val repository: Repository){
     suspend fun execute():Flow<Resource<Languages>>{
         return repository.getLanguages()
+    }
+}
+
+class GetPersonMovieCreditsUseCase @Inject constructor(private val repository: Repository){
+    suspend fun execute(id:Int):Flow<Resource<Movies>>{
+        return repository.getMovieByPersonId(id)
     }
 }

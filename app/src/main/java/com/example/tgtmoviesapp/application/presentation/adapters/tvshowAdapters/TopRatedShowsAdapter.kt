@@ -91,20 +91,11 @@ class TopRatedShowsAdapter : RecyclerView.Adapter<TopRatedShowsAdapter.TopViewHo
             }
         }
 
-        val genreIds = item?.genreIds
-        val genreList = mutableListOf<String>()
-        genreIds?.map { int->
-            movieGenreList.map {genre->
-                if (int ==genre?.id)
-                    genre?.name?.let {
-                        genreList.add(it)
+        val genreList = item?.genre
 
-                    }
-            }
-        }
 
         holder.binding.movieTitle.text = item?.name
-        holder.binding.movieGenre.text = genreList.joinToString(separator = ",")
+        holder.binding.movieGenre.text = genreList?.joinToString(separator = ",")
         holder.binding.movieGenre.maxLines = 1
         holder.binding.root.setOnClickListener {
             onItemClick?.invoke(item?.id)
