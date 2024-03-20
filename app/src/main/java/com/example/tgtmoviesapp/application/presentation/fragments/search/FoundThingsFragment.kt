@@ -175,13 +175,29 @@ class FoundThingsFragment : Fragment() {
         peopleRecycler.adapter = peopleAdapter
         peopleRecycler.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-
+        peopleAdapter.onClick = {
+            if (it != null) {
+                val action =
+                    SecondSearchFragmentDirections.actionSecondSearchFragmentToCelebrityDetailsFragment(
+                        it
+                    )
+                findNavController().navigate(action)
+            }
+        }
         tvShowsAdapter = TvShowsAdapter()
         tvShowsRecyclerView = binding.tvShowsRecycler
         tvShowsRecyclerView.adapter = tvShowsAdapter
         tvShowsRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-
+        tvShowsAdapter.onItemClick = {
+            if (it != null) {
+                val action =
+                    SecondSearchFragmentDirections.actionSecondSearchFragmentToTvDetailsFragment(
+                        it
+                    )
+                findNavController().navigate(action)
+            }
+        }
         moviesAdapter = MovieAdapter()
         movieRecyclerView = binding.moviesRecycler
         movieRecyclerView.adapter = moviesAdapter

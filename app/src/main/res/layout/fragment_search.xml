@@ -73,96 +73,112 @@
 
             <TextView
                 android:id="@+id/trendingMovie1"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
+                android:layout_margin="2dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="@drawable/ripple_animation"
+                android:gravity="center"
+                android:padding="5dp"
                 android:text="Trending"
                 android:textColor="@color/green"
                 android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/trendingMovie2"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
+                android:layout_margin="2dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="@drawable/ripple_animation"
+                android:gravity="center"
+                android:padding="5dp"
                 android:text="Trending"
                 android:textColor="@color/green"
                 android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/trendingMovie3"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
+                android:layout_margin="2dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="@drawable/ripple_animation"
+                android:gravity="center"
+                android:padding="5dp"
                 android:text="Trending"
                 android:textColor="@color/green"
                 android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/trendingMovie4"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
+                android:layout_margin="2dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="@drawable/ripple_animation"
+                android:gravity="center"
+                android:padding="5dp"
                 android:text="Trending"
                 android:textColor="@color/green"
                 android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/trendingMovie5"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
+                android:layout_margin="2dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="@drawable/ripple_animation"
+                android:gravity="center"
+                android:padding="5dp"
                 android:text="Trending"
                 android:textColor="@color/green"
                 android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/trendingMovie6"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
+                android:layout_margin="2dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="@drawable/ripple_animation"
+                android:gravity="center"
+                android:padding="5dp"
                 android:text="Trending"
                 android:textColor="@color/green"
                 android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/trendingMovie7"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
+                android:layout_margin="2dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="@drawable/ripple_animation"
+                android:gravity="center"
+                android:padding="5dp"
                 android:text="Trending"
                 android:textColor="@color/green"
                 android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/trendingMovie8"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
+                android:layout_margin="2dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="@drawable/ripple_animation"
+                android:gravity="center"
+                android:padding="5dp"
                 android:text="Trending"
                 android:textColor="@color/green"
                 android:textSize="18sp" />

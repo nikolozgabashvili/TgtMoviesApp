@@ -21,10 +21,11 @@ import com.example.tgtmoviesapp.application.presentation.viewModels.SearchViewMo
 import com.example.tgtmoviesapp.databinding.FragmentSecondSearchBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
-
+@AndroidEntryPoint
 class SecondSearchFragment : Fragment() {
     private lateinit var searchView: android.widget.SearchView
     private var _binding: FragmentSecondSearchBinding? = null
@@ -88,6 +89,8 @@ class SecondSearchFragment : Fragment() {
             activity?.supportFragmentManager?.popBackStack()
         }
 
+
+
     }
 
     private fun setupViewPager() {
@@ -141,17 +144,17 @@ class SecondSearchFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             searchViewModel.searchNameList.collect {
+                if (!it.isNullOrEmpty())
+                    if (it.isNotEmpty()) {
 
-                if (it.isNotEmpty()) {
+                        updateSearchAdapter(it)
+                        miniSearchRecyclerView.visibility = View.VISIBLE
+                        binding.blankTextView.visibility = View.INVISIBLE
 
-                    updateSearchAdapter(it)
-                    miniSearchRecyclerView.visibility = View.VISIBLE
-                    binding.blankTextView.visibility = View.INVISIBLE
-
-                } else {
-                    miniSearchRecyclerView.visibility = View.INVISIBLE
-                    binding.blankTextView.visibility = View.VISIBLE
-                }
+                    } else {
+                        miniSearchRecyclerView.visibility = View.INVISIBLE
+                        binding.blankTextView.visibility = View.VISIBLE
+                    }
             }
         }
 

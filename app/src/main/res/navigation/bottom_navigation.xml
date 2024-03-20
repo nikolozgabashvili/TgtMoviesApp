@@ -74,6 +74,7 @@
         <action
             android:id="@+id/action_secondSearchFragment_to_celebrityDetailsFragment"
             app:destination="@id/celebrityDetailsFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/searchFragment"

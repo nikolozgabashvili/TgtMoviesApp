@@ -86,8 +86,8 @@ class MainFragment : Fragment() {
 
                 false
             }
-            bottomNavView.setBackgroundColor(Color.green(R.color.green))
-            true
+
+
 
 
         }
