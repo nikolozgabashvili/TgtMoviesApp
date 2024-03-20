@@ -52,7 +52,7 @@ class MovieDetailsFragment : Fragment() {
 
     private val detailsViewModel: DetailsViewModel by viewModels()
     private val moviesViewModel: MoviesViewModel by viewModels()
-    // user id moaqvs shared preferencebidan ......
+
     private val userViewModel: UserViewModel by viewModels()
 
     private var _binding: FragmentMovieDetailsBinding? = null
@@ -77,7 +77,14 @@ class MovieDetailsFragment : Fragment() {
         initAdapters()
         args = arguments?.getInt("movieId", -1) ?: -1
         setupObservers()
-
+        binding.seeRecommended.setOnClickListener {
+            val action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToFoundMoviesFragment("Popular",args!!)
+            findNavController().navigate(action)
+        }
+        binding.seeSimilarMovies.setOnClickListener {
+            val action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToFoundMoviesFragment("Similar",args!!)
+            findNavController().navigate(action)
+        }
 
 
 

@@ -83,7 +83,7 @@ class FoundCelebritiesFragment : Fragment() {
                             movies.page?.let {
                                 movies.totalPages?.let {
                                     if (movies.page < movies.totalPages) {
-                                        delay(100)
+                                        delay(2)
                                         requestNextPage = true
                                     }
                                 }
@@ -109,7 +109,7 @@ class FoundCelebritiesFragment : Fragment() {
                             movies.page?.let {
                                 movies.totalPages?.let {
                                     if (movies.page < movies.totalPages) {
-                                        delay(100)
+                                        delay(2)
                                         requestNextPage = true
                                     }
                                 }

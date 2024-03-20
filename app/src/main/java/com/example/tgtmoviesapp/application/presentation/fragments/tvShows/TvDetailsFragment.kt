@@ -94,6 +94,14 @@ class TvDetailsFragment : Fragment() {
             findNavController().popBackStack()
         }
 
+        binding.seeRecommended.setOnClickListener {
+            val action = TvDetailsFragmentDirections.actionTvDetailsFragmentToFoundShowsFragment("Recommended",args)
+            findNavController().navigate(action)
+        }
+        binding.seeSimilarMovies.setOnClickListener {
+            val action = TvDetailsFragmentDirections.actionTvDetailsFragmentToFoundShowsFragment("Similar",args)
+            findNavController().navigate(action)
+        }
 
 
     }
@@ -104,7 +112,7 @@ class TvDetailsFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             userViewModel.isFavourite.collect {
                 if  (it==null){
-                    userViewModel.isMovieFavourite(args!!)
+                    userViewModel.isMovieFavourite(args)
                 }
                 if (it?.message != null && it.message.isNotEmpty() && it.message[0] == "session ended") {
                     Toast.makeText(

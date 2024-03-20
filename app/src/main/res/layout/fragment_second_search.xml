@@ -28,6 +28,7 @@
             android:background="@drawable/baseline_arrow_back_24" />
 
         <SearchView
+            android:saveEnabled="true"
             android:id="@+id/searchView"
             style="@style/Base.Theme.TgtMoviesApp"
             android:layout_width="0dp"
@@ -45,15 +46,6 @@
         </SearchView>
 
 
-<!--        <Button-->
-
-<!--            android:id="@+id/cancelSearchButton"-->
-<!--            android:layout_width="40dp"-->
-<!--            android:layout_height="40dp"-->
-<!--            android:background="@drawable/cancel"-->
-<!--            android:backgroundTint="@color/headLineColor"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
     </LinearLayout>
 
     <com.google.android.material.tabs.TabLayout

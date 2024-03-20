@@ -82,6 +82,8 @@ class SecondSearchFragment : Fragment() {
             setupFoundInfoDisplay()
         }
 
+
+
         binding.backButton.setOnClickListener {
             activity?.supportFragmentManager?.popBackStack()
         }

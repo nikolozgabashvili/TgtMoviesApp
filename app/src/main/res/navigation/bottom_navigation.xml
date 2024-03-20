@@ -130,6 +130,9 @@
             android:name="id"
             app:argType="integer"
             android:defaultValue="-1" />
+        <action
+            android:id="@+id/action_foundShowsFragment_self"
+            app:destination="@id/foundShowsFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -165,6 +168,9 @@
         <action
             android:id="@+id/action_movieDetailsFragment_to_celebrityDetailsFragment"
             app:destination="@id/celebrityDetailsFragment" />
+        <action
+            android:id="@+id/action_movieDetailsFragment_to_foundMoviesFragment"
+            app:destination="@id/foundMoviesFragment" />
     </fragment>
     <fragment
         android:id="@+id/tvDetailsFragment"
@@ -180,6 +186,9 @@
         <action
             android:id="@+id/action_tvDetailsFragment_to_celebrityDetailsFragment"
             app:destination="@id/celebrityDetailsFragment" />
+        <action
+            android:id="@+id/action_tvDetailsFragment_to_foundShowsFragment"
+            app:destination="@id/foundShowsFragment" />
     </fragment>
     <fragment
         android:id="@+id/celebrityDetailsFragment"

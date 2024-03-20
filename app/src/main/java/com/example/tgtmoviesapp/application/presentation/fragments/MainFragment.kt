@@ -1,9 +1,11 @@
 package com.example.tgtmoviesapp.application.presentation.fragments
 
+import android.graphics.Color
 import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
+import android.view.VelocityTracker
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -84,10 +86,15 @@ class MainFragment : Fragment() {
 
                 false
             }
+            bottomNavView.setBackgroundColor(Color.green(R.color.green))
+            true
+
+
         }
 
         bottomNavView.setOnItemReselectedListener {
             if (it.itemId!=navController.currentDestination?.id) {
+                //Todo pop fragments from pages backstack
                 navController.popBackStack()
             }
         }

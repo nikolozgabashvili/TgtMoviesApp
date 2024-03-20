@@ -20,6 +20,7 @@ import com.example.tgtmoviesapp.application.presentation.adapters.movieAdapters.
 import com.example.tgtmoviesapp.application.presentation.fragments.search.SecondSearchFragment
 import com.example.tgtmoviesapp.application.presentation.fragments.search.SecondSearchFragmentDirections
 import com.example.tgtmoviesapp.application.presentation.viewModels.CelebrityDetailsViewModel
+import com.example.tgtmoviesapp.application.presentation.viewModels.DetailsViewModel
 import com.example.tgtmoviesapp.application.presentation.viewModels.MoviesViewModel
 import com.example.tgtmoviesapp.application.presentation.viewModels.SearchViewModel
 import com.example.tgtmoviesapp.databinding.FragmentFoundMoviesBinding
@@ -38,9 +39,10 @@ class FoundMoviesFragment : Fragment() {
     private lateinit var movieRecyclerView: RecyclerView
 
     private var movieType: String? = "NONE"
-    private val detailsViewModel: CelebrityDetailsViewModel by viewModels ()
+    private val celebrityDetailsViewModel: CelebrityDetailsViewModel by viewModels()
+    private val detailsViewModel: DetailsViewModel by viewModels()
 
-    private var personId: Int = -1
+    private var infoId: Int = -1
     private val searchViewModel: SearchViewModel by activityViewModels()
     private val moviesViewModel: MoviesViewModel by activityViewModels()
     private var currentPage = 1
@@ -67,10 +69,10 @@ class FoundMoviesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        movieType = arguments?.getString("movieType", "NONE")?:"NONE"
-        personId = arguments?.getInt("id", -1)?:-1
+        movieType = arguments?.getString("movieType", "NONE") ?: "NONE"
+        infoId = arguments?.getInt("id", -1) ?: -1
         binding.movieType.text = movieType
-        binding.backButton.setOnClickListener{findNavController().popBackStack()}
+        binding.backButton.setOnClickListener { findNavController().popBackStack() }
         initAdapter()
         setupObserver()
 
@@ -80,7 +82,7 @@ class FoundMoviesFragment : Fragment() {
 
 
         if (movieType == "NONE") {
-            binding.header.visibility=View.GONE
+            binding.header.visibility = View.GONE
             viewLifecycleOwner.lifecycleScope.launch {
 
                 searchViewModel.moviesPaged.collect {
@@ -96,8 +98,8 @@ class FoundMoviesFragment : Fragment() {
                             updateMoviesAdapter(lst)
                             movies.page?.let {
                                 movies.totalPages?.let {
-                                    if (movies.page<movies.totalPages) {
-                                        delay(100)
+                                    if (movies.page < movies.totalPages) {
+                                        delay(2)
                                         requestNextPage = true
                                     }
                                 }
@@ -108,8 +110,68 @@ class FoundMoviesFragment : Fragment() {
                     }
                 }
             }
+        } else if (movieType == "Recommended") {
+            binding.header.visibility = View.VISIBLE
+            viewLifecycleOwner.lifecycleScope.launch {
+                detailsViewModel.recommended.collect {
+                    if (it == null) {
+                        detailsViewModel.getRecommendedMovies(infoId, 1)
+                    } else {
+                        it.data?.let { movies ->
+
+                            if (movies.page == 1) {
+                                currentMovieList = emptyList()
+                                currentPage = 1
+                            }
+                            val lst = currentMovieList + movies.results as List<Movies.Result?>
+                            currentMovieList = lst
+                            updateMoviesAdapter(lst)
+                            movies.page?.let {
+                                movies.totalPages?.let {
+                                    if (movies.page < movies.totalPages) {
+                                        delay(2)
+                                        requestNextPage = true
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+
+
+        } else if (movieType == "Similar") {
+            binding.header.visibility = View.VISIBLE
+            viewLifecycleOwner.lifecycleScope.launch {
+                detailsViewModel.similarMovies.collect {
+                    if (it == null) {
+                        detailsViewModel.getSimilarMovies(infoId, 1)
+                    } else {
+                        it.data?.let { movies ->
+
+                            if (movies.page == 1) {
+                                currentMovieList = emptyList()
+                                currentPage = 1
+                            }
+                            val lst = currentMovieList + movies.results as List<Movies.Result?>
+                            currentMovieList = lst
+                            updateMoviesAdapter(lst)
+                            movies.page?.let {
+                                movies.totalPages?.let {
+                                    if (movies.page < movies.totalPages) {
+                                        delay(2)
+                                        requestNextPage = true
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
         } else if (movieType != "Movies") {
-            binding.header.visibility=View.VISIBLE
+            binding.header.visibility = View.VISIBLE
 
             viewLifecycleOwner.lifecycleScope.launch {
                 moviesViewModel.moviePaging.collect {
@@ -125,8 +187,8 @@ class FoundMoviesFragment : Fragment() {
                             updateMoviesAdapter(lst)
                             movies.page?.let {
                                 movies.totalPages?.let {
-                                    if (movies.page<movies.totalPages) {
-                                        delay(100)
+                                    if (movies.page < movies.totalPages) {
+                                        delay(2)
                                         requestNextPage = true
                                     }
                                 }
@@ -136,12 +198,12 @@ class FoundMoviesFragment : Fragment() {
                     }
                 }
             }
-        }else{
-            binding.header.visibility=View.VISIBLE
+        } else {
+            binding.header.visibility = View.VISIBLE
             viewLifecycleOwner.lifecycleScope.launch {
-                detailsViewModel.movies.collect{
-                    if (it==null){
-                        detailsViewModel.getMovies(personId)
+                celebrityDetailsViewModel.movies.collect {
+                    if (it == null) {
+                        celebrityDetailsViewModel.getMovies(infoId)
                     }
                     it?.data?.let {
                         updateMoviesAdapter(it.results)
@@ -198,6 +260,12 @@ class FoundMoviesFragment : Fragment() {
                         "Top Rated" -> {
                             moviesViewModel.getTopRatedMovieByPage(++currentPage)
                         }
+                        "Similar"->{
+                            detailsViewModel.getSimilarMovies(infoId,++currentPage)
+                        }
+                        "Recommended"->{
+                            detailsViewModel.getRecommendedMovies(infoId,++currentPage)
+                        }
                     }
                     requestNextPage = false
 
@@ -206,14 +274,14 @@ class FoundMoviesFragment : Fragment() {
         })
 
         moviesAdapter.onItemClick = {
-            if (it!=null){
+            if (it != null) {
                 try {
                     val action =
                         FoundMoviesFragmentDirections.actionFoundMoviesFragmentToMovieDetailsFragment(
                             it
                         )
                     findNavController().navigate(action)
-                }catch (e:Exception){
+                } catch (e: Exception) {
                     val action =
                         SecondSearchFragmentDirections.actionSecondSearchFragmentToMovieDetailsFragment(
                             it
