@@ -78,7 +78,7 @@ class MovieDetailsFragment : Fragment() {
         args = arguments?.getInt("movieId", -1) ?: -1
         setupObservers()
         binding.seeRecommended.setOnClickListener {
-            val action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToFoundMoviesFragment("Popular",args!!)
+            val action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToFoundMoviesFragment("Recommended",args!!)
             findNavController().navigate(action)
         }
         binding.seeSimilarMovies.setOnClickListener {

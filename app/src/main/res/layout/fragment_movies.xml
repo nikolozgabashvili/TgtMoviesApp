@@ -36,16 +36,16 @@
 
 
     <ScrollView
-        android:scrollbars="none"
-        android:paddingBottom="6dp"
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/mainColor"
+        android:paddingBottom="6dp"
+        android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -58,6 +58,7 @@
                 android:id="@+id/popularMoviesTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginTop="35dp"
                 android:text="Popular"
                 android:textColor="@color/white"
                 android:textSize="20sp"
@@ -73,7 +74,7 @@
                 android:text="See all>"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="@+id/popularMoviesTxt" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/popularMovieRecycler"
@@ -95,7 +96,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="4dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="30dp"
                 android:text="Playing In Theatres"
                 android:textColor="@color/white"
                 android:textSize="20sp"
@@ -108,11 +109,10 @@
 
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginTop="12dp"
                 android:text="See all>"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/popularMovieRecycler" />
+                app:layout_constraintTop_toTopOf="@+id/playingInTheatres" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/playingInTheatresRecycler"
@@ -130,7 +130,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="4dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="30dp"
                 android:text="Trending"
                 android:textColor="@color/white"
                 android:textSize="20sp"
@@ -143,11 +143,10 @@
 
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginTop="12dp"
                 android:text="See all>"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/playingInTheatresRecycler" />
+                app:layout_constraintTop_toTopOf="@+id/trendingMovies" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/trendingMoviesRecycler"
@@ -165,7 +164,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="4dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="30dp"
                 android:text="Top Rated"
                 android:textColor="@color/white"
                 android:textSize="20sp"
@@ -200,7 +199,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="4dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="30dp"
                 android:text="Upcoming"
                 android:textColor="@color/white"
                 android:textSize="20sp"
@@ -213,11 +212,10 @@
 
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginTop="12dp"
                 android:text="See all>"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/topRatedMoviesRecyclerGrid" />
+                app:layout_constraintTop_toTopOf="@+id/upcomingMovies" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/upcomingMoviesRecycler"

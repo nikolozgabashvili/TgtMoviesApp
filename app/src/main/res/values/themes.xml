@@ -6,4 +6,8 @@
     </style>
 
     <style name="Theme.TgtMoviesApp" parent="Base.Theme.TgtMoviesApp" />
+
+    <style name="NoUnderlineEditText" parent="Widget.AppCompat.EditText">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
 </resources>

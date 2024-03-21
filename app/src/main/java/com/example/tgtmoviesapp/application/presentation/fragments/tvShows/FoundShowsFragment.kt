@@ -211,7 +211,7 @@ class FoundShowsFragment : Fragment() {
             try {
 
                 val action =
-                    TvShowFragmentDirections.actionTvShowFragmentToTvDetailsFragment(it ?: -1)
+                    FoundShowsFragmentDirections.actionFoundShowsFragmentToTvDetailsFragment(it ?: -1)
                 findNavController().navigate(action)
             } catch (_: Exception) {
                 val action =

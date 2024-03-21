@@ -51,6 +51,7 @@
             android:gravity="center_vertical">
 
             <TextView
+                android:layout_marginTop="35dp"
                 android:id="@+id/todayAiringTvShows"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -69,7 +70,7 @@
                 android:text="See all>"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="@+id/todayAiringTvShows" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/todayAiringTvShowsRecycler"
@@ -90,7 +91,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="4dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="30dp"
                 android:text="Trending"
                 android:textColor="@color/white"
                 android:textSize="20sp"
@@ -103,11 +104,10 @@
 
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginTop="12dp"
                 android:text="See all>"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/todayAiringTvShowsRecycler" />
+                app:layout_constraintTop_toTopOf="@+id/trendingTvShows" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/trendingTvShowsRecycler"
@@ -122,7 +122,7 @@
 
             <TextView
                 android:id="@+id/topRatedTvShows"
-
+                android:layout_marginTop="30dp"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="4dp"
@@ -141,7 +141,7 @@
                 android:text="See all>"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/trendingTvShowsRecycler" />
+                app:layout_constraintTop_toTopOf="@+id/topRatedTvShows" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/topRatedTvShowsRecyclerGrid"
@@ -159,7 +159,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="4dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="30dp"
                 android:text="Popular"
                 android:textColor="@color/white"
                 android:textSize="20sp"
@@ -172,11 +172,11 @@
 
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="2dp"
                 android:text="See all>"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/topRatedTvShowsRecyclerGrid" />
+                app:layout_constraintTop_toTopOf="@+id/popularTvShows" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/popularTvShowsRecycler"

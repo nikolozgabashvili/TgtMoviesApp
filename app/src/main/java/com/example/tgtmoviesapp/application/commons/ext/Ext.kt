@@ -1,6 +1,8 @@
 package com.example.tgtmoviesapp.application.commons.ext
 
 
+import android.view.MotionEvent
+import androidx.recyclerview.widget.RecyclerView
 import com.example.tgtmoviesapp.application.domain.models.Creators
 import com.example.tgtmoviesapp.application.domain.models.ProductionCompanies
 import kotlin.math.roundToInt
@@ -17,6 +19,26 @@ fun Int?.convert(): String {
     }
     return ""
 
+}
+
+
+
+fun RecyclerView.addInterceptor(){
+    this.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
+
+        override fun onTouchEvent(view: RecyclerView, event: MotionEvent) {}
+
+        override fun onInterceptTouchEvent(view: RecyclerView, event: MotionEvent): Boolean {
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    this@addInterceptor.parent.parent.parent?.requestDisallowInterceptTouchEvent(true)
+                }
+            }
+            return false
+        }
+
+        override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {}
+    })
 }
 
 fun List<ProductionCompanies>.toCompanyList():String{
@@ -53,10 +75,13 @@ fun List<String>.listToString():String{
 }
 
 fun String?.toDate(): String {
-    val year = this?.substring(0, 4)
-    val month = this?.substring(5, 7)
-    val day = this?.substring(8, 10)
-    return "$day ${month?.toMonth()} $year"
+    if (!this.isNullOrEmpty()&&this.length>=9) {
+        val year = this.substring(0, 4)
+        val month = this.substring(5, 7)
+        val day = this.substring(8, 10)
+        return "$day ${month.toMonth()} $year"
+    }
+    return ""
 }
 
 private fun String.toMonth(): String {

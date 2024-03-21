@@ -56,23 +56,23 @@ class TvShowsAdapter() : RecyclerView.Adapter<TvShowsAdapter.TvShowViewHolder>()
         var path = ""
         val currentItem = showList[position]
         if (showType != DisplayIndicator.WIDE_IMAGE) {
-            holder.binding.imageView.minimumWidth = 300
-            holder.binding.imageView.minimumHeight=440
+            holder.binding.imageView.minimumWidth = 270
+            holder.binding.imageView.minimumHeight=400
             path = Constants.IMAGE_BASE_URL + (currentItem?.posterPath?:"jbdjadhjbadadsb")
             Glide.with(holder.binding.root.context)
 
                 .load(path)
-                .apply(RequestOptions().override(300, 440))
+                .apply(RequestOptions().override(300, 400))
                 .placeholder(R.drawable.movies_item)
                 .into(holder.binding.imageView)
         } else {
             path = Constants.IMAGE_BASE_URL + (currentItem?.backdropPath?:"jbdjadhjbadadsb")
-            holder.binding.imageView.minimumWidth = 600
-            holder.binding.imageView.minimumHeight=340
+            holder.binding.imageView.minimumWidth = 500
+            holder.binding.imageView.minimumHeight=240
             Glide.with(holder.binding.root.context)
 
                 .load(path)
-                .apply(RequestOptions().override(600, 340))
+                .apply(RequestOptions().override(500, 340))
                 .placeholder(R.drawable.movies_item)
 
                 .into(holder.binding.imageView)

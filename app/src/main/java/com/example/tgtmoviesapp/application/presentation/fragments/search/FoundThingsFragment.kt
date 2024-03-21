@@ -2,16 +2,20 @@ package com.example.tgtmoviesapp.application.presentation.fragments.search
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.tgtmoviesapp.R
+import com.example.tgtmoviesapp.application.commons.ext.addInterceptor
 import com.example.tgtmoviesapp.application.domain.models.DisplayIndicator
 import com.example.tgtmoviesapp.application.domain.models.Genre
 import com.example.tgtmoviesapp.application.domain.models.Movies
@@ -25,9 +29,10 @@ import com.example.tgtmoviesapp.application.presentation.viewModels.MoviesViewMo
 import com.example.tgtmoviesapp.application.presentation.viewModels.SearchViewModel
 import com.example.tgtmoviesapp.application.presentation.viewModels.TvShowsViewModel
 import com.example.tgtmoviesapp.databinding.FragmentFoundThingsBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-
+@AndroidEntryPoint
 class FoundThingsFragment : Fragment() {
 
     private lateinit var moviesAdapter: MovieAdapter
@@ -47,6 +52,8 @@ class FoundThingsFragment : Fragment() {
     private var _binding: FragmentFoundThingsBinding? = null
     private val binding get() = _binding!!
 
+    private var query:String = ""
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -63,6 +70,7 @@ class FoundThingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        query = requireActivity().findViewById<SearchView>(R.id.searchView).query.toString()
         initAdapters()
         setupObservers()
 
@@ -184,6 +192,8 @@ class FoundThingsFragment : Fragment() {
                 findNavController().navigate(action)
             }
         }
+
+        peopleRecycler.addInterceptor()
         tvShowsAdapter = TvShowsAdapter()
         tvShowsRecyclerView = binding.tvShowsRecycler
         tvShowsRecyclerView.adapter = tvShowsAdapter
@@ -198,11 +208,16 @@ class FoundThingsFragment : Fragment() {
                 findNavController().navigate(action)
             }
         }
+
+        tvShowsRecyclerView.addInterceptor()
+
         moviesAdapter = MovieAdapter()
         movieRecyclerView = binding.moviesRecycler
         movieRecyclerView.adapter = moviesAdapter
         movieRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+        movieRecyclerView.addInterceptor()
 
         moviesAdapter.onItemClick = {
             if (it != null) {

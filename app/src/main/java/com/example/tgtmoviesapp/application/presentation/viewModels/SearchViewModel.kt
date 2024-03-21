@@ -1,5 +1,6 @@
 package com.example.tgtmoviesapp.application.presentation.viewModels
 
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tgtmoviesapp.application.commons.resource.Resource
@@ -43,6 +44,10 @@ class SearchViewModel @Inject constructor(
     private val _tvShowsPaged = MutableStateFlow<Resource<TvShows>?>(null)
     val tvShowsPaged: MutableStateFlow<Resource<TvShows>?> = _tvShowsPaged
 
+    var successList = MutableStateFlow(Array(3) { false })
+    var passingList : Array<Fragment?> = Array(3) { null }
+
+    var submittedText :String?= null
 
     private var _people = MutableStateFlow<Resource<Person>?>(null)
     val people: MutableStateFlow<Resource<Person>?> = _people
@@ -119,7 +124,7 @@ class SearchViewModel @Inject constructor(
         searchPerson(query)
     }
 
-    private fun searchPerson(query: String) {
+    fun searchPerson(query: String) {
         viewModelScope.launch {
             searchPeopleUseCase.execute(query = query).collect {
 
@@ -129,7 +134,7 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    private fun searchTv(query: String) {
+    fun searchTv(query: String) {
         viewModelScope.launch {
             searchTvShowsUseCase.execute(query = query).collect {
 
@@ -175,6 +180,10 @@ class SearchViewModel @Inject constructor(
                 _peoplePaged.value = it
             }
         }
+    }
+
+    fun clearSubmittedText() {
+        submittedText = null
     }
 
 

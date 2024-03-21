@@ -55,24 +55,24 @@ class MovieAdapter() : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
         val currentItem = movieList[position]
         var path = ""
         if (movieType !=DisplayIndicator.WIDE_IMAGE) {
-            holder.binding.imageView.minimumWidth = 300
-            holder.binding.imageView.minimumHeight=440
+            holder.binding.imageView.minimumWidth = 270
+            holder.binding.imageView.minimumHeight=400
             path = IMAGE_BASE_URL + (currentItem?.posterPath?:"jbdjadhjbadadsb")
             Glide.with(holder.binding.root.context)
 
                 .load(path)
-                .override(340, 440)
+                .override(300, 400)
                 .placeholder(R.drawable.movies_item)
                 .into(holder.binding.imageView)
 
         }else{
             path = IMAGE_BASE_URL + (currentItem?.backdropPath?:"jbdjadhjbadadsb")
-            holder.binding.imageView.minimumWidth = 600
-            holder.binding.imageView.minimumHeight=350
+            holder.binding.imageView.minimumWidth = 500
+            holder.binding.imageView.minimumHeight=250
             Glide.with(holder.binding.root.context)
 
                 .load(path)
-                .override(600, 440)
+                .override(500, 340)
                 .placeholder(R.drawable.movies_item)
                 .into(holder.binding.imageView)
         }
