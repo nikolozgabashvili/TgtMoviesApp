@@ -4,7 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
+import android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.SearchView.OnQueryTextListener
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -67,6 +75,9 @@ class SecondSearchFragment : Fragment() {
         fragmentList = mutableListOf()
         val searchViewText = arguments?.getString("searchviewText") ?: ""
 
+        binding.clearButton.setOnClickListener {
+            binding.searchView.setText("")
+        }
         initViews()
         initAdapters()
         setupViewPager()
@@ -75,7 +86,7 @@ class SecondSearchFragment : Fragment() {
 
         if (searchViewText.isNotEmpty() && !searchViewModel.successList.value[0]) {
 
-            binding.searchView.setQuery(searchViewText, false)
+            binding.searchView.setText(searchViewText)
             setupFoundInfoDisplay()
         }
 
@@ -98,10 +109,13 @@ class SecondSearchFragment : Fragment() {
     }
 
     private fun initViews() {
-
+        binding.searchView.requestFocus()
         viewPager = binding.viewpager
         tabLayout = binding.tabLayout
 
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+        val inputMethodManager = activity?.getSystemService(InputMethodManager::class.java)
+        inputMethodManager?.showSoftInput(binding.searchView, InputMethodManager.SHOW_IMPLICIT)
     }
 
     fun setDefaultViews() {
@@ -128,7 +142,11 @@ class SecondSearchFragment : Fragment() {
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         searchAdapter.onItemClick = {
 
-            binding.searchView.setQuery(it, true)
+            binding.searchView.setText(it)
+            binding.searchView.onEditorAction(IME_ACTION_SEARCH)
+
+
+
 
         }
 
@@ -275,11 +293,12 @@ class SecondSearchFragment : Fragment() {
 
     private fun search() {
 
+        binding.searchView.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId ==  IME_ACTION_SEARCH) {
 
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
-            android.widget.SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                val q = query ?: ""
+                val q =  binding.searchView.text.toString()
+                val inputMethodManager = activity?.getSystemService(InputMethodManager::class.java)
+                inputMethodManager?.hideSoftInputFromWindow(binding.searchView.windowToken, 0)
                 searchViewModel.passingList = Array(3) { null }
                 searchViewModel.successList.value =Array(3) { false }
                 searchViewModel.movies.value = null
@@ -293,12 +312,18 @@ class SecondSearchFragment : Fragment() {
                 searchViewModel.getEverythingByQuery(q)
                 binding.searchView.clearFocus()
                 setupViewPager()
-                return true
-            }
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                val txt = newText ?: ""
-                if (searchViewModel.submittedText!=txt) {
+
+                true
+            } else {
+                false
+            }
+        }
+
+        binding.searchView.addTextChangedListener {
+            val txt = binding.searchView.text.toString()
+            if (searchViewModel.submittedText!=txt) {
+
                     searchViewModel.passingList = Array(3) { null }
                     searchViewModel.successList.value =Array(3) { false }
                     searchViewModel.movies.value = null
@@ -310,9 +335,9 @@ class SecondSearchFragment : Fragment() {
                     searchViewModel.clearSubmittedText()
                     binding.predictiveSearchDisplay.visibility = View.VISIBLE
                     binding.blankTextView.visibility = View.INVISIBLE
+
                     setDefaultViews()
-//                    binding.viewpager.visibility = View.INVISIBLE
-//                    binding.tabLayout.visibility = View.INVISIBLE
+
                     if (txt.isNotEmpty()) {
                         searchViewModel.cancelDebounceJob()
                         searchViewModel.startDebounceJob()
@@ -323,14 +348,10 @@ class SecondSearchFragment : Fragment() {
                     }
 
 
-                    return true
                 }
 
-                return true
+        }
 
-            }
-
-        })
 
     }
 

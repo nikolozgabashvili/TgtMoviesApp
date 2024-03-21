@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -70,7 +71,7 @@ class FoundThingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        query = requireActivity().findViewById<SearchView>(R.id.searchView).query.toString()
+        query = requireActivity().findViewById<EditText>(R.id.searchView).text.toString()
         initAdapters()
         setupObservers()
 

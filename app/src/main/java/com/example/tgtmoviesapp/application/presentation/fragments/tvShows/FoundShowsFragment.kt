@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.SearchView
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -235,8 +236,8 @@ class FoundShowsFragment : Fragment() {
                 if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0 && requestNextPage) {
                     when (movieType) {
                         "NONE" -> {
-                            val txt = requireActivity().findViewById<SearchView>(R.id.searchView)
-                            searchViewModel.searchTvShowsByPage(txt.query.toString(), ++currentPage)
+                            val txt = requireActivity().findViewById<EditText>(R.id.searchView)
+                            searchViewModel.searchTvShowsByPage(txt.text.toString(), ++currentPage)
                         }
 
                         "Popular" -> {

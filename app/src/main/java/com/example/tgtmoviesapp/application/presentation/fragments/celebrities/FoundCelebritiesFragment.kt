@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -157,8 +158,8 @@ class FoundCelebritiesFragment : Fragment() {
                 if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0 && requestNextPage) {
                     when (dataType) {
                         "NONE" -> {
-                            val txt = requireActivity().findViewById<SearchView>(R.id.searchView)
-                            searchViewModel.searchPeopleByPage(txt.query.toString(), ++currentPage)
+                            val txt = requireActivity().findViewById<EditText>(R.id.searchView)
+                            searchViewModel.searchPeopleByPage(txt.text.toString(), ++currentPage)
                         }
 
                         "Popular" -> {

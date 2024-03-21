@@ -48,22 +48,24 @@
         <EditText
             android:id="@+id/searchView"
             android:textSize="24sp"
+            android:inputType="textNoSuggestions"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="10dp"
             android:layout_weight="1"
             android:hint="Search"
-            android:iconifiedByDefault="false"
+            android:imeOptions="actionSearch"
             android:saveEnabled="true"
             android:textColorHint="@color/white"
             android:background="@null"
-            android:visibility="visible"
-            android:autofillHints="name">
+            >
 
             <requestFocus />
         </EditText>
         <ImageView
+            android:id="@+id/clearButton"
             android:layout_width="50dp"
+
             android:foreground="@drawable/ripple_animation"
             android:clickable="true"
             android:focusable="true"
