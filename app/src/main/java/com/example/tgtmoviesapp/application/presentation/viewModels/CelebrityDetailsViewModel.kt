@@ -52,10 +52,7 @@ class CelebrityDetailsViewModel @Inject constructor(
             getPersonTvShowCreditsUseCase.execute(id).collect { resource ->
 
                 _tvShows.value = resource
-                println("-------------")
-                println(resource.data)
-                println(resource.message)
-                println("-------------")
+
             }
         }
     }
@@ -63,10 +60,7 @@ class CelebrityDetailsViewModel @Inject constructor(
         viewModelScope.launch {
 
             getPersonMovieCreditsUseCase.execute(id).collect { resource ->
-                println("-------------")
-                println(resource.data)
-                println(resource.message)
-                println("-------------")
+
                 _movies.value = resource
 
             }

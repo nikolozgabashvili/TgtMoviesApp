@@ -13,7 +13,6 @@ import com.example.tgtmoviesapp.application.domain.usecases.LoginUserUseCase
 import com.example.tgtmoviesapp.application.domain.usecases.RegisterUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -44,7 +43,11 @@ class UserViewModel @Inject constructor(
     val deleteSuccess: MutableStateFlow<Resource<Boolean>?> = _deleteSuccess
 
     var currentUserToken = MutableStateFlow<String?>(null)
+    var checkToken = MutableStateFlow(false)
     var currentUserName = MutableStateFlow<String?>(null)
+
+
+    var errorMsg = ""
 
     fun registerUser(username: String, password: String, mail: String) {
         viewModelScope.launch {
@@ -60,8 +63,12 @@ class UserViewModel @Inject constructor(
             loginUserUseCase.execute(username, password).collect {
                 it.data?.let { str ->
                     currentUserToken.value = str
+                    checkToken.value = true
                     sharedPreferences.putString("userToken", str)
+
                 }
+
+                _loginResource.value = it
             }
 
         }
@@ -77,17 +84,33 @@ class UserViewModel @Inject constructor(
                 } else if (it.message != null) {
                     _favouriteSuccess.value = false
                 }
+                it.message?.let {
+                    it.map {
+                        if (it == "401") {
+                            errorMsg = "401"
+                            removeTokenValue()
+                        }
+                    }
+                }
             }
         }
     }
 
-    fun deleteFav(id:Int){
+    fun deleteFav(id: Int) {
         viewModelScope.launch {
             currentUserToken.value?.let {
-                deleteFavouriteUseCase.execute(it,id).collect{
+                deleteFavouriteUseCase.execute(it, id).collect {
                     _deleteSuccess.value = it
-                    if (it.data==true){
+                    if (it.data == true) {
                         isFavourite.value = Resource.Success(false)
+                    }
+                    it.message?.let {
+                        it.map {
+                            if (it == "401") {
+                                errorMsg = "401"
+                                removeTokenValue()
+                            }
+                        }
                     }
                 }
 
@@ -102,6 +125,17 @@ class UserViewModel @Inject constructor(
                     it?.let {
                         _isFavourite.emit(it)
                     }
+                    it.message?.let {
+                        it.map {
+                            if (it == "401") {
+
+                                removeTokenValue()
+                            }
+                        }
+                    }
+                    if (it.data != null) {
+                        checkToken.value = true
+                    }
                 }
 
             }
@@ -110,10 +144,10 @@ class UserViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
+
             sharedPreferences.getString("userToken", null)?.let {
-
-
                 currentUserToken.value = it
+                isMovieFavourite(-1)
 
 
             }
@@ -124,12 +158,23 @@ class UserViewModel @Inject constructor(
 
         viewModelScope.launch {
             currentUserToken.collect {
-                sharedPreferences.putString("userToken", it)
+                it?.let {
+
+                    sharedPreferences.putString("userToken", it)
+                }
                 it?.let {
                     viewModelScope.launch {
                         getCurrentUserUseCase.execute(it).collect { user ->
                             user.data?.let {
                                 currentUserName.value = it.username
+                            }
+                            user.message?.let {
+                                it.map {
+                                    if (it == "401") {
+                                        errorMsg = "401"
+                                        removeTokenValue()
+                                    }
+                                }
                             }
                         }
                     }
@@ -142,6 +187,7 @@ class UserViewModel @Inject constructor(
 
     fun removeTokenValue() {
         currentUserToken.value = null
+        checkToken.value = false
         currentUserName.value = null
         sharedPreferences.clearPrefs()
     }

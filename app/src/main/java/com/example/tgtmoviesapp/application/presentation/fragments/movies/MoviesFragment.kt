@@ -20,6 +20,7 @@ import com.example.tgtmoviesapp.application.presentation.adapters.movieAdapters.
 import com.example.tgtmoviesapp.application.presentation.viewModels.MoviesViewModel
 import com.example.tgtmoviesapp.databinding.FragmentMoviesBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -42,7 +43,6 @@ class MoviesFragment : Fragment() {
 
 
     private val mainViewModel: MoviesViewModel by activityViewModels()
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -53,6 +53,7 @@ class MoviesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.shimmer.startShimmer()
         initAdapters()
         setupObservers()
         setupListeners()
@@ -101,14 +102,20 @@ class MoviesFragment : Fragment() {
 
 
     private fun setupObservers() {
+
         viewLifecycleOwner.lifecycleScope.launch {
             mainViewModel.movies.collect {
+
                 it?.let {
                     it.data?.let { data ->
                         updatePopularAdapter(data)
-
                     }
-
+                    println(it.loading)
+                    println(it)
+                    if (it.loading==null){
+                        delay(100)
+                        binding.shimmer.hideShimmer()
+                    }
                 }
             }
         }
@@ -119,6 +126,9 @@ class MoviesFragment : Fragment() {
                     it.data?.let { data ->
                         updateTrendingAdapter(data)
                     }
+                    if (it.loading==null){
+                        delay(100)
+                        binding.shimmer.hideShimmer()                    }
 
                 }
             }
@@ -130,6 +140,11 @@ class MoviesFragment : Fragment() {
                     it.data?.let {
                         updateUpcomingAdapter(it)
                     }
+
+                    if (it.loading==null){
+                        delay(100)
+
+                        binding.shimmer.hideShimmer()                    }
                 }
 
             }
@@ -141,6 +156,9 @@ class MoviesFragment : Fragment() {
                     it.data?.let {
                         updateTopRatedAdapter(it)
                     }
+                    if (it.loading==null){
+                        delay(100)
+                        binding.shimmer.hideShimmer()                    }
                 }
 
             }
@@ -152,8 +170,11 @@ class MoviesFragment : Fragment() {
                     it.data?.let {
                         updatePITAdapter(it)
                     }
+                    if (it.loading==null){
+                        delay(100)
+                        binding.shimmer.hideShimmer()
+                    }
                 }
-
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {
@@ -165,17 +186,13 @@ class MoviesFragment : Fragment() {
 
                         }
                     }
+                    if (resource.loading==null){
+                        delay(100)
+                        binding.shimmer.hideShimmer()                    }
                 }
-
-
             }
-
         }
-
-
     }
-
-
 
     private fun updateTrendingAdapter(data: Movies) {
         data.results?.let {

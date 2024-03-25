@@ -62,7 +62,6 @@ class CelebrityDetailsFragment : Fragment() {
 
         initAdapters()
         args = arguments?.getInt("id", -1) ?: -1
-        println(args)
         setupObservers()
 
 
@@ -93,7 +92,6 @@ class CelebrityDetailsFragment : Fragment() {
                 it?.let {
                     it.data?.let {
                         setupPage(it, args)
-                        delay(100)
 
                     }
                 }

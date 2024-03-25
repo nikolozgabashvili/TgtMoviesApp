@@ -2,13 +2,10 @@ package com.example.tgtmoviesapp.application.presentation.fragments.search
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -25,10 +22,7 @@ import com.example.tgtmoviesapp.application.domain.models.TvShows
 import com.example.tgtmoviesapp.application.presentation.adapters.celebritiesAdapter.CelebritiesAdapter
 import com.example.tgtmoviesapp.application.presentation.adapters.movieAdapters.MovieAdapter
 import com.example.tgtmoviesapp.application.presentation.adapters.tvshowAdapters.TvShowsAdapter
-import com.example.tgtmoviesapp.application.presentation.fragments.movies.FoundMoviesFragmentDirections
-import com.example.tgtmoviesapp.application.presentation.viewModels.MoviesViewModel
 import com.example.tgtmoviesapp.application.presentation.viewModels.SearchViewModel
-import com.example.tgtmoviesapp.application.presentation.viewModels.TvShowsViewModel
 import com.example.tgtmoviesapp.databinding.FragmentFoundThingsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -45,15 +39,15 @@ class FoundThingsFragment : Fragment() {
     private lateinit var peopleAdapter: CelebritiesAdapter
     private lateinit var peopleRecycler: RecyclerView
 
-    private val searchViewModel: SearchViewModel by activityViewModels()
-    private val moviesViewModel: MoviesViewModel by activityViewModels()
-    private val tvSearchViewModel: TvShowsViewModel by activityViewModels()
+    private val searchViewModel: SearchViewModel by viewModels()
+    private var query:String = ""
+    private lateinit var searchView:EditText
 
 
     private var _binding: FragmentFoundThingsBinding? = null
     private val binding get() = _binding!!
 
-    private var query:String = ""
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,8 +64,9 @@ class FoundThingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        searchView = requireActivity().findViewById(R.id.searchView)
+        query = searchView.text.toString()
 
-        query = requireActivity().findViewById<EditText>(R.id.searchView).text.toString()
         initAdapters()
         setupObservers()
 
@@ -84,9 +79,20 @@ class FoundThingsFragment : Fragment() {
         binding.seeCelebrities.setOnClickListener {
             requireActivity().findViewById<ViewPager2>(R.id.viewpager).currentItem = 3
         }
+
     }
 
     private fun setupObservers() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            searchViewModel.submittedText.collect {
+                if (it != query && query != "") {
+                    searchViewModel.getEverythingByQuery(query)
+                    searchViewModel.setSubmittedText(query)
+                }
+            }
+        }
+
+
         viewLifecycleOwner.lifecycleScope.launch {
             searchViewModel.movies.collect {
                 it?.let {
@@ -119,37 +125,7 @@ class FoundThingsFragment : Fragment() {
                 }
             }
         }
-        viewLifecycleOwner.lifecycleScope.launch {
-            moviesViewModel.moviesGenres.collect {
 
-                it?.let { resource ->
-                    resource.data?.let { genre ->
-                        genre.genres?.let { lst ->
-
-
-                        }
-                    }
-                }
-
-
-            }
-
-        }
-        viewLifecycleOwner.lifecycleScope.launch {
-            tvSearchViewModel.tvGenres.collect {
-
-                it?.let { resource ->
-                    resource.data?.let { genre ->
-                        genre.genres?.let { lst ->
-
-
-                        }
-                    }
-                }
-
-
-            }
-        }
     }
 
 
@@ -234,3 +210,5 @@ class FoundThingsFragment : Fragment() {
 
 
 }
+
+

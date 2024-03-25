@@ -7,8 +7,7 @@ import com.example.tgtmoviesapp.application.data.modelsDto.GetCurrentUserDto
 import com.example.tgtmoviesapp.application.data.modelsDto.LoginClass
 import com.example.tgtmoviesapp.application.data.modelsDto.RegisterClass
 import com.example.tgtmoviesapp.application.data.modelsDto.RegisterResponseDto
-import com.example.tgtmoviesapp.application.domain.models.FavMovieId
-import com.example.tgtmoviesapp.application.domain.models.MovieAdd
+import com.example.tgtmoviesapp.application.data.modelsDto.MovieIdDto
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -16,7 +15,6 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Headers
 import retrofit2.http.POST
-import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface UserServices {
@@ -52,8 +50,8 @@ interface UserServices {
     @Headers("accept: application/json")
     suspend fun addFavourite(
         @Header("Authorization") bearer:String,
-        @Body movieId:MovieAdd
-    ): Response<MovieAdd>
+        @Body movieId: MovieIdDto
+    ): Response<MovieIdDto>
 
     @DELETE("api/Favorites/{id}")
     @Headers("accept: application/json")

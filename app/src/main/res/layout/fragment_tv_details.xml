@@ -241,13 +241,15 @@
                 tools:listitem="@layout/movie_item_default" />
 
             <TextView
+
                 android:id="@+id/information"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="Information"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="22sp"
+                android:layout_marginStart="10dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/videoRecyclerview" />
 

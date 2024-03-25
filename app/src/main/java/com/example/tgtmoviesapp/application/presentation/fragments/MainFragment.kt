@@ -43,7 +43,7 @@ class MainFragment : Fragment() {
     private val celebritiesViewModel: CelebritiesViewModel by activityViewModels()
 
 
-    private val _loadingList : MutableStateFlow<Array<Boolean>> = MutableStateFlow(Array(11) { true })
+    private val _loadingList : MutableStateFlow<Array<Boolean?>> = MutableStateFlow(Array(11) { null })
 
 
     override fun onCreateView(
@@ -218,7 +218,7 @@ class MainFragment : Fragment() {
             celebritiesViewModel.trendingPeople.collect{resource->
                 resource?.let {
                     if (it.loading !=true){
-                        _loadingList.value[10] = false
+                        _loadingList.value[10] = it.loading
                         _loadingList.value = _loadingList.value.copyOf()
                     }
                 }
@@ -230,8 +230,10 @@ class MainFragment : Fragment() {
                 }
                 if (!it.contains(true)) {
                     binding.bottomNavigationView.visibility = VISIBLE
-                    binding.loadingBar.visibility = GONE
                     binding.navHostFragment.visibility = VISIBLE
+                }else{
+                    binding.bottomNavigationView.visibility = GONE
+                    binding.navHostFragment.visibility = GONE
                 }
             }
 

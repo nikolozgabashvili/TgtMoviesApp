@@ -3,7 +3,9 @@ package com.example.tgtmoviesapp.application.commons.ext
 
 import android.view.MotionEvent
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tgtmoviesapp.application.data.modelsDto.MovieIdDto
 import com.example.tgtmoviesapp.application.domain.models.Creators
+import com.example.tgtmoviesapp.application.domain.models.FavMovieId
 import com.example.tgtmoviesapp.application.domain.models.ProductionCompanies
 import kotlin.math.roundToInt
 
@@ -82,6 +84,10 @@ fun String?.toDate(): String {
         return "$day ${month.toMonth()} $year"
     }
     return ""
+}
+
+private fun MovieIdDto?.toMovieId(): FavMovieId {
+    return FavMovieId(this?.movieId)
 }
 
 private fun String.toMonth(): String {

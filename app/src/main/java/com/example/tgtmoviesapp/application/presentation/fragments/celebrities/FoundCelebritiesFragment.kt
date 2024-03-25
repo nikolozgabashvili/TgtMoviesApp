@@ -8,6 +8,7 @@ import android.widget.EditText
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,11 +21,12 @@ import com.example.tgtmoviesapp.application.presentation.fragments.search.Second
 import com.example.tgtmoviesapp.application.presentation.viewModels.CelebritiesViewModel
 import com.example.tgtmoviesapp.application.presentation.viewModels.SearchViewModel
 import com.example.tgtmoviesapp.databinding.FragmentFoundCelebritiesBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.Locale
 
-
+@AndroidEntryPoint
 class FoundCelebritiesFragment : Fragment() {
 
 
@@ -34,7 +36,7 @@ class FoundCelebritiesFragment : Fragment() {
     private lateinit var peopleAdapter: TopRatedPeopleAdapter
     private lateinit var peopleRecyclerView: RecyclerView
 
-    private val searchViewModel: SearchViewModel by activityViewModels()
+    private val searchViewModel: SearchViewModel by viewModels()
     private val celebritiesViewModel: CelebritiesViewModel by activityViewModels()
 
     private var dataType: String? = "NONE"
@@ -42,6 +44,9 @@ class FoundCelebritiesFragment : Fragment() {
     private var currentPage = 1
     private var currentMovieList: List<Person.Result?> = mutableListOf()
     private var requestNextPage = true
+
+    private var query:String = ""
+    private lateinit var searchView:EditText
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,6 +63,11 @@ class FoundCelebritiesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        query = ""
+        try {
+            searchView = requireActivity().findViewById(R.id.searchView)
+            query = searchView.text.toString()
+        }catch (_:Exception){}
         dataType = arguments?.getString("dataType", "NONE") ?: "NONE"
         binding.movieType.text = dataType?.lowercase().toString().replaceFirstChar { it.titlecase(
             Locale.getDefault()) }
@@ -68,6 +78,16 @@ class FoundCelebritiesFragment : Fragment() {
     }
 
     private fun setupObserver() {
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            searchViewModel.submittedText.collect {
+                if (it != query && query != "") {
+                    searchViewModel.getEverythingByQuery(query)
+                    searchViewModel.setSubmittedText(query)
+                }
+            }
+        }
+
         if (dataType == "NONE") {
             binding.header.visibility = View.GONE
             viewLifecycleOwner.lifecycleScope.launch {
@@ -158,8 +178,8 @@ class FoundCelebritiesFragment : Fragment() {
                 if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0 && requestNextPage) {
                     when (dataType) {
                         "NONE" -> {
-                            val txt = requireActivity().findViewById<EditText>(R.id.searchView)
-                            searchViewModel.searchPeopleByPage(txt.text.toString(), ++currentPage)
+
+                            searchViewModel.searchPeopleByPage(query, ++currentPage)
                         }
 
                         "Popular" -> {

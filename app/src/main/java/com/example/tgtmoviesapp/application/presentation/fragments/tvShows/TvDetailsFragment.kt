@@ -314,7 +314,7 @@ class TvDetailsFragment : Fragment() {
                 binding.createdByTxt.text = curMovie.createdBy.toCreatorList()
             } else {
                 binding.createdBy.visibility = View.GONE
-                binding.createdBy.visibility = View.GONE
+                binding.createdByTxt.visibility = View.GONE
             }
         }
 

@@ -53,7 +53,7 @@ class AuthenticationFragment : Fragment() {
         initViews()
 
         args = arguments?.getBoolean("setCancellable", false) ?: false
-        println(args)
+
         setupListeners()
         setupObservers()
 
@@ -122,6 +122,7 @@ class AuthenticationFragment : Fragment() {
         }
         viewLifecycleOwner.lifecycleScope.launch {
             userViewModel.registerResource.collect {
+
                 if (it?.message != null) {
                     it.message.map { str ->
 
@@ -159,12 +160,21 @@ class AuthenticationFragment : Fragment() {
 
         }
         viewLifecycleOwner.lifecycleScope.launch {
-            userViewModel.loginResource.collect{
-                if (it?.message!=null){
-                    if (it.message.size==1){
-                        it.message.map {
+            userViewModel.loginResource.collect {
 
-                            Toast.makeText(requireContext(), "$it", Toast.LENGTH_SHORT).show()
+                if (it?.message != null) {
+
+                    if (it.message.size == 1) {
+                        it.message.map {
+                            when (it?.trim()) {
+
+                                "Invalid Username or Password" -> {
+                                    mailFieldLayout.error = "Invalid Username or Password"
+                                    binding.passwordInputLayout.error =
+                                        "Invalid Username or Password"
+                                }
+
+                            }
                         }
                     }
                 }
@@ -177,17 +187,17 @@ class AuthenticationFragment : Fragment() {
                     Lifecycle.State.STARTED
                 )
                 {
-                    userViewModel.currentUserToken.collect {
-                        it?.let {
+                    userViewModel.checkToken.collect {
+                        it.let {
+                            if (it) {
+                                if (args == true) {
+                                    findNavController().popBackStack()
 
-                            if (args == true) {
-                                findNavController().popBackStack()
+                                } else {
+                                    findNavController().popBackStack()
+                                    findNavController().navigate(R.id.mainFragment)
 
-                            } else {
-                                findNavController().popBackStack()
-                                findNavController().navigate(R.id.mainFragment)
-
-
+                                }
                             }
 
                         }
@@ -211,8 +221,14 @@ class AuthenticationFragment : Fragment() {
     private fun loginUser() {
 
         clearErrors()
+
+
         if (usernameField.text.isNotEmpty() && passwordField.text.isNotEmpty())
             userViewModel.loginUser(usernameField.text.toString(), passwordField.text.toString())
+        else if (usernameField.text.isEmpty())
+            binding.usernameInputLayout.error = "username shouldn't be empty"
+        else
+            binding.passwordInputLayout.error = "password shouldn't be empty"
 
 
     }

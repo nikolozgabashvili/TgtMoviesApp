@@ -6,7 +6,7 @@ sealed class Resource<T>(
     val loading: Boolean? = null
 ) {
     class Success<T>(data: T?) : Resource<T>(data)
-    class Loading<T>(data: T? = null,loading:Boolean? = false) : Resource<T>(data)
+    class Loading<T>(loading:Boolean? = true) : Resource<T>(null,null,loading)
     class Error<T>(message: List<String?>?, data: T? = null) : Resource<T>(data, message)
 }
 

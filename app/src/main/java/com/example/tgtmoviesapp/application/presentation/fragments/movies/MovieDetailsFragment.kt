@@ -459,7 +459,6 @@ class MovieDetailsFragment : Fragment() {
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         castAdapter.onClick={
             it?.let {
-                println(it)
                 val action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToCelebrityDetailsFragment(it)
                 findNavController().navigate(action)
             }

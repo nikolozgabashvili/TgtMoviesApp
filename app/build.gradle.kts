@@ -78,7 +78,12 @@ dependencies {
     implementation ("nl.joery.animatedbottombar:library:1.1.0")
 
     //paging
-    implementation("androidx.paging:paging-runtime:3.2.1")
+    implementation("androidx.paging:paging-runtime-ktx:3.2.1")
+
+    //shimmer
+    implementation ("com.facebook.shimmer:shimmer:0.5.0")
+
+
 }
 
 kapt {

@@ -26,7 +26,7 @@ import com.example.tgtmoviesapp.application.domain.models.CurrentUserModel
 import com.example.tgtmoviesapp.application.domain.models.FavMovieId
 import com.example.tgtmoviesapp.application.domain.models.Genre
 import com.example.tgtmoviesapp.application.domain.models.Languages
-import com.example.tgtmoviesapp.application.domain.models.MovieAdd
+import com.example.tgtmoviesapp.application.data.modelsDto.MovieIdDto
 import com.example.tgtmoviesapp.application.domain.models.MovieDetails
 import com.example.tgtmoviesapp.application.domain.models.MovieGenre
 import com.example.tgtmoviesapp.application.domain.models.MovieVideo
@@ -340,9 +340,6 @@ fun PersonDetailsDto.toPersonDetails(): PersonDetails {
 }
 
 fun MovieDetailsDto.toMovieDetails(): MovieDetails {
-    println(backdropPath)
-    println("-----------")
-    println(this.network)
     return MovieDetails(
         adult = adult,
         network = network?.nameList(),
@@ -624,7 +621,7 @@ private fun CastAndCrewDto.toPersonResultList(): List<Person.Result> {
     return personResultList
 }
 
-fun MovieAdd.toMovieId(): FavMovieId {
+fun MovieIdDto.toMovieId(): FavMovieId {
     return FavMovieId(movieId = movieId)
 }
 

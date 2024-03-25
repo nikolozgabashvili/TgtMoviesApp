@@ -1,20 +1,16 @@
 package com.example.tgtmoviesapp.application.presentation.fragments.search
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import android.widget.Toast
-import androidx.appcompat.widget.SearchView
-import androidx.appcompat.widget.SearchView.OnQueryTextListener
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,6 +27,7 @@ import com.example.tgtmoviesapp.databinding.FragmentSecondSearchBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -50,11 +47,11 @@ class SecondSearchFragment : Fragment() {
     private var tvSuccess = false
     private var celebritySuccess = false
 
-
+    private var isSubmitted =false
     var fragmentList = mutableListOf<Fragment>()
 
 
-    private val searchViewModel: SearchViewModel by activityViewModels()
+    private val searchViewModel: SearchViewModel by viewModels()
 
 
     private lateinit var viewpagerAdapter: ViewPagerAdapter
@@ -83,6 +80,8 @@ class SecondSearchFragment : Fragment() {
         setupViewPager()
         setupObservers()
         search()
+
+
 
         if (searchViewText.isNotEmpty() && !searchViewModel.successList.value[0]) {
 
@@ -146,8 +145,6 @@ class SecondSearchFragment : Fragment() {
             binding.searchView.onEditorAction(IME_ACTION_SEARCH)
 
 
-
-
         }
 
     }
@@ -157,17 +154,19 @@ class SecondSearchFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             searchViewModel.searchNameList.collect {
-                if (!it.isNullOrEmpty())
-                    if (it.isNotEmpty()) {
 
-                        updateSearchAdapter(it)
-                        miniSearchRecyclerView.visibility = View.VISIBLE
-                        binding.blankTextView.visibility = View.INVISIBLE
 
-                    } else {
-                        miniSearchRecyclerView.visibility = View.INVISIBLE
-                        binding.blankTextView.visibility = View.VISIBLE
-                    }
+
+                if (it.isNotEmpty()) {
+
+                    updateSearchAdapter(it)
+                    miniSearchRecyclerView.visibility = View.VISIBLE
+                    binding.blankTextView.visibility = View.INVISIBLE
+
+                } else {
+                    miniSearchRecyclerView.visibility = View.INVISIBLE
+                    binding.blankTextView.visibility = View.VISIBLE
+                }
             }
         }
 
@@ -294,25 +293,26 @@ class SecondSearchFragment : Fragment() {
     private fun search() {
 
         binding.searchView.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId ==  IME_ACTION_SEARCH) {
-
-                val q =  binding.searchView.text.toString()
+            if (actionId == IME_ACTION_SEARCH) {
+                binding.searchView.clearFocus()
+                val q = binding.searchView.text.toString()
                 val inputMethodManager = activity?.getSystemService(InputMethodManager::class.java)
                 inputMethodManager?.hideSoftInputFromWindow(binding.searchView.windowToken, 0)
                 searchViewModel.passingList = Array(3) { null }
-                searchViewModel.successList.value =Array(3) { false }
+                searchViewModel.successList.value = Array(3) { false }
                 searchViewModel.movies.value = null
                 searchViewModel.tvShows.value = null
                 searchViewModel.people.value = null
                 movieSuccess = false
                 tvSuccess = false
                 celebritySuccess = false
-                searchViewModel.submittedText = q
+                searchViewModel.submittedText.value = q.lowercase()
                 fragmentList = mutableListOf()
                 searchViewModel.getEverythingByQuery(q)
                 binding.searchView.clearFocus()
                 setupViewPager()
-
+                binding.searchView.clearFocus()
+                isSubmitted = true
 
                 true
             } else {
@@ -320,40 +320,58 @@ class SecondSearchFragment : Fragment() {
             }
         }
 
-        binding.searchView.addTextChangedListener {
-            val txt = binding.searchView.text.toString()
-            if (searchViewModel.submittedText!=txt) {
+        binding.searchView.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
 
-                    searchViewModel.passingList = Array(3) { null }
-                    searchViewModel.successList.value =Array(3) { false }
-                    searchViewModel.movies.value = null
-                    searchViewModel.tvShows.value = null
-                    searchViewModel.people.value = null
-                    movieSuccess = false
-                    tvSuccess = false
-                    celebritySuccess = false
-                    searchViewModel.clearSubmittedText()
-                    binding.predictiveSearchDisplay.visibility = View.VISIBLE
-                    binding.blankTextView.visibility = View.INVISIBLE
+            }
 
-                    setDefaultViews()
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
-                    if (txt.isNotEmpty()) {
-                        searchViewModel.cancelDebounceJob()
-                        searchViewModel.startDebounceJob()
-                        searchViewModel.setTextFlow(txt)
+
+            }
+
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val txt = s.toString()
+                if (searchViewModel.submittedText.value != txt.lowercase()) {
+
+
+                        searchViewModel.passingList = Array(3) { null }
+                        searchViewModel.successList.value = Array(3) { false }
+                        searchViewModel.movies.value = null
+                        searchViewModel.tvShows.value = null
+                        searchViewModel.people.value = null
+                        movieSuccess = false
+                        tvSuccess = false
+                        celebritySuccess = false
+                        searchViewModel.clearSubmittedText()
+                        binding.predictiveSearchDisplay.visibility = View.VISIBLE
+                        binding.blankTextView.visibility = View.INVISIBLE
+
+                        setDefaultViews()
+
+                        if (txt.isNotEmpty()) {
+                            searchViewModel.cancelDebounceJob()
+                            searchViewModel.setTextFlow(txt)
+                            searchViewModel.startDebounceJob()
+                        } else {
+                            binding.blankTextView.visibility = View.VISIBLE
+                            binding.predictiveSearchDisplay.visibility = View.INVISIBLE
+                        }
+
+
                     } else {
-                        binding.blankTextView.visibility = View.VISIBLE
-                        binding.predictiveSearchDisplay.visibility = View.INVISIBLE
+                        binding.searchView.clearFocus()
+
                     }
 
 
-                }
-
-        }
+            }
+        })
 
 
     }
+
 
 }
 

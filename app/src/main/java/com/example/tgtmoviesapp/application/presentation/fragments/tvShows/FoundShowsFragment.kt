@@ -40,7 +40,7 @@ class FoundShowsFragment : Fragment() {
     private lateinit var tvShowsAdapter: TopRatedShowsAdapter
     private lateinit var tvShowsRecyclerView: RecyclerView
 
-    private val searchViewModel: SearchViewModel by activityViewModels()
+    private val searchViewModel: SearchViewModel by viewModels()
     private val tvSearchViewModel: TvShowsViewModel by activityViewModels()
     private val celebrityDetailsViewModel: CelebrityDetailsViewModel by viewModels()
     private val showDetailsViewModel: ShowDetailsViewModel by viewModels()
@@ -52,6 +52,8 @@ class FoundShowsFragment : Fragment() {
     private var currentMovieList: List<TvShows.Result?> = mutableListOf()
     private var requestNextPage = true
 
+    private var query:String = ""
+    private lateinit var searchView:EditText
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,6 +70,12 @@ class FoundShowsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        query = ""
+        try {
+            searchView = requireActivity().findViewById(R.id.searchView)
+            query = searchView.text.toString()
+        }catch (_:Exception){}
+
         movieType = arguments?.getString("movieType", "NONE") ?: "NONE"
         infoId = arguments?.getInt("id", -1) ?: -1
         binding.movieType.text = movieType
@@ -75,9 +83,21 @@ class FoundShowsFragment : Fragment() {
         initAdapter()
         setupObserver()
 
+
+
     }
 
     private fun setupObserver() {
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            searchViewModel.submittedText.collect {
+                if (it != query && query != "") {
+                    searchViewModel.getEverythingByQuery(query)
+                    searchViewModel.setSubmittedText(query)
+                }
+            }
+        }
+
         if (movieType == "NONE") {
             binding.header.visibility = View.GONE
             viewLifecycleOwner.lifecycleScope.launch {
@@ -236,8 +256,7 @@ class FoundShowsFragment : Fragment() {
                 if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0 && requestNextPage) {
                     when (movieType) {
                         "NONE" -> {
-                            val txt = requireActivity().findViewById<EditText>(R.id.searchView)
-                            searchViewModel.searchTvShowsByPage(txt.text.toString(), ++currentPage)
+                            searchViewModel.searchTvShowsByPage(query, ++currentPage)
                         }
 
                         "Popular" -> {

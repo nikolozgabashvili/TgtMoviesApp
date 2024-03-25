@@ -47,7 +47,7 @@ class SearchViewModel @Inject constructor(
     var successList = MutableStateFlow(Array(3) { false })
     var passingList : Array<Fragment?> = Array(3) { null }
 
-    var submittedText :String?= null
+    var submittedText = MutableStateFlow<String?>(null)
 
     private var _people = MutableStateFlow<Resource<Person>?>(null)
     val people: MutableStateFlow<Resource<Person>?> = _people
@@ -80,6 +80,10 @@ class SearchViewModel @Inject constructor(
         foundList.value[2] = emptyList()
     }
 
+    fun setSubmittedText(query:String){
+        submittedText.value  = query
+    }
+
 //    fun clearSearch() {
 //        _textFlow.value = ""
 //        _searchNameList.clear()
@@ -88,7 +92,7 @@ class SearchViewModel @Inject constructor(
     @OptIn(FlowPreview::class)
     fun startDebounceJob() {
         debounceJob = viewModelScope.launch {
-            textFlow.debounce(0).collect {
+            textFlow.debounce(10).collect {
                 getAllItemInfo(it)
             }
 
@@ -183,7 +187,7 @@ class SearchViewModel @Inject constructor(
     }
 
     fun clearSubmittedText() {
-        submittedText = null
+        submittedText.value = null
     }
 
 

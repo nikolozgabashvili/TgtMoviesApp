@@ -89,7 +89,6 @@ class DetailsViewModel @Inject constructor(
         viewModelScope.launch {
             getMovieVideosUseCase.execute(id).collect{
                 _videos.value  = it
-                println(it)
             }
         }
     }

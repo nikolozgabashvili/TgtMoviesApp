@@ -63,7 +63,6 @@ class CelebritiesAdapter : RecyclerView.Adapter<CelebritiesAdapter.CelebViewHold
 
 
         if (imageType != DisplayIndicator.DETAILS) {
-            println(currentItem?.id)
             Glide.with(holder.binding.root.context)
 
                 .load(Constants.IMAGE_BASE_URL + currentItem?.profilePath)
@@ -98,7 +97,6 @@ class CelebritiesAdapter : RecyclerView.Adapter<CelebritiesAdapter.CelebViewHold
                 onClick?.invoke(currentItem?.id)
             }
         }else{
-            println(currentItem?.id)
 
             holder.binding.movieGenre.maxWidth = 200
             holder.binding.movieTitle.maxWidth = 200

@@ -10,7 +10,7 @@ import com.example.tgtmoviesapp.application.data.remote.mappers.toRegisterRespon
 import com.example.tgtmoviesapp.application.data.remote.mappers.toStringList
 import com.example.tgtmoviesapp.application.domain.models.CurrentUserModel
 import com.example.tgtmoviesapp.application.domain.models.FavMovieId
-import com.example.tgtmoviesapp.application.domain.models.MovieAdd
+import com.example.tgtmoviesapp.application.data.modelsDto.MovieIdDto
 import com.example.tgtmoviesapp.application.domain.models.RegisterError
 import com.example.tgtmoviesapp.application.domain.models.RegisterResponse
 import com.example.tgtmoviesapp.application.domain.repository.UserRepository
@@ -79,7 +79,7 @@ class UserRepositoryImpl @Inject constructor(private val userApi: UserServices) 
                 emit(Resource.Success(response.body()?.toCurrentUserModel()))
             } else {
                 if (response.code() == 401) {
-                    emit(Resource.Error("session ended".toStringList()))
+                    emit(Resource.Error("401".toStringList()))
                 } else {
                     val gson = Gson()
                     val errorResponse: RegisterError =
@@ -99,12 +99,12 @@ class UserRepositoryImpl @Inject constructor(private val userApi: UserServices) 
         try {
 
             emit(Resource.Loading(loading = true))
-            val response = userApi.addFavourite("bearer $bearer", MovieAdd(id))
+            val response = userApi.addFavourite("bearer $bearer", MovieIdDto(id))
             if (response.isSuccessful) {
                 emit(Resource.Success(response.body()?.toMovieId()))
             } else {
                 if (response.code() == 401) {
-                    emit(Resource.Error("session ended".toStringList()))
+                    emit(Resource.Error("401".toStringList()))
                 } else {
                     val gson = Gson()
                     val errorResponse: RegisterError =
@@ -128,7 +128,7 @@ class UserRepositoryImpl @Inject constructor(private val userApi: UserServices) 
                 emit(Resource.Success(response.body()?.isAdded))
             } else {
                 if (response.code() == 401) {
-                    emit(Resource.Error("session ended".toStringList()))
+                    emit(Resource.Error("401".toStringList()))
                 } else {
                     val gson = Gson()
                     val errorResponse: RegisterError =
@@ -153,7 +153,7 @@ class UserRepositoryImpl @Inject constructor(private val userApi: UserServices) 
                     emit(Resource.Success(true))
             } else {
                 if (response.code() == 401) {
-                    emit(Resource.Error("session ended".toStringList()))
+                    emit(Resource.Error("401".toStringList()))
                 } else {
                     val gson = Gson()
                     val errorResponse: RegisterError =

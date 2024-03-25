@@ -42,14 +42,18 @@ class FoundMoviesFragment : Fragment() {
     private var movieType: String? = "NONE"
     private val celebrityDetailsViewModel: CelebrityDetailsViewModel by viewModels()
     private val detailsViewModel: DetailsViewModel by viewModels()
+    private val searchViewModel: SearchViewModel by viewModels()
 
     private var infoId: Int = -1
-    private val searchViewModel: SearchViewModel by activityViewModels()
-    private val moviesViewModel: MoviesViewModel by activityViewModels()
     private var currentPage = 1
-    private var currentMovieList: List<Movies.Result?> = mutableListOf()
-    private var requestNextPage = true
 
+    private var currentMovieList: List<Movies.Result?> = mutableListOf()
+    private val moviesViewModel: MoviesViewModel by activityViewModels()
+
+    private var requestNextPage = true
+    private var query:String = ""
+
+    private lateinit var searchView:EditText
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,14 +66,16 @@ class FoundMoviesFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
 
-//        moviesViewModel.setMoviePagingNull()
         _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
+        query = ""
+        try {
+            searchView = requireActivity().findViewById(R.id.searchView)
+            query = searchView.text.toString()
+        }catch (_:Exception){}
         movieType = arguments?.getString("movieType", "NONE") ?: "NONE"
         infoId = arguments?.getInt("id", -1) ?: -1
         binding.movieType.text = movieType
@@ -80,6 +86,15 @@ class FoundMoviesFragment : Fragment() {
     }
 
     private fun setupObserver() {
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            searchViewModel.submittedText.collect {
+                if (it != query && query != "") {
+                    searchViewModel.getEverythingByQuery(query)
+                    searchViewModel.setSubmittedText(query)
+                }
+            }
+        }
 
 
         if (movieType == "NONE") {
@@ -237,8 +252,7 @@ class FoundMoviesFragment : Fragment() {
                 if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0 && requestNextPage) {
                     when (movieType) {
                         "NONE" -> {
-                            val txt = requireActivity().findViewById<EditText>(R.id.searchView)
-                            searchViewModel.searchMovieByPage(txt.text.toString(), ++currentPage)
+                            searchViewModel.searchMovieByPage(query, ++currentPage)
                         }
 
                         "Popular" -> {
